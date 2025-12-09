@@ -14,7 +14,11 @@ SECRET_KEY = 'django-insecure-4p98g9npppesnr+=ke$9b*2cbc*l!0e4nblyfnu-$rkv@kf02a
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'heritage-map.onrender.com',
+    'localhost',
+    '127.0.0.1'
+    ]
 
 
 # Application definition
