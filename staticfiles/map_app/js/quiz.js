@@ -1,8 +1,3 @@
-// map_app/static/map_app/js/quiz.js
-
-// ----------------------------------------------------
-// 🟢 ДОПОМІЖНА ФУНКЦІЯ: Перемішування масиву (ЗРОБЛЕНО ГЛОБАЛЬНОЮ)
-// ----------------------------------------------------
 window.shuffle = function(array) {
     let currentIndex = array.length, randomIndex;
 
@@ -17,9 +12,7 @@ window.shuffle = function(array) {
 }
 
 
-// ----------------------------------------------------
-// 🟢 ІНІЦІАЛІЗАЦІЯ ЕЛЕМЕНТІВ DOM
-// ----------------------------------------------------
+
 
 const startQuizBtn = document.querySelector('.sidebar-btn');
 const quizScreen = document.getElementById('quiz-screen');
@@ -31,9 +24,7 @@ const mainTitle = document.getElementById('quiz-main-title');
 const quizTypeTitle = document.getElementById('quiz-type-title');
 
 
-// ----------------------------------------------------
-// 🟢 ДАНІ (АДАПТОВАНО: ДОДАНО year ТА ЗРОБЛЕНО ГЛОБАЛЬНИМИ)
-// ----------------------------------------------------
+
 
 const regions = [
     { name: "Автономна Республіка Крим", isAvailable: false },
@@ -71,7 +62,7 @@ const gameTypes = [
     { name: "Де знаходиться?", emoji: "📍", key: "location", isEnabled: true },
 ];
 
-// !!! КЛЮЧОВА АДАПТАЦІЯ: Робимо дані глобальними (window.), додаємо field year !!!
+
 window.zhytomyrQuizSourceData = [
     { name: "Пам'ятний знак на честь заснування Житомира", id: 1, imagePath: "/static/map_app/images/zamkova.jpg", description: "Встановлений на Замковій горі, є символом стародавньої історії міста та його заснування.", year: 1894},
     { name: "Тригірський монастир", id: 2, imagePath: "/static/map_app/images/tryhirsky_monastyr.jpg", description: "Діючий монастир, відомий своєю мальовничою локацією на березі річки Тетерів.", year: 1583},
@@ -85,9 +76,6 @@ window.zhytomyrQuizSourceData = [
 ];
 
 
-// ----------------------------------------------------
-// 🟢 ФУНКЦІЇ ПЕРЕКЛЮЧЕННЯ ЕКРАНІВ
-// ----------------------------------------------------
 
 function renderRegionList() {
     regionList.innerHTML = '';
@@ -182,9 +170,7 @@ window.goToTypeSelection = function() {
 }
 
 
-// ----------------------------------------------------
-// 🟢 ЛОГІКА ГРИ "Співпадання"
-// ----------------------------------------------------
+
 
 let currentGameData = [];
 let totalItems = 0;
@@ -210,7 +196,7 @@ function handleGameClick(game) {
 
     switch (game.key) {
         case 'cards':
-            // !!! ПЕРЕКОНАЙТЕСЯ, ЩО ЦЕЙ РЯДОК ВИГЛЯДАЄ САМЕ ТАК !!!
+
             if (window.initChronologyCardsGame) { 
                 window.initChronologyCardsGame(window.zhytomyrQuizSourceData); 
             } else {
@@ -251,7 +237,7 @@ function handleGameClick(game) {
 }
 
 function resetGame() {
-    // Використовуємо глобальні дані
+
     currentGameData = window.shuffle([...window.zhytomyrQuizSourceData]);
     totalItems = currentGameData.length;
     matchesCount = 0;
@@ -259,9 +245,9 @@ function resetGame() {
 
 
 /**
- * Ініціалізує HTML макет гри.
- * @param {string} gameName - Назва гри.
- * @param {string} gameKey - Ключ гри ('match_photo' або 'match_description').
+
+ * @param {string} gameName 
+ * @param {string} gameKey 
  */
 function initMatchingGame(gameName, gameKey) {
     const existingGameContainer = document.getElementById('game-container');
@@ -279,7 +265,7 @@ function initMatchingGame(gameName, gameKey) {
    
     const targetGridId = (gameKey === 'match_description') ? 'description-target-items' : 'target-grid-items';
 
-    // 🛑 ЦЕЙ HTML БЛОК БУВ ОРИГІНАЛЬНИМ І ПРАВИЛЬНИМ. Я ЙОГО ПОВЕРТАЮ
+
     gameContainer.innerHTML = `
         <p id="matches-info" style="color: white; margin-bottom: 10px; font-weight: bold; text-align: center;">Співпадінь: 0/${totalItems}</p>
        
@@ -313,7 +299,7 @@ function initMatchingGame(gameName, gameKey) {
     renderMatchingItems(gameKey);
     setupEventListeners();
    
-    // 🛑 КЛЮЧОВЕ ВИПРАВЛЕННЯ: Обробники кнопок
+
     document.getElementById('check-answers-btn').addEventListener('click', checkAnswers);
     document.getElementById('start-new-game-btn').addEventListener('click', () => {
         resetGame();
@@ -322,8 +308,8 @@ function initMatchingGame(gameName, gameKey) {
 }
 
 /**
- * Рендерить назви (прямокутники) та цільові картки (фото/описи).
- * @param {string} gameKey - Ключ гри ('match_photo' або 'match_description').
+
+ * @param {string} gameKey 
  */
 function renderMatchingItems(gameKey) {
     const nameListItems = document.getElementById('name-list-items');
@@ -333,17 +319,17 @@ function renderMatchingItems(gameKey) {
     nameListItems.innerHTML = '';
     targetGridItems.innerHTML = '';
 
-    // 1. Назви завжди перемішуються і є draggable
+
     const shuffledNames = window.shuffle(currentGameData.map(item => ({ id: item.id, name: item.name })));
    
-    // 2. Цільові елементи завжди перемішуються
+
     const shuffledTargets = window.shuffle(currentGameData.map(item => ({
         id: item.id,
         imagePath: item.imagePath,
         description: item.description
     })));
 
-    // Рендеримо Назви (Draggable)
+
     shuffledNames.forEach(item => {
         const nameBlock = document.createElement('div');
         nameBlock.className = 'draggable-item';
@@ -353,7 +339,7 @@ function renderMatchingItems(gameKey) {
         nameListItems.appendChild(nameBlock);
     });
 
-    // Рендеримо Цільові елементи (Droppable)
+
     if (gameKey === 'match_photo') {
         shuffledTargets.forEach(item => {
             const targetBlock = document.createElement('div');
@@ -391,15 +377,13 @@ function renderMatchingItems(gameKey) {
     }
 }
 
-// ----------------------------------------------------
-// 🟢 ЛОГІКА DRAG & DROP
-// ----------------------------------------------------
+
 
 function setupEventListeners() {
     const gameArea = document.getElementById('game-container');
     if (!gameArea) return;
    
-    // Видаляємо та додаємо обробники, щоб уникнути їх дублювання
+
     gameArea.removeEventListener('dragstart', handleDragStart);
     gameArea.removeEventListener('dragend', handleDragEnd);
     gameArea.removeEventListener('dragover', handleGlobalDragOver);
@@ -425,7 +409,7 @@ function handleDragStart(e) {
 function handleDragEnd(e) {
     const target = e.target.closest('.draggable-item');
     if (target) {
-        // Якщо елемент не був скинутий у ціль, повертаємо його
+
         if (!target.closest('.droppable-target')) {
              target.style.opacity = '1';
         }
@@ -460,37 +444,34 @@ function handleGlobalDrop(e) {
 
     target.classList.remove('drag-over');
    
-    // 1. Повертаємо попередньо скинутий елемент у список
+
     const existingDropped = target.querySelector('.draggable-item');
     if (existingDropped && existingDropped !== draggedNameElement) {
-        // Скидаємо opacity та повертаємо його до списку
+
         existingDropped.style.opacity = '1';
-        // 🛑 FIX: Видаляємо абсолютне позиціонування
+
         existingDropped.style.position = 'static';
         document.getElementById('name-list-items').appendChild(existingDropped);
     }
    
-    // 2. Вставляємо новий елемент у ціль
+
     draggedNameElement.style.opacity = '1';
    
-    // 🛑 КЛЮЧОВИЙ FIX: Видаляємо всі вбудовані стилі, щоб CSS міг керувати позицією (absolute: bottom/center)
+
     draggedNameElement.style.cssText = '';
-    // Встановлюємо position: absolute, що потрібно для позиціонування в цілі (стилі з CSS)
+
     draggedNameElement.style.position = 'absolute';
 
-    // Вставляємо елемент у контейнер вмісту цілі
+
     target.querySelector('.target-content').appendChild(draggedNameElement);
    
-    // 3. Скидаємо будь-які старі класи перевірки
+  
     target.classList.remove('correct', 'incorrect');
-    // Дозволяємо перетягування, поки не натиснута кнопка "Перевірити"
+
     draggedNameElement.draggable = true;
 }
 
 
-// ----------------------------------------------------
-// 🟢 ЛОГІКА ПЕРЕВІРКИ ЧЕРЕЗ КНОПКУ
-// ----------------------------------------------------
 
 function checkAnswers() {
     let correctCount = 0;
@@ -514,27 +495,27 @@ function checkAnswers() {
                 target.classList.add('incorrect');
             }
            
-            // Забороняємо подальше перетягування
+            
             droppedItem.draggable = false;
         } else {
-            // Якщо ціль порожня
+           
             target.classList.add('incorrect');
         }
     });
 
-    // 3. Відображення результатів та керування кнопками
+
     matchesInfo.textContent = `Співпадінь: ${correctCount}/${totalItems}`;
    
     checkBtn.style.display = 'none';
     restartBtn.style.display = 'inline-block';
    
-    // 4. Якщо все правильно
+    
     if (correctCount === totalItems) {
         if (mainTitle) mainTitle.textContent = "🎉 ГРУ ЗАВЕРШЕНО! 🎉";
         matchesInfo.style.color = '#4CAF50';
     }
    
-    // 5. Вимикаємо слухачів drop/dragover для цілей після перевірки
+   
     const gameArea = document.getElementById('game-container');
     if (gameArea) {
         gameArea.removeEventListener('drop', handleGlobalDrop);
@@ -544,9 +525,6 @@ function checkAnswers() {
 }
 
 
-// ----------------------------------------------------
-// 🟢 ОБРОБНИКИ ПОДІЙ (Запуск)
-// ----------------------------------------------------
 
 if (startQuizBtn) {
     startQuizBtn.addEventListener('click', () => {
@@ -554,7 +532,7 @@ if (startQuizBtn) {
         window.openRegionSelectionView();
     });
 }
-// 🛑 БЛОК ПРИМУСОВОГО ПРИХОВУВАННЯ ПРИ ЗАВАНТАЖЕННІ
+
 document.addEventListener('DOMContentLoaded', function() {
     const quizScreen = document.getElementById('quiz-screen');
     const regionView = document.getElementById('region-selection-view');

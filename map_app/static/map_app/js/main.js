@@ -1,5 +1,3 @@
-// map_app/static/map_app/js/main.js
-
 let geoJsonLayer; 
 let currentMarkers = L.markerClusterGroup(); 
 let resetControlInstance = null;
@@ -7,9 +5,7 @@ let selectedLayer = null;
 let mapStateBeforeMarkerZoom = null; 
 const detailsPanel = document.getElementById('details-panel');
 
-// ----------------------------------------------------
-// 🟢 КРОК 1: КОНСТАНТИ ТА ІНІЦІАЛІЗАЦІЯ КАРТИ
-// ----------------------------------------------------
+
 const CustomIcon = L.Icon.extend({
     options: {
         iconUrl: '/static/map_app/leaflet/images/marker-icon.png',
@@ -26,18 +22,18 @@ const defaultMarkerIcon = new CustomIcon();
 const initialCenter = [48.3794, 31.1656]; 
 const initialZoom = 6; 
 
-// 🛑 КРИТИЧНЕ ВИПРАВЛЕННЯ: Використовуємо window.map для глобальної доступності
+
 window.map = L.map('map', {
     zoomControl: false, 
     maxZoom: 18 
 }).setView(initialCenter, initialZoom); 
 
-// 🟢 Створення спеціальних панелей для Z-Index
+
 window.map.createPane('tiles-pane').style.zIndex = 200; 
 window.map.createPane('geojson-pane').style.zIndex = 600; 
 window.map.createPane('marker-pane').style.zIndex = 700; 
 
-// 🟢 ДОДАВАННЯ СУПУТНИКОВОГО ШАРУ GOOGLE HYBRID
+
 const googleHybridLayer = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
     maxZoom: 20,
     attribution: 'Map data ©2024 Google',
@@ -49,7 +45,7 @@ currentMarkers = L.markerClusterGroup({
 });
 currentMarkers.addTo(window.map);
 
-// --- ДАНІ З ПОВНИМИ ОПИСАМИ (без змін) --- 
+
 const monuments = [
     { name: "Пам'ятний знак на честь заснування Житомира", lat: 50.25343756567173, lng: 28.654433190482916, id: "zamkova_gora", imagePath: "/static/map_app/images/zamkova.jpg", imageAlt: "Замкова Гора, Житомир", details: `<p><strong>Замкова Гора</strong> — це історичне серце Житомира, місце, де, за легендами, у IX столітті засновник міста Житомир збудував перше укріплення. З пагорба відкривається чудовий вид на річки Тетерів та Кам'янка. Сьогодні тут розташований пам'ятний знак і це є популярне місце для відпочинку та огляду панорами міста.</p>` },
     { name: "Тригірський монастир", lat: 50.19851548576178, lng: 28.372788481551822, id: "tryhirsky_monastyr", imagePath: "/static/map_app/images/tryhirsky_monastyr.jpg", imageAlt: "Свято-Преображенський Тригірський чоловічий монастир", details: `<p><strong>Свято-Преображенський Тригірський чоловічий монастир</strong> є однією з найстаріших та наймальовничіших святинь Житомирщини, заснованою орієнтовно в XVI столітті. Розташований на високій кручі над річкою Тетерів, він вражає своєю величчю та розташуванням. Архітектура поєднує елементи бароко та класицизму.</p>` },
@@ -65,9 +61,7 @@ const monuments = [
 ];
 
 
-// ----------------------------------------------------
-// 🟢 КРОК 2: ФУНКЦІЇ СТИЛЮ ТА ВЗАЄМОДІЇ
-// ----------------------------------------------------
+
 function style(feature) {
     return { 
         fillColor: '#1a1a1a', 
@@ -80,7 +74,7 @@ function style(feature) {
 
 function highlightFeature(e) {
     const layer = e.target;
-    // Встановлення стилю при наведенні
+
     if (layer !== selectedLayer) {
         layer.setStyle({ 
             weight: 5, 
@@ -91,7 +85,7 @@ function highlightFeature(e) {
         if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) { layer.bringToFront(); }
     }
     
-    // Додавання підказки (Tooltip)
+
     if (!selectedLayer) { 
         let regionName = 
             layer.feature.properties['name:uk'] || 
@@ -112,22 +106,20 @@ function resetHighlight(e) {
     if (geoJsonLayer && e.target !== selectedLayer) { 
         geoJsonLayer.resetStyle(e.target); 
     }
-    // Видалення підказки при відведенні миші
+
     e.target.closeTooltip();
     e.target.unbindTooltip(); 
 }
 
-/**
- * Функція для зумування на область та активації маркерів.
- */
+
 function zoomToFeature(e) {
     const layer = e.target;
     
-    // Скидаємо стиль з попередньо вибраної області
+   
     if (selectedLayer && selectedLayer !== layer) {
         geoJsonLayer.resetStyle(selectedLayer);
         
-        // Повернення інтерактивності для попереднього шару
+    
         const prevLayerElement = selectedLayer.getElement();
         if (prevLayerElement) {
              L.DomUtil.removeClass(prevLayerElement, 'no-pointer');
@@ -139,7 +131,7 @@ function zoomToFeature(e) {
         currentMarkers.clearLayers(); 
     }
     
-    // 1. Встановлюємо НОВУ область як вибрану
+
     layer.setStyle({ 
         weight: 6, 
         color: 'white', 
@@ -147,10 +139,10 @@ function zoomToFeature(e) {
         fillOpacity: 0.0
     });
     
-    // ЗБЕРЕЖЕННЯ МЕЖ ОБЛАСТІ ДЛЯ КНОПКИ "НАЗАД З МАРКЕРА"
+
     mapStateBeforeMarkerZoom = layer.getBounds().pad(0.05);
     
-    // ВИДАЛЕННЯ РАМКИ ТА ВИМКНЕННЯ КЛІКІВ
+
     const layerElement = layer.getElement();
     if (layerElement) {
         L.DomUtil.addClass(layerElement, 'no-pointer'); 
@@ -162,10 +154,10 @@ function zoomToFeature(e) {
     layer.bringToFront(); 
     selectedLayer = layer; 
     
-    // Вимикаємо обробник кліків на полігоні
+
     layer.off('click', zoomToFeature); 
     
-    // 2. Визначення імені області для логіки маркерів
+
     let regionName = 
         layer.feature.properties['name:uk'] || 
         layer.feature.properties.uk || 
@@ -174,7 +166,7 @@ function zoomToFeature(e) {
     
     const regionNameLower = regionName ? regionName.toLowerCase() : '';
 
-    // 3. Логіка відображення маркерів ТІЛЬКИ для Житомирської області
+
     const isZhytomyr = regionName && (regionNameLower.includes('житомирська'));
     
     if (isZhytomyr) {
@@ -183,25 +175,23 @@ function zoomToFeature(e) {
         currentMarkers.clearLayers(); 
     } 
 
-    // 4. Зум на обрану область
-    window.map.flyToBounds(layer.getBounds().pad(0.05), { // 🛑 ВИПРАВЛЕНО
+
+    window.map.flyToBounds(layer.getBounds().pad(0.05), { 
         duration: 0.5, 
         padding: L.point(10, 10) 
     }); 
     
-    // 5. Додавання кнопки "Назад"
+
     if (!resetControlInstance) {
         resetControlInstance = new ResetControl({ position: 'topleft' }); 
-        resetControlInstance.addTo(window.map); // 🛑 ВИПРАВЛЕНО
+        resetControlInstance.addTo(window.map); 
     }
 
     if (detailsPanel) detailsPanel.style.display = 'none';
 }
 
 
-/**
- * Встановлює обробники подій для кожного регіону GeoJSON.
- */
+
 function onEachFeature(feature, layer) {
     layer.on({
         mouseover: highlightFeature, 
@@ -210,15 +200,12 @@ function onEachFeature(feature, layer) {
     });
 }
 
-/**
- * Додає маркери до кластера.
- */
+
 function addMarkers(monumentsArray) {
     currentMarkers.clearLayers(); 
     const markers = []; 
     monumentsArray.forEach(monument => {
         const marker = L.marker([monument.lat, monument.lng], {icon: defaultMarkerIcon})
-            // ДОДАЄМО ТІЛЬКИ ПІДКАЗКУ (Tooltip) ДЛЯ МАРКЕРА
             .bindTooltip(monument.name, {
                 permanent: false, 
                 direction: 'top',
@@ -228,27 +215,27 @@ function addMarkers(monumentsArray) {
         
         marker.isZoomed = false; 
 
-        // ЛОГІКА КЛІКІВ (ОДИН КЛІК АБО ДВА КЛІКИ)
+
         marker.on('click', function(e) { 
             const clickedMarker = e.target;
             
             if (!clickedMarker.isZoomed) {
-                // ПЕРШИЙ КЛІК: ЗУМ до маркера
+           
                 const desiredZoomLevel = 15;
-                window.map.flyTo(clickedMarker.getLatLng(), desiredZoomLevel, { // 🛑 ВИПРАВЛЕНО
+                window.map.flyTo(clickedMarker.getLatLng(), desiredZoomLevel, { 
                     duration: 0.5 
                 });
                 clickedMarker.isZoomed = true;
                 
             } else {
-                // ДРУГИЙ КЛІК: ВІДКРИТТЯ ДЕТАЛЕЙ У ЦЕНТРАЛЬНІЙ ПАНЕЛІ
+              
                 displayDetails(monument); 
                 clickedMarker.isZoomed = false;
             }
         });
 
-        // Скидання прапорця isZoomed при зміні масштабу карти 
-        window.map.on('zoomend', function() { // 🛑 ВИПРАВЛЕНО
+       
+        window.map.on('zoomend', function() { 
             if (window.map.getZoom() < 14) { 
                 marker.isZoomed = false;
             }
@@ -259,55 +246,46 @@ function addMarkers(monumentsArray) {
     currentMarkers.addLayers(markers);
 }
 
-/**
- * Відображає детальну інформацію в центральній панелі.
- */
+
 function displayDetails(monument) {
     if (detailsPanel) {
         
-        // 1. Позиціонування панелі по центру карти (стилі в style.css)
-        
-        // 2. Відображення деталей
+
         let imageHtml = monument.imagePath ? `<img src="${monument.imagePath}" alt="${monument.imageAlt}">` : '';
         detailsPanel.innerHTML = `
             <h2>${monument.name}</h2>
             ${imageHtml} 
             ${monument.details}
             <button onclick="window.zoomBackToRegion()">Назад на область</button>         `;
-        // Робимо панель видимою
         detailsPanel.style.display = 'flex'; 
     }
 }
 
-/**
- * ФУНКЦІЯ: Зум назад на межі обраної області
- */
+
 window.zoomBackToRegion = function() {
     if (detailsPanel) detailsPanel.style.display = 'none';
 
     if (mapStateBeforeMarkerZoom) {
-        // Використовуємо збережені межі області
-        window.map.flyToBounds(mapStateBeforeMarkerZoom, { // 🛑 ВИПРАВЛЕНО
+
+        window.map.flyToBounds(mapStateBeforeMarkerZoom, { 
             duration: 0.5
         });
         
-        // Скидаємо прапорець isZoomed для всіх маркерів
+
         currentMarkers.eachLayer(function(marker) {
             marker.isZoomed = false;
         });
         
     } else if (selectedLayer) {
-        // Запасний варіант: зум на поточний вибраний шар
-        window.map.flyToBounds(selectedLayer.getBounds().pad(0.05), { // 🛑 ВИПРАВЛЕНО
+
+        window.map.flyToBounds(selectedLayer.getBounds().pad(0.05), { 
             duration: 0.5
         });
     }
 }
 
 
-/**
- * Кастомний елемент управління "Назад" (на всю Україну).
- */
+
 const ResetControl = L.Control.extend({
     options: { position: 'topleft' }, 
     onAdd: function (map) {
@@ -319,15 +297,15 @@ const ResetControl = L.Control.extend({
         container.style.textAlign = 'center';
         container.style.cursor = 'pointer';
         
-        // Позиціювання кнопки "Назад" поруч із зумом
+
         container.style.marginLeft = '50px'; 
         container.style.marginTop = '18px'; 
 
         container.innerHTML = 'Назад'; 
 
         container.onclick = function(){
-            // Зум до початкового стану (вся Україна)
-            window.map.flyToBounds(L.latLngBounds(initialCenter, initialCenter).pad(2), { // 🛑 ВИПРАВЛЕНО
+
+            window.map.flyToBounds(L.latLngBounds(initialCenter, initialCenter).pad(2), { 
                 maxZoom: initialZoom,
                 duration: 0.5 
             });
@@ -335,16 +313,16 @@ const ResetControl = L.Control.extend({
             if (detailsPanel) detailsPanel.style.display = 'none';
 
             if (selectedLayer) {
-                // Повертаємо стиль до початкового (чорний)
+
                 geoJsonLayer.resetStyle(selectedLayer);
                 
-                // Повернення інтерактивності GeoJSON
+
                 const layerElement = selectedLayer.getElement();
                 if (layerElement) {
-                    // ВИДАЛЯЄМО КЛАС 'no-pointer' ТА ПОВЕРТАЄМО СТИЛІ
+
                     L.DomUtil.removeClass(layerElement, 'no-pointer');
                     
-                    // Знімаємо фокус з елемента!
+
                     if (layerElement.blur) {
                         layerElement.blur(); 
                     } else if (layerElement.parentNode && layerElement.parentNode.blur) {
@@ -357,20 +335,20 @@ const ResetControl = L.Control.extend({
                 selectedLayer._path.style.pointerEvents = 'auto'; 
                 
                 
-                // Повертаємо обробник кліків для шару
+
                 selectedLayer.on('click', zoomToFeature);
 
                 selectedLayer = null; 
             }
             
-            // Видаляємо кнопку "Назад"
+
             if (resetControlInstance) {
-                window.map.removeControl(resetControlInstance); // 🛑 ВИПРАВЛЕНО
+                window.map.removeControl(resetControlInstance); 
                 resetControlInstance = null;
             }
             mapStateBeforeMarkerZoom = null; 
             
-            // Скидаємо прапорець isZoomed для всіх маркерів
+
             currentMarkers.eachLayer(function(marker) {
                 marker.isZoomed = false;
             });
@@ -379,55 +357,44 @@ const ResetControl = L.Control.extend({
     }
 });
 
-// ====================================================
-// 🚀 НОВІ ГЛОБАЛЬНІ ФУНКЦІЇ ДЛЯ ІГР (QUIZ)
-// ====================================================
 
-/**
- * 🟢 [НОВА ФУНКЦІЯ 1] Надає доступ до даних пам'яток Житомирської області.
- */
 window.getZhytomyrData = function() {
     return monuments;
 };
 
 /**
- * 🟢 [НОВА ФУНКЦІЯ 2] Перемикає карту між режимами "Основний" та "Вікторина".
- * @param {string} mode - 'quiz' або 'main'.
+ * 
+ * @param {string} mode 
  */
 window.toggleMapMode = function(mode) {
     if (mode === 'quiz') {
-        // --- 1. ПЕРЕХІД У РЕЖИМ ВІКТОРИНИ ---
-        
-        // Вимикаємо ВСЮ інтерактивність карти (крім перетягування Drag & Drop)
-        window.map.dragging.disable(); // 🛑 ВИПРАВЛЕНО
-        window.map.touchZoom.disable(); // 🛑 ВИПРАВЛЕНО
-        window.map.doubleClickZoom.disable(); // 🛑 ВИПРАВЛЕНО
-        window.map.scrollWheelZoom.disable(); // 🛑 ВИПРАВЛЕНО
-        window.map.boxZoom.disable(); // 🛑 ВИПРАВЛЕНО
-        window.map.keyboard.disable(); // 🛑 ВИПРАВЛЕНО
-        if (window.map.tap) window.map.tap.disable(); // 🛑 ВИПРАВЛЕНО
+ 
+        window.map.dragging.disable(); 
+        window.map.touchZoom.disable(); 
+        window.map.doubleClickZoom.disable(); 
+        window.map.scrollWheelZoom.disable(); 
+        window.map.boxZoom.disable(); 
+        window.map.keyboard.disable(); 
+        if (window.map.tap) window.map.tap.disable(); 
 
-        // 2. Встановлюємо супутниковий шар (він вже доданий)
-        // Ми не робимо тут ніяких дій, оскільки Google Hybrid вже доданий.
-        
-        // 3. Зум на Житомирську область. 
+      
         if (mapStateBeforeMarkerZoom) {
-             window.map.flyToBounds(mapStateBeforeMarkerZoom, { // 🛑 ВИПРАВЛЕНО
+             window.map.flyToBounds(mapStateBeforeMarkerZoom, { 
                  duration: 0.5,
                  padding: L.point(10, 10)
              });
         }
         
-        // 4. Зміна стилю Житомирської області: жирний, білий, без заливки
+     
         if (selectedLayer) {
             selectedLayer.setStyle({ 
-                weight: 6,       // Жирний
-                color: 'white',  // Білий
-                fillOpacity: 0.0 // Без заливки
+                weight: 6,      
+                color: 'white', 
+                fillOpacity: 0.0 
             });
             selectedLayer.bringToFront();
             
-            // Забезпечуємо можливість взаємодії з шаром під грою, якщо потрібно
+           
             const layerElement = selectedLayer.getElement();
             if (layerElement) {
                  L.DomUtil.removeClass(layerElement, 'no-pointer'); 
@@ -435,44 +402,41 @@ window.toggleMapMode = function(mode) {
             }
         }
         
-        // 5. Видаляємо кнопку "Назад" (вона не потрібна у вікторині)
+   
         if (resetControlInstance) {
-             window.map.removeControl(resetControlInstance); // 🛑 ВИПРАВЛЕНО
+             window.map.removeControl(resetControlInstance); 
              resetControlInstance = null;
         }
 
 
     } else if (mode === 'main') {
-        // --- ПОВЕРНЕННЯ У ЗВИЧАЙНИЙ РЕЖИМ ---
+   
+        window.map.dragging.enable(); 
+        window.map.touchZoom.enable(); 
+        window.map.doubleClickZoom.enable(); 
+        window.map.scrollWheelZoom.enable(); 
+        window.map.boxZoom.enable(); 
+        window.map.keyboard.enable(); 
+        if (window.map.tap) window.map.tap.enable(); 
         
-        // Вмикаємо інтерактивність 
-        window.map.dragging.enable(); // 🛑 ВИПРАВЛЕНО
-        window.map.touchZoom.enable(); // 🛑 ВИПРАВЛЕНО
-        window.map.doubleClickZoom.enable(); // 🛑 ВИПРАВЛЕНО
-        window.map.scrollWheelZoom.enable(); // 🛑 ВИПРАВЛЕНО
-        window.map.boxZoom.enable(); // 🛑 ВИПРАВЛЕНО
-        window.map.keyboard.enable(); // 🛑 ВИПРАВЛЕНО
-        if (window.map.tap) window.map.tap.enable(); // 🛑 ВИПРАВЛЕНО
-        
-        // Повертаємо зум до регіону (або до початкового стану, якщо regionName = null)
+       
         window.zoomBackToRegion();
         
-        // Відновлюємо маркер-кластер для кліків
+        
         if (selectedLayer && mapStateBeforeMarkerZoom) {
-             // Повертаємо маркер-кластер, як було в main.js (з кліками та підказками)
+           
              addMarkers(monuments); 
-             // Повертаємо кнопку "Назад"
+             
              if (!resetControlInstance) {
                  resetControlInstance = new ResetControl({ position: 'topleft' }); 
-                 resetControlInstance.addTo(window.map); // 🛑 ВИПРАВЛЕНО
+                 resetControlInstance.addTo(window.map); 
              }
         } else {
-             // Якщо selectedLayer не вибраний (наприклад, гра почалася з повноекранної карти), 
-             // просто очищаємо маркери та повертаємо на всю Україну (викликано в zoomBackToRegion)
+             
              currentMarkers.clearLayers();
         }
         
-        // Якщо selectedLayer існує, повертаємо йому стиль (прозорий з білим контуром)
+       
         if (selectedLayer) {
              selectedLayer.setStyle({ 
                  weight: 6, 
@@ -484,9 +448,6 @@ window.toggleMapMode = function(mode) {
     }
 };
 
-// ----------------------------------------------------
-// 🟢 КРОК 3: ЗАВАНТАЖЕННЯ GEOJSON
-// ----------------------------------------------------
 
 const geoJsonPath = '/static/map_app/js/ukraine_regions.json/UA_FULL_Ukraine.geojson'; 
 
@@ -503,7 +464,7 @@ fetch(geoJsonPath)
             style: style,
             onEachFeature: onEachFeature,
             pane: 'geojson-pane' 
-        }).addTo(window.map); // 🛑 ВИПРАВЛЕНО
+        }).addTo(window.map); 
         
         console.log('Карта регіонів успішно завантажена та відображена.');
     })
@@ -512,7 +473,7 @@ fetch(geoJsonPath)
     });
 
 
-// 🟢 Додавання стандартного контролу зуму
+
 L.control.zoom({
     position:'topleft' 
-}).addTo(window.map); // 🛑 ВИПРАВЛЕНО
+}).addTo(window.map);

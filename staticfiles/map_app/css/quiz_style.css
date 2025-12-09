@@ -1,9 +1,3 @@
-/* map_app/static/map_app/css/quiz_style.css */
-
-/* ------------------------------------------------------------------------- */
-/* 🟢 ПОВНОЕКРАННИЙ КОНТЕЙНЕР ДЛЯ ГРИ (QUIZ-SCREEN) */
-/* ------------------------------------------------------------------------- */
-
 #quiz-screen {
     position: fixed;
     top: 0;
@@ -22,9 +16,6 @@
     overflow-y: auto; 
 }
 
-/* ------------------------------------------------------------------------- */
-/* 🟢 КОНТЕЙНЕР ЗАГОЛОВКА - ВИДАЛЕНО ЗАЙВІ ЕЛЕМЕНТИ */
-/* ------------------------------------------------------------------------- */
 
 .quiz-header {
     width: 95%;
@@ -34,7 +25,7 @@
     align-items: center;
 }
 
-/* Стилі для заголовка екрану */
+
 #quiz-main-title {
     color: white;
     font-size: 28px;
@@ -45,20 +36,18 @@
     width: 100%;
 }
 
-/* Видалення підкреслення (крапки) під заголовком */
+
 #quiz-main-title::after {
     content: none;
     display: none;
 }
 
-/* Приховуємо горизонтальну лінію, якщо вона є в HTML */
+
 .quiz-header hr {
     display: none;
 }
 
-/* ------------------------------------------------------------------------- */
-/* 🟢 СТИЛІ ВІКНА ВИБОРУ ОБЛАСТІ - ВИПРАВЛЕНО РОЗМІРИ */
-/* ------------------------------------------------------------------------- */
+
 
 #region-selection-view, #type-selection-view {
     width: 100%;
@@ -71,39 +60,35 @@
     align-items: center;
 }
 
-/* КЛЮЧОВЕ ВИПРАВЛЕННЯ: ЗАБЕЗПЕЧЕННЯ ОДНАКОВОЇ ВИСОТИ ТА ФІКСОВАНОГО ВІКНА ДЛЯ КНОПКИ ЗАКРИТИ */
+
 #region-list {
     display: grid;
-    /* Створюємо 4 рівні колонки */
     grid-template-columns: repeat(4, 1fr); 
-    /* КЛЮЧ: Використовуємо 1fr, але обмежуємо загальну висоту контейнера, щоб зберегти рівномірність */
     grid-auto-rows: minmax(0, 1fr); 
     gap: 15px;
     width: 100%;
     padding-bottom: 20px;
     padding-top: 15px;
-    /* КЛЮЧ: Обмежуємо висоту сітки, щоб залишити місце для елементів управління */
     max-height: calc(100vh - 200px); 
     overflow-y: auto; 
     align-content: flex-start;
 }
 
-/* ВИПРАВЛЕННЯ: Додаткові стилі для забезпечення однакової висоти блоків */
+
 .region-block {
-    padding: 10px 15px; /* Зменшено відступи, щоб зменшити висоту блоку */
+    padding: 10px 15px; 
     background-color: #2c2c2c;
     border: 2px solid #3d3d3d;
     border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
-    font-size: 1.0em; /* Трошки зменшено шрифт */
+    font-size: 1.0em; 
     text-align: center;
     transition: border-color 0.3s, background-color 0.3s, box-shadow 0.3s;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #e0e0e0;
-    /* КЛЮЧ: Робимо висоту гнучкою, але дозволяємо grid-auto-rows: 1fr; контролювати її */
     height: 100%; 
     box-sizing: border-box;
 }
@@ -135,11 +120,7 @@
     box-shadow: none;
 }
 
-/* ------------------------------------------------------------------------- */
-/* 🟢 СТИЛІ ВИБОРУ ТИПУ ГРИ - ВИПРАВЛЕНО ЗАГОЛОВОК */
-/* ------------------------------------------------------------------------- */
 
-/* ВИПРАВЛЕННЯ: Центруємо заголовок "Оберіть гру" */
 #quiz-type-title {
     text-align: center;
     font-size: 28px;
@@ -210,9 +191,7 @@
     background-color: #777;
 }
 
-/* ------------------------------------------------------------------------- */
-/* 🟢 СТИЛІ ГРИ "СПІВПАДАННЯ" (МАКЕТ) - ОПТИМІЗАЦІЯ ДЛЯ ФОТО */
-/* ------------------------------------------------------------------------- */
+
 
 #game-container {
     width: 100%;
@@ -224,7 +203,6 @@
     align-items: center;
     padding: 0;
     box-sizing: border-box;
-    /* FIX: Дозволяємо скролл сторінки */
 }
 
 #matches-info {
@@ -245,11 +223,11 @@
     padding-bottom: 5px;
 }
 
-/* КЛЮЧ: Контейнер назв (ліва колонка) */
+
 .matching-list-container {
     height: auto; 
-    max-height: 70vh; /* Обмежимо максимальну висоту для естетики */
-    overflow-y: auto; /* Дозволяємо скрол */
+    max-height: 70vh; 
+    overflow-y: auto; 
     
     background-color: #2b2b2b;
     border: 1px solid #444;
@@ -265,7 +243,7 @@
     max-width: 220px; 
 }
 
-/* ------------------ Список Назв (Draggable) ------------------ */
+
 #name-list-items {
     width: 100%;
     display: flex;
@@ -275,7 +253,6 @@
 }
 
 .draggable-item {
-    /* ПОВЕРНУТИЙ КОЛІР: #333 */
     background-color: #333;
     color: white;
     padding: 10px;
@@ -297,15 +274,11 @@
     background-color: #444;
 }
 
-/* ------------------------------------------------------------------------- */
-/* 🟢 СТИЛІ ГРИ "СПІВПАДАННЯ" (ФОТО) - ОПТИМІЗАЦІЯ СІТКИ */
-/* ------------------------------------------------------------------------- */
 
-/* КЛЮЧ: Контейнер фотографій */
 .target-list-container {
     flex: 1; 
     height: auto; 
-    max-height: 70vh; /* Обмежимо максимальну висоту для естетики */
+    max-height: 70vh; 
     overflow-y: auto;
     
     min-width: 0; 
@@ -318,7 +291,6 @@
     width: 100%;
     padding: 5px;
     display: grid;
-    /* FIX: Сітка з авто-підгонкою */
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
     gap: 15px;
     justify-content: center;
@@ -365,7 +337,7 @@
 }
 
 
-/* Стилі: Назва, розміщена внизу фото */
+
 .droppable-target .draggable-item {
     position: absolute !important; 
     bottom: 0 !important;
@@ -374,7 +346,7 @@
     width: 100% !important;
     margin: 0 !important;
     padding: 5px 10px;
-    background-color: rgba(0, 0, 0, 0.7); /* Чорний напівпрозорий */
+    background-color: rgba(0, 0, 0, 0.7); 
     color: white;
     font-size: 0.9em;
     font-weight: bold;
@@ -385,7 +357,7 @@
     box-sizing: border-box;
 }
 
-/* ------------------ Стан Drop/Match (Спільний) ------------------ */
+
 
 .droppable-target.drag-over, .droppable-description.drag-over {
     border-color: #ff8c00;
@@ -410,24 +382,20 @@
     background-color: #f44336 !important;
 }
 
-/* ------------------------------------------------------------------------- */
-/* 🟢 СТИЛІ ГРИ "СПІВПАДАННЯ" (ОПИС) - ВИПРАВЛЕННЯ ВИСОТИ */
-/* ------------------------------------------------------------------------- */
 
-/* Контейнер для назв (ліва колонка) - вужчий в режимі "Опис" */
 .name-list-container-desc {
     flex: 0 0 250px;
     min-width: 250px;
     max-width: 300px;
 }
 
-/* Контейнер для описів (права колонка) - ширший */
+
 .description-list-container {
     flex: 1;
     flex-grow: 1; 
     min-width: 0; 
     height: auto; 
-    max-height: 70vh; /* Обмежимо максимальну висоту для естетики */
+    max-height: 70vh; 
     overflow-y: auto;
     
     background-color: transparent; 
@@ -500,9 +468,6 @@
 }
 
 
-/* ------------------------------------------------------------------------- */
-/* 🟢 КЕРУВАННЯ ГРОЮ (КНОПКИ) - ПОВЕРНЕННЯ СІРОГО КОЛЬОРУ */
-/* ------------------------------------------------------------------------- */
 
 #game-controls {
     text-align: center;
@@ -513,8 +478,7 @@
 
 .quiz-control-btn {
     padding: 10px 20px;
-    /* 🚀 ПОВЕРНЕННЯ СІРОГО КОЛЬОРУ */
-    background-color: #555; /* Темно-сірий фон, схожий на ваш стиль */
+    background-color: #555; 
     color: white;
     border: none;
     border-radius: 5px;
@@ -525,27 +489,19 @@
 }
 
 .quiz-control-btn:hover {
-    /* 🚀 СВІТЛІШИЙ СІРИЙ ПРИ НАВЕДЕННІ */
+
     background-color: #666; 
 }
 
-/* Окремі стилі для кнопки "Перевірити відповіді" */
+
 #check-answers-btn {
-    background-color: #dc3545; /* Червоний (традиційний для кнопок дії) */
+    background-color: #dc3545; 
 }
 #check-answers-btn:hover {
     background-color: #c82333;
 }
 
-/* ------------------------------------------------------------------------- */
 
-/* 🚀 ДОДАНІ СТИЛІ ДЛЯ "КАРТОК" (STUDY CARDS/FLASHCARDS) */
-
-/* ------------------------------------------------------------------------- */
-
-
-
-/* Цей контейнер використовується у функції createCardHTML */
 
 .card-inner-flip {
 
@@ -579,7 +535,7 @@
 
     height: 100%;
 
-    backface-visibility: hidden; /* Приховує зворотну сторону */
+    backface-visibility: hidden; 
 
     border-radius: 10px;
 
@@ -593,7 +549,7 @@
 
 
 
-/* --- Передня сторона (Назва) --- */
+
 
 
 
@@ -603,7 +559,7 @@
 
     color: white;
 
-    /* КЛЮЧ: Вирівнювання тексту назви по центру */
+
 
     display: flex;
 
@@ -633,7 +589,6 @@
 
 
 
-/* --- Задня сторона (Опис та Фото) --- */
 
 
 
@@ -645,7 +600,6 @@
 
     transform: rotateY(0deg);
 
-    /* КЛЮЧ: Налаштування вмісту, щоб все вміщалося */
 
     display: flex;
 
@@ -653,13 +607,12 @@
 
     text-align: left;
 
-    overflow-y: auto; /* Забезпечує прокрутку, якщо текст довгий */
+    overflow-y: auto; 
 
 }
 
 
 
-/* Обгортка для зображення, щоб контролювати його розмір */
 
 .card-description-face .card-image-wrapper {
 
@@ -685,8 +638,7 @@
 
     height: 100%;
 
-    object-fit: cover; /* КЛЮЧ: Зображення заповнює контейнер без розтягування/вирізання */
-
+    object-fit: cover; 
     display: block;
 
 }
@@ -699,8 +651,7 @@
 
     line-height: 1.4;
 
-    flex-grow: 1; /* Дозволяє тексту займати доступний простір */
-
+    flex-grow: 1; 
 }
 
 
@@ -721,11 +672,6 @@
 
 }
 
-/* ------------------------------------------------------------------------- */
-
-/* 🟢 СТИЛІ ГРИ "ХРОНОЛОГІЯ" (НОВИЙ ДИЗАЙН) */
-
-/* ------------------------------------------------------------------------- */
 
 
 
@@ -779,15 +725,13 @@
 
     gap: 20px;
 
-    align-items: flex-start; /* Вирівнюємо вміст на початок */
+    align-items: flex-start; 
 
     justify-content: center;
 
 }
 
 
-
-/* ------------------ Стрілка-індикатор (ЛІВОРУЧ) ------------------ */
 
 
 
@@ -801,11 +745,10 @@
 
     justify-content: space-between;
 
-    height: 100%; /* Займає всю доступну висоту */
-
+    height: 100%; 
     padding: 15px 0;
 
-    position: sticky; /* Щоб залишалася на місці при прокручуванні */
+    position: sticky; 
 
     top: 0;
 
@@ -819,7 +762,7 @@
 
     font-size: 1.0em;
 
-    color: #ff8c00; /* Помаранчевий колір для акценту */
+    color: #ff8c00; 
 
     text-align: center;
 
@@ -833,7 +776,7 @@
 
     width: 3px;
 
-    background: linear-gradient(to top, #4CAF50, #ff8c00); /* Зелений (старий) -> Помаранчевий (новий) */
+    background: linear-gradient(to top, #4CAF50, #ff8c00); 
 
     position: relative;
 
@@ -861,13 +804,12 @@
 
     border-right: 8px solid transparent;
 
-    border-bottom: 12px solid #ff8c00; /* Стрілка нагорі (Найновіше) */
+    border-bottom: 12px solid #ff8c00; 
 
 }
 
 
 
-/* ------------------ Контейнер для списку (ПРАВОРУЧ) ------------------ */
 
 
 
@@ -893,7 +835,7 @@
 
 #chronology-list-items {
 
-    min-height: 400px; /* Мінімальна висота для зони перетягування */
+    min-height: 400px; 
 
     display: flex;
 
@@ -905,7 +847,6 @@
 
 
 
-/* Стиль для перетягуваних елементів у Chronology */
 
 .chronology-item {
 
@@ -929,7 +870,6 @@
 
     transition: background-color 0.2s, box-shadow 0.2s;
 
-    /* Ключовий стиль для Drag and Drop: */
 
     user-select: none;
 
@@ -955,11 +895,9 @@
 
 
 
-/* Стилі для підсвічування місця, куди можна скинути елемент (опціонально, додається JS) */
-
 .chronology-item.drag-placeholder {
 
-    height: 50px; /* Висота елемента */
+    height: 50px; 
 
     background-color: rgba(255, 140, 0, 0.2);
 
@@ -971,25 +909,17 @@
 
 
 
-/* Стилі для коректного/некоректного порядку (опціонально, додається JS) */
-
 .chronology-item.correct {
 
-    background-color: #354a35; /* Темно-зелений */
+    background-color: #354a35; 
 
 }
 
 .chronology-item.incorrect {
 
-    background-color: #4a3030; /* Темно-червоний */
+    background-color: #4a3030; 
 
 }
-
-/* ------------------------------------------------------------------------- */
-
-/* 🟢 СТИЛІ МОДАЛЬНОГО ВІКНА (ПІДКАЗКИ) */
-
-/* ------------------------------------------------------------------------- */
 
 
 
@@ -1009,7 +939,7 @@
 
     overflow: auto;
 
-    background-color: rgba(0, 0, 0, 0.7); /* Напівпрозорий фон */
+    background-color: rgba(0, 0, 0, 0.7); 
 
     display: flex;
 
@@ -1113,12 +1043,6 @@
 
 
 
-/* ------------------------------------------------------------------------- */
-
-/* 🟢 СТИЛІ ДЛЯ Chronology Item (ПІСЛЯ ПЕРЕВІРКИ) */
-
-/* ------------------------------------------------------------------------- */
-
 
 
 .chronology-year-hint {
@@ -1133,17 +1057,11 @@
 
 }
 
-/* ------------------------------------------------------------------------- */
-/* 🟢 СТИЛІ ГРИ "ДЕ ЗНАХОДИТЬСЯ?" (LOCATION GAME) - КОНСОЛІДОВАНИЙ */
-/* ------------------------------------------------------------------------- */
 
-/* --- 1. ОСНОВНА СТРУКТУРА ТА БІЧНА ПАНЕЛЬ (НА ОСНОВІ ВАШОГО КОДУ) --- */
-
-/* Головний контейнер Location Game (бічна панель) */
 #game-container.location-game-container {
     position: absolute; 
     top: 0;
-    left: 0; /* Зберігаємо ваш left: 0 */
+    left: 0; 
     width: 300px; 
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7); 
@@ -1157,11 +1075,11 @@
     overflow-y: hidden; 
 }
 
-/* 🛑 СТИЛІ КОНТЕЙНЕРА СУПУТНИКОВОЇ КАРТИ (АДАПТАЦІЯ) */
+
 #map-view.location-map-view {
     position: absolute;
     top: 0;
-    left: 300px; /* Карта починається там, де закінчується бічна панель */
+    left: 300px; 
     right: 0;
     bottom: 0;
     z-index: 1005; 
@@ -1170,9 +1088,6 @@
 }
 
 
-/* --- 2. ЕЛЕМЕНТИ БІЧНОЇ ПАНЕЛІ (ВАШ КОД) --- */
-
-/* Заголовок гри */
 #location-game-title {
     color: white;
     font-size: 20px;
@@ -1182,7 +1097,7 @@
     flex-shrink: 0;
 }
 
-/* Контейнер для списку назв (центральна частина боксу) */
+
 .location-name-box {
     width: 100%;
     flex-grow: 1; 
@@ -1202,7 +1117,7 @@
     gap: 8px;
 }
 
-/* Стилі для окремої назви пам'ятки у списку */
+
 .name-item {
     padding: 8px 10px;
     background-color: #333;
@@ -1212,7 +1127,7 @@
     text-align: left;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
     font-size: 0.9em;
-    cursor: grab; /* Змінено на grab */
+    cursor: grab; 
     transition: background-color 0.2s;
 }
 
@@ -1220,14 +1135,14 @@
     background-color: #444;
 }
 
-/* Стилі для Drag & Drop назв у списку */
+
 .name-item.dragging {
     opacity: 0.5;
     border: 2px dashed #FF8C00;
     cursor: grabbing; 
 }
 
-/* Контейнер для кнопок керування */
+
 .game-controls {
     width: 100%;
     display: flex;
@@ -1239,7 +1154,7 @@
     flex-shrink: 0; 
 }
 
-/* Стилі кнопок керування */
+
 #change-location-game-btn, 
 #check-location-btn { 
     width: 100%;
@@ -1254,16 +1169,16 @@
     font-size: 14px;
 }
 
-/* 🛑 ВИПРАВЛЕННЯ: Кнопка "Змінити гру" тепер сіра (за вашим запитом) */
+
 #change-location-game-btn { 
-    background-color: #555; /* Сірий */
+    background-color: #555; 
 }
 #change-location-game-btn:hover {
-    background-color: #777; /* Світліше сірий при наведенні */
+    background-color: #777; 
 }
 
 #check-location-btn { 
-    background-color: #ff8c00; /* Помаранчевий */
+    background-color: #ff8c00; 
 }
 #check-location-btn:hover {
     background-color: #e67e22;
@@ -1276,9 +1191,8 @@
 }
 
 
-/* --- 3. СТИЛІ ДЛЯ МАРКЕРІВ (DOT ICONS) --- */
 
-/* 1. Стилі для іконок-крапок (створених L.divIcon) */
+
 .location-dot-icon {
     background-color: #FFFFFF; 
     border-radius: 50%; 
@@ -1287,18 +1201,18 @@
     transition: all 0.2s ease-in-out;
 }
 
-/* 2. Візуальний ефект при наведенні або перетягуванні над маркером */
+
 .location-dot-icon.marker-drag-over {
     border-color: #FF8C00; 
-    background-color: #EEE; /* Світліший фон */
+    background-color: #EEE; 
     box-shadow: 0 0 10px #FF8C00;
     transform: scale(1.8); 
-    border-radius: 50%; /* Гарантуємо, що залишається круглим */
+    border-radius: 50%; 
 }
 
-/* 🛑 НОВИЙ СТИЛЬ: Маркер зайнятий назвою (до перевірки) */
+
 .leaflet-marker-icon.marker-snap-occupied {
-    background-color: #777; /* Сірий */
+    background-color: #777; 
     border-color: #555;
     border-width: 4px;
     transition: none; 
@@ -1306,9 +1220,9 @@
     opacity: 1;
 }
 
-/* 3. Стилі після успішного/неуспішного "прикріплення" (Snap) - після перевірки */
+
 .leaflet-marker-icon.marker-snap-correct {
-    background-color: #2ECC71; /* Зелений */
+    background-color: #2ECC71; 
     border-color: #1E8449;
     border-width: 4px;
     transition: none; 
@@ -1316,7 +1230,7 @@
     opacity: 1;
 }
 .leaflet-marker-icon.marker-snap-wrong {
-    background-color: #E74C3C; /* Червоний */
+    background-color: #E74C3C; 
     border-color: #C0392B;
     border-width: 4px;
     transition: none;
@@ -1324,11 +1238,11 @@
     opacity: 1;
 }
 
-/* 4. Стилі для назви, яка з'являється після прикріплення (Tooltip) */
+
 .location-snap-label-default {
-    background: #333 !important; /* Темно-сірий фон */
+    background: #333 !important; 
     color: white !important;
-    border: 1px solid #777 !important; /* Сіра рамка */
+    border: 1px solid #777 !important; 
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
     font-weight: bold;
     font-size: 14px;
@@ -1338,7 +1252,7 @@
     pointer-events: none;
 }
 
-/* 5. Стилі для MarkerCluster (Без змін) */
+
 .marker-cluster-small, 
 .marker-cluster-medium, 
 .marker-cluster-large {
@@ -1353,22 +1267,20 @@
 }
 
 
-/* ------------------------------------------------------------------------- */
-/* 🟢 4. СТИЛІ ДЛЯ МОДАЛЬНОГО ВІКНА РЕЗУЛЬТАТІВ (БЕЗ ТІНІ + ФІКС ЦЕНТРУВАННЯ) */
-/* ------------------------------------------------------------------------- */
+
 
 .results-modal-overlay {
-    /* Оверлей займає всю область карти (справа від бічної панелі) */
+
     position: fixed; 
     top: 0;
     left: 300px; 
-    width: calc(100% - 300px); /* Вся ширина мінус бічна панель */
+    width: calc(100% - 300px); 
     height: 100%;
     
-    background: rgba(0, 0, 0, 0.85); /* Затемнення екрану */
+    background: rgba(0, 0, 0, 0.85); 
     display: flex;
-    justify-content: center; /* Центрування по горизонталі */
-    align-items: center; /* Центрування по вертикалі */
+    justify-content: center; 
+    align-items: center; 
     z-index: 10001; 
 }
 
@@ -1380,7 +1292,7 @@
     max-width: 450px;
     width: 90%;
     
-    /* 🛑 ВИПРАВЛЕННЯ ТІНІ: Примусово видаляємо будь-яку тінь */
+
     box-shadow: none !important;
     
     text-align: center;
@@ -1390,7 +1302,7 @@
     position: relative; 
     z-index: 10002;
     
-    /* 🛑 ДОДАТКОВО: Прибираємо тінь, яка може виникати через межі */
+
     border: 1px solid #333; 
 }
 
@@ -1405,7 +1317,6 @@
     text-align: left;
     max-height: 300px;
     overflow-y: auto;
-    /* 🛑 Прибираємо внутрішню тінь, яка може бути від прокрутки */
     box-shadow: none !important; 
     padding-right: 10px;
     margin-bottom: 20px;
@@ -1435,7 +1346,7 @@
     flex-shrink: 0;
 }
 
-/* Стилі кнопок у модальному вікні */
+
 .game-btn { 
     padding: 10px 15px;
     border: none;

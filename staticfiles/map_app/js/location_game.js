@@ -1,5 +1,3 @@
-// map_app/static/map_app/js/location_game.js
-
 let locationGameMap = null; 
 let zhytomyrBorderLayer = null; 
 let locationMarkersLayer = L.markerClusterGroup({
@@ -9,14 +7,11 @@ let locationMarkersLayer = L.markerClusterGroup({
 }); 
 let monumentMarkers = []; 
 let userMarkersLayer = L.layerGroup(); 
-// 🛑 КЛЮЧОВА ЗМІНА: Об'єкт для зберігання пар: { monumentId_from_list: targetMarkerId, ... }
 let userSnaps = {}; 
 
 const allZhytomyrMonuments = window.getZhytomyrData ? window.getZhytomyrData() : null;
 
-// ----------------------------------------------------
-// 🟢 1. ІНІЦІАЛІЗАЦІЯ ГРИ
-// ----------------------------------------------------
+
 
 window.initLocationGame = function() {
     if (!allZhytomyrMonuments || !window.L) {
@@ -34,14 +29,12 @@ window.initLocationGame = function() {
     const quizScreen = document.getElementById('quiz-screen');
     if (quizScreen) { quizScreen.style.display = 'flex'; }
     
-    userSnaps = {}; // Скидаємо результати
+    userSnaps = {}; 
     
     generateGameUI(allZhytomyrMonuments);
 };
 
-/**
- * Генерує HTML-інтерфейс гри.
- */
+
 function generateGameUI(monuments) {
     const quizScreen = document.getElementById('quiz-screen');
     if (!quizScreen) return;
@@ -99,9 +92,7 @@ function generateGameUI(monuments) {
     initializeLocationGameMap();
 }
 
-// ----------------------------------------------------
-// 🟢 2. РОБОТА З КАРТОЮ LEAFLET
-// ----------------------------------------------------
+
 
 function initializeLocationGameMap() {
     
@@ -148,9 +139,7 @@ function initializeLocationGameMap() {
 }
 
 
-/**
- * Додає ВИДИМІ маркери у їхні реальні координати.
- */
+
 function addLocationMarkers(monumentsArray) {
     if (!locationGameMap) return;
 
@@ -176,18 +165,18 @@ function addLocationMarkers(monumentsArray) {
         marker.on('add', function() {
             const markerIcon = marker._icon;
             if (markerIcon) {
-                // Встановлюємо обробник dragover
+             
                 markerIcon.addEventListener('dragover', function(e) {
                     e.preventDefault(); 
                     markerIcon.classList.add('marker-drag-over'); 
                 });
                 
-                // Встановлюємо обробник dragleave
+               
                 markerIcon.addEventListener('dragleave', function() {
                     markerIcon.classList.remove('marker-drag-over');
                 });
                 
-                // Встановлюємо обробник drop
+              
                 markerIcon.addEventListener('drop', function(e) {
                     e.preventDefault();
                     markerIcon.classList.remove('marker-drag-over');
@@ -209,15 +198,12 @@ function addLocationMarkers(monumentsArray) {
     console.log(`Додано ${monumentMarkers.length} видимих маркерів-крапок.`);
 }
 
-/**
- * 🟢 Обробляє прикріплення назви (monumentId) до маркера-крапки (targetMarkerId).
- * 🛑 ТІЛЬКИ ЗАКРІПЛЮЄ І ЗБЕРІГАЄ, БЕЗ ПЕРЕВІРКИ!
- */
+
 function handleMarkerSnap(monumentId, targetMarkerId, targetMarker) {
     
     const monumentData = allZhytomyrMonuments.find(m => m.id === monumentId);
     
-    // 🛑 ВИПРАВЛЕННЯ: Блокуємо, якщо маркер вже є цільовим для якоїсь іншої назви
+   
     let existingSnappedMonumentId = Object.keys(userSnaps).find(
         (key) => userSnaps[key] === targetMarkerId
     );
@@ -227,22 +213,22 @@ function handleMarkerSnap(monumentId, targetMarkerId, targetMarker) {
         return; 
     }
     
-    // 1. Зберігаємо пару: Назва -> Маркер. 
+
     userSnaps[monumentId] = targetMarkerId; 
     
-    // 2. Змінюємо візуальний стиль маркера на карті на "зайнято" (Сірий)
+   
     L.DomUtil.removeClass(targetMarker._icon, 'location-dot-icon'); 
     L.DomUtil.addClass(targetMarker._icon, 'marker-snap-occupied');
     
-    // 3. Додаємо постійну підказку (назву). 
+   
     targetMarker.bindTooltip(monumentData.name, {
         permanent: true, 
         direction: 'top',
-        className: 'location-snap-label-default', // Сіра рамка
+        className: 'location-snap-label-default', 
         offset: [0, -10]
     }).openTooltip();
     
-    // 4. Видаляємо назву з бічної панелі
+   
     const draggedElement = document.querySelector(`.name-item[data-id="${monumentId}"]`);
     if (draggedElement) {
         draggedElement.classList.remove('dragging'); 
@@ -251,7 +237,7 @@ function handleMarkerSnap(monumentId, targetMarkerId, targetMarker) {
     
     console.log(`[Snap Register] Назва ${monumentData.name} (ID: ${monumentId}) прикріплена до маркера ID ${targetMarkerId}. Очікує перевірки.`);
 
-    // 5. Перевірка активації кнопки "Перевірити"
+
     const nameList = document.getElementById('location-name-list');
     const checkButton = document.getElementById('check-location-btn');
     if (nameList && checkButton && nameList.children.length === 0) {
@@ -262,21 +248,16 @@ function handleMarkerSnap(monumentId, targetMarkerId, targetMarker) {
 }
 
 
-// ----------------------------------------------------
-// 🟢 3. DRAG AND DROP ФУНКЦІОНАЛ 
-// ----------------------------------------------------
 
-/**
- * 🟢 [ГЛОБАЛЬНА ФУНКЦІЯ] Запускається при початку перетягування назви (ondragstart).
- */
+
+
 window.drag = function(ev) {
     const monumentId = ev.target.getAttribute('data-id');
     
     ev.dataTransfer.setData("monument-id", monumentId);
     ev.dataTransfer.setData("text/plain", monumentId); 
     
-    // Ghost Image: Використовуємо стандартний setDragImage. 
-    // Це єдиний коректний спосіб, якщо не працює - це обмеження браузера.
+
     const rect = ev.target.getBoundingClientRect();
     const xOffset = rect.width / 2;
     const yOffset = rect.height / 2;
@@ -285,17 +266,12 @@ window.drag = function(ev) {
     ev.target.classList.add('dragging'); 
 }
 
-/**
- * 🟢 [ГЛОБАЛЬНА ФУНКЦІЯ] Запускається при завершенні перетягування (ondragend).
- */
+
 window.dragEnd = function(ev) {
     ev.target.classList.remove('dragging');
 }
 
 
-// ----------------------------------------------------
-// 🟢 4. ПЕРЕВІРКА РЕЗУЛЬТАТІВ ТА ЗАВЕРШЕННЯ
-// ----------------------------------------------------
 
 window.checkGameResults = function() { 
     const snappedCount = Object.keys(userSnaps).length;
@@ -309,7 +285,7 @@ window.checkGameResults = function() {
     let correctCount = 0;
     let resultsForModal = [];
 
-    // 🛑 ЛОГІКА ПЕРЕВІРКИ: Ітеруємо по збережених парах
+
     Object.keys(userSnaps).forEach(monumentId => {
         const targetMarkerId = userSnaps[monumentId];
         const isCorrect = (monumentId === targetMarkerId);
@@ -327,14 +303,14 @@ window.checkGameResults = function() {
             correctCount++;
         }
         
-        // 🛑 ОНОВЛЕННЯ СТИЛЮ МАРКЕРА НА КАРТІ (Зміна кольору на Зелений/Червоний)
+ 
         const targetMarker = monumentMarkers.find(m => m.options.monumentId === targetMarkerId);
         if (targetMarker && targetMarker._icon) {
-            // Прибираємо тимчасовий сірий стиль
+          
             L.DomUtil.removeClass(targetMarker._icon, 'marker-snap-occupied');
             L.DomUtil.addClass(targetMarker._icon, isCorrect ? 'marker-snap-correct' : 'marker-snap-wrong');
             
-            // Додаємо Popup з результатом
+           
             targetMarker.bindPopup(`
                 <strong>${isCorrect ? 'Правильно!' : 'Неправильно!'}</strong><br>
                 Ви прикріпили: ${monumentData.name}<br>
@@ -343,7 +319,7 @@ window.checkGameResults = function() {
         }
     });
 
-    // Форматування результату
+
     let scoreText = `${correctCount} / ${totalCount}`;
     let percentage = Math.round((correctCount / totalCount) * 100);
 
@@ -355,7 +331,7 @@ window.checkGameResults = function() {
         return;
     }
     
-    // 🛑 СТВОРЕННЯ КОНТЕНТУ МОДАЛЬНОГО ВІКНА (Без ** символів)
+
     modalContent.innerHTML = `
         <h3><span style="font-size: 1.5em;">🎉</span> Результати гри <span style="font-size: 1.5em;">🎉</span></h3>
         <p class="score-summary">Ваш результат: ${scoreText} (${percentage}%)</p>
@@ -408,9 +384,9 @@ window.finishLocationGame = function(goToSelection = false) {
     userMarkersLayer.clearLayers();
     monumentMarkers = [];
     zhytomyrBorderLayer = null;
-    userSnaps = {}; // Очищаємо історію
+    userSnaps = {};
     
-    // Викликаємо функцію, яка знаходиться у main.js
+
     if (goToSelection) {
         window.goToTypeSelection();
     } else {
@@ -418,9 +394,7 @@ window.finishLocationGame = function(goToSelection = false) {
     }
 };
 
-/**
- * Функція для додавання кордону GeoJSON. 
- */
+
 function addZhytomyrBorder() {
     if (!locationGameMap) return;
     
@@ -428,14 +402,12 @@ function addZhytomyrBorder() {
         locationGameMap.removeLayer(zhytomyrBorderLayer);
     }
     
-    // 🛑 ВИПРАВЛЕННЯ: Шлях до GeoJSON
-    // Виходячи з ваших скріншотів, шлях має бути від кореня /static/map_app/js/
+
     const geoJsonPath = '/static/map_app/js/ukraine_regions.json/UA_18_Zhytomyrska.geojson';
     
     fetch(geoJsonPath)
         .then(response => {
             if (!response.ok) {
-                // Додаємо більше інформації про помилку 404
                 throw new Error(`Не вдалося завантажити GeoJSON (${response.status}): Перевірте шлях: ${geoJsonPath}`);
             }
             return response.json();

@@ -1,9 +1,3 @@
-// map_app/static/map_app/js/chronology_cards_game.js
-
-// ----------------------------------------------------
-// 🟢 ГЛОБАЛЬНІ ЗМІННІ / ФУНКЦІЇ ДЛЯ РЕЖИМІВ
-// ----------------------------------------------------
-
 let studyCardsData = [];
 let studyCardsPool = [];
 let learnedCardsSet = new Set();
@@ -11,18 +5,15 @@ let currentStudyCard = null;
 let currentChronologyHintIndex = 0;
 let currentChronologyData = [];
 let sortedChronologyData = [];
-let fullSourceData = []; // Зберігаємо повні вихідні дані
+let fullSourceData = []; 
 
-// DRAG & DROP (для хронології)
-let draggedElement = null;        // DOM елемент, який ми перетягуємо (оригінал у списку)
-let draggingClone = null;         // клон, який ми рухаємо, position:absolute
-let placeholderEl = null;         // тимчасове місце для вставки
-let pointerIdActive = null;       // для підтримки multitouch/pointer
+
+let draggedElement = null;        
+let draggingClone = null;         
+let placeholderEl = null;       
+let pointerIdActive = null;       
 let initialPointerOffset = { x: 0, y: 0 };
 
-// ----------------------------------------------------
-// 🛑 ДОДАНІ ДАНІ ПІДКАЗОК (Для надійності)
-// ----------------------------------------------------
 
 const HINTS_MAP = [
     { name_part: "Тригірський монастир", hint: "Ця пам'ятка пов'язана із річкою Тетерів і була заснована у 16 столітті." },
@@ -41,15 +32,12 @@ function findHintForName(name) {
     return foundHint ? foundHint.hint : null;
 }
 
-// ----------------------------------------------------
-// 💡 ДОДАНА ФУНКЦІЯ ОЧИЩЕННЯ
-// ----------------------------------------------------
 
 window.onGameContainerRemoved = function() {
     const listContainer = document.getElementById('chronology-list');
 
     if (listContainer) {
-        // видаляємо pointer listeners (наші кастомні)
+
         listContainer.querySelectorAll('.chronology-item').forEach(item => {
             item.removeEventListener('pointerdown', chronologyPointerDown);
             item.removeEventListener('pointerup', chronologyPointerUp);
@@ -61,7 +49,7 @@ window.onGameContainerRemoved = function() {
         listContainer.removeEventListener('pointercancel', chronologyPointerCancel);
     }
 
-    // очищення стейтів
+
     draggedElement = null;
     if (draggingClone) { draggingClone.remove(); draggingClone = null; }
     if (placeholderEl) { placeholderEl.remove(); placeholderEl = null; }
@@ -71,9 +59,7 @@ window.onGameContainerRemoved = function() {
     try { delete window.onGameContainerRemoved; } catch (e) { /* ignore */ }
 };
 
-// ----------------------------------------------------
-// 🟢 ЛОГІКА ГРИ "КАРТКИ" (CARDS) - БЕЗ ЗМІН
-// ----------------------------------------------------
+
 
 window.initChronologyCardsGame = function(sourceData) {
     if (!sourceData || !Array.isArray(sourceData) || sourceData.length === 0) {
@@ -208,26 +194,17 @@ function createCardHTML(cardData) {
     `;
 }
 
-// ----------------------------------------------------
-// 🚀 ЛОГІКА ГРИ "ХРОНОЛОГІЯ" - Pointer-based drag&drop (надійний fallback)
-// ----------------------------------------------------
-
-/**
- * Pointer handlers для надійного drag&drop перестановки
- * Ми використовуємо: pointerdown -> pointermove -> pointerup
- * Працює в desktop та мобільних, не залежить від HTML5 DnD API
- */
 
 function chronologyPointerDown(e) {
-    // тільки лівий/основний pointer
-    if (pointerIdActive !== null) return; // вже йде drag
+ 
+    if (pointerIdActive !== null) return; 
     pointerIdActive = e.pointerId;
     e.currentTarget.setPointerCapture(pointerIdActive);
 
     const item = e.currentTarget;
     draggedElement = item;
 
-    // створюємо клон для візуала
+
     draggingClone = item.cloneNode(true);
     draggingClone.style.position = 'fixed';
     draggingClone.style.top = '0px';
@@ -240,7 +217,7 @@ function chronologyPointerDown(e) {
 
     document.body.appendChild(draggingClone);
 
-    // створюємо placeholder
+
     placeholderEl = document.createElement('div');
     placeholderEl.className = 'chronology-placeholder';
     placeholderEl.style.height = `${item.getBoundingClientRect().height}px`;
@@ -250,18 +227,18 @@ function chronologyPointerDown(e) {
 
     item.parentNode.insertBefore(placeholderEl, item.nextSibling);
 
-    // приховуємо оригінал візуально (але він лишається в DOM для місця)
+
     item.style.visibility = 'hidden';
 
-    // початковий офсет (щоб клон позиціонувався відносно місця вказівника)
+
     const rect = item.getBoundingClientRect();
     initialPointerOffset.x = e.clientX - rect.left;
     initialPointerOffset.y = e.clientY - rect.top;
 
-    // позиціонуємо початково
+
     updateDraggingClonePosition(e.clientX, e.clientY);
 
-    // вішамо глобальні слухачі на list контейнер (і документ)
+
     const list = document.getElementById('chronology-list');
     if (list) {
         list.addEventListener('pointermove', chronologyPointerMove);
@@ -290,7 +267,7 @@ function chronologyPointerMove(e) {
 
     updateDraggingClonePosition(e.clientX, e.clientY);
 
-    // знаходимо підкреслюваний таргет у списку
+
     const list = document.getElementById('chronology-list');
     if (!list) return;
 
@@ -307,7 +284,7 @@ function chronologyPointerMove(e) {
         }
     }
 
-    // якщо нічого не знайдено, вставляємо в кінець
+
     if (!insertBeforeNode) {
         list.appendChild(placeholderEl);
     } else {
@@ -318,7 +295,7 @@ function chronologyPointerMove(e) {
 function chronologyPointerUp(e) {
     if (pointerIdActive !== e.pointerId) return;
 
-    // видаляємо глобальні слухачі
+
     const list = document.getElementById('chronology-list');
     if (list) {
         list.removeEventListener('pointermove', chronologyPointerMove);
@@ -329,14 +306,14 @@ function chronologyPointerUp(e) {
     document.removeEventListener('pointerup', chronologyPointerUp);
     document.removeEventListener('pointercancel', chronologyPointerCancel);
 
-    // вставляємо оригінал на місце placeholder
+
     if (placeholderEl && draggedElement) {
         placeholderEl.parentNode.insertBefore(draggedElement, placeholderEl);
         placeholderEl.remove();
         placeholderEl = null;
     }
 
-    // очищуємо візуал
+
     if (draggingClone) {
         draggingClone.remove();
         draggingClone = null;
@@ -344,7 +321,7 @@ function chronologyPointerUp(e) {
 
     if (draggedElement) {
         draggedElement.style.visibility = '';
-        // невеликий timeout щоб DOM оновився перед оновленням internal state
+
         setTimeout(() => {
             const listItems = document.querySelectorAll('#chronology-list .chronology-item');
             currentChronologyData = Array.from(listItems).map(item => fullSourceData.find(d => String(d.id) === item.dataset.id));
@@ -352,7 +329,7 @@ function chronologyPointerUp(e) {
         }, 20);
     }
 
-    // скидаємо стейт
+
     pointerIdActive = null;
     draggedElement = null;
     initialPointerOffset = { x: 0, y: 0 };
@@ -361,38 +338,33 @@ function chronologyPointerUp(e) {
 }
 
 function chronologyPointerCancel(e) {
-    // поводимося як pointerup (відміна)
+
     chronologyPointerUp(e);
 }
 
-// ----------------------------------------------------
-// ІНІЦІАЛІЗАЦІЯ DnD (прив'язка pointer-слухачів) - викликається в renderChronologyGame
-// ----------------------------------------------------
 
 function initChronologyDragAndDrop(listContainer) {
     if (!listContainer) return;
 
-    // очищуємо попередні слухачі (якщо були)
+
     listContainer.querySelectorAll('.chronology-item').forEach(item => {
         item.removeEventListener('pointerdown', chronologyPointerDown);
         item.removeEventListener('pointerup', chronologyPointerUp);
         item.removeEventListener('pointercancel', chronologyPointerCancel);
     });
 
-    // додаємо pointerdown на кожен елемент
+
     const items = listContainer.querySelectorAll('.chronology-item');
     items.forEach(item => {
-        // зберігаємо id у data атрибуті повинно бути вже встановлено під час рендера
-        item.setAttribute('draggable', 'false'); // щоб не змішувалось з HTML5 DnD
+
+        item.setAttribute('draggable', 'false');
         item.addEventListener('pointerdown', chronologyPointerDown);
     });
 
     console.log('✅ Chronology drag & drop initialized (pointer fallback):', items.length, 'items');
 }
 
-// ----------------------------------------------------
-// Функція для оновлення індикатора висоти
-// ----------------------------------------------------
+
 
 function updateChronologyIndicatorHeight() {
     const listContainer = document.getElementById('chronology-list');
@@ -405,9 +377,7 @@ function updateChronologyIndicatorHeight() {
     }
 }
 
-// ----------------------------------------------------
-// Рендеринг гри "Хронологія"
-// ----------------------------------------------------
+
 
 function renderChronologyGame(data) {
     const listContainer = document.getElementById('chronology-list');
@@ -429,13 +399,13 @@ function renderChronologyGame(data) {
         itemBlock.textContent = displayName;
         itemBlock.dataset.id = String(item.id);
 
-        // можемо додати невеликий стиль для курсору
+
         itemBlock.style.cursor = 'grab';
 
         listContainer.appendChild(itemBlock);
     });
 
-    // ініціалізуємо pointer-based DnD
+
     initChronologyDragAndDrop(listContainer);
 
     const checkBtn = document.getElementById('check-chronology-btn');
@@ -457,9 +427,7 @@ function renderChronologyGame(data) {
     updateChronologyIndicatorHeight();
 }
 
-// ----------------------------------------------------
-// Показ підказки
-// ----------------------------------------------------
+
 
 function showChronologyHint() {
     const modal = document.getElementById('hint-modal');
@@ -508,9 +476,7 @@ function showChronologyHint() {
     if (hintBtn) hintBtn.textContent = `💡 Підказка (${nextHintNumber})`;
 }
 
-// ----------------------------------------------------
-// Перевірка відповідей
-// ----------------------------------------------------
+
 
 function checkChronologyAnswers() {
     const listItems = document.querySelectorAll('#chronology-list .chronology-item');
@@ -558,7 +524,7 @@ function checkChronologyAnswers() {
         if (resetBtn) resetBtn.style.display = 'inline-block';
     }
 
-    // Після перевірки прибираємо слухачі pointer (щоб нічого не ломалося)
+
     const listContainer = document.getElementById('chronology-list');
     if (listContainer) {
         listContainer.querySelectorAll('.chronology-item').forEach(item => {
@@ -570,9 +536,6 @@ function checkChronologyAnswers() {
     }
 }
 
-// ----------------------------------------------------
-// 🟢 ЛОГІКА ГРИ "ХРОНОЛОГІЯ" - ЗАПУСК ГРИ
-// ----------------------------------------------------
 
 window.initChronologyGame = function(sourceData) {
     if (!sourceData || !Array.isArray(sourceData) || sourceData.length === 0) {
@@ -651,7 +614,3 @@ window.initChronologyGame = function(sourceData) {
 
     renderChronologyGame(fullSourceData);
 };
-
-// ----------------------------------------------------
-// Кінець файлу
-// ----------------------------------------------------
