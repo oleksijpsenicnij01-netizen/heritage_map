@@ -1,0 +1,70 @@
+    {% load static %}
+    <!DOCTYPE html>
+    <html lang="uk">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Heritage UA Map</title>
+        
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        
+        <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+        <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+        <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+        
+        <link rel="stylesheet" href="{% static 'map_app/css/main_style.css' %}">
+        <link rel="stylesheet" href="{% static 'map_app/css/quiz_style.css' %}">
+
+        <script>
+            const UKRAINE_REGIONS_JSON_URL = "{% static 'map_app/js/ukraine_regions.json' %}";
+        </script>
+    </head>
+    <body>
+
+        <div id="sidebar">
+            <a href="/" class="site-title-link">
+                <h1 class="sidebar-title">HERITAGE UA</h1>
+            </a>
+            <button class="sidebar-btn" title="Почати вікторину або гру">
+                <span class="emoji">🎮</span> Ігри та Тести
+            </button>
+        </div>
+
+        <div id="map"></div>
+
+        <div id="details-panel" class="details-panel" style="display: none;">
+            </div>
+
+        <div id="quiz-screen" class="quiz-screen">
+            <div class="quiz-content">
+                <div class="quiz-header">
+                    </div>
+                
+                <div id="region-selection-view">
+                    <h2>Оберіть область для вивчення:</h2>
+                    <div id="region-list" class="region-grid">
+                        </div>
+                    <div style="text-align: center; margin-top: 30px;">
+                        <button class="quiz-control-btn" onclick="window.closeQuizScreen()">❌ Закрити</button>
+                    </div>
+                </div>
+
+                <div id="type-selection-view" style="display: none;">
+                    <h2 id="quiz-type-title">Оберіть гру:</h2>
+                    <div id="game-type-list" class="game-type-grid">
+                        </div>
+                    <div style="text-align: center; margin-top: 30px;">
+                        <button class="quiz-control-btn" onclick="window.openRegionSelectionView()">⬅️ Назад до областей</button>
+                    </div>
+                </div>
+                
+                </div>
+        </div>
+        
+        <script src="{% static 'map_app/js/main.js' %}"></script> 
+        <script src="{% static 'map_app/js/chronology_cards_game.js' %}"></script>
+        <script src="{% static 'map_app/js/location_game.js' %}"></script>
+        <script src="{% static 'map_app/js/quiz.js' %}"></script>
+        </body>
+    </html>

@@ -1,0 +1,147 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HERITAGE UA</title>
+
+    <link rel="stylesheet" href="{% static 'map_app/leaflet/leaflet.css' %}">
+    
+    <link rel="stylesheet" href="{% static 'map_app/markercluster/MarkerCluster.css' %}">
+    <link rel="stylesheet" href="{% static 'map_app/markercluster/MarkerCluster.Default.css' %}">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; 
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a; 
+            display: flex; 
+        }
+
+        /* 1. БІЧНА ПАНЕЛЬ */
+        #sidebar {
+            width: 250px; 
+            height: 100vh; 
+            background-color: #1a1a1a; 
+            position: relative; 
+            z-index: 1000; 
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+            padding: 20px; 
+            box-sizing: border-box;
+        }
+
+        .header-title {
+            color: white;
+            font-size: 24px; 
+            font-weight: bold;
+            line-height: 1;
+            margin-top: 10px;
+        }
+
+        /* 2. КАРТА */
+        #map {
+            flex-grow: 1; 
+            position: relative;
+            z-index: 1;
+            background-color: #1a1a1a; 
+        }
+
+        /* Стилі контролів Leaflet */
+        .leaflet-control-zoom {
+            margin-left: 0; 
+            top: 20px; 
+            left: 20px; 
+        }
+        
+        /* --- СТИЛІ ДЛЯ ЗБІЛЬШЕНОЇ ПАНЕЛІ ДЕТАЛЕЙ (КВАДРАТ) --- */
+        #details-panel {
+            position: fixed;
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            
+            width: 600px; 
+            max-width: 90%; 
+            max-height: 90%;
+            
+            background-color: white; 
+            border: 1px solid #ccc;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); 
+            border-radius: 8px;
+            z-index: 9999; 
+            color: #1a1a1a;
+            padding: 30px;
+            box-sizing: border-box;
+            overflow-y: auto; 
+            display: none; 
+            
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        #details-panel h2 {
+            color: #333;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        #details-panel p {
+            max-width: 100%;
+            line-height: 1.6;
+            text-align: justify; 
+            margin-bottom: 10px;
+        }
+        
+        #details-panel button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            cursor: pointer;
+            margin-top: 25px;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        /* Стиль для кнопки "Назад" */
+        .leaflet-control-custom {
+            box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+            border-radius: 4px;
+            margin-top: 40px; 
+        }
+
+        /* 🛑 СТИЛЬ ДЛЯ ЗОБРАЖЕННЯ В ПАНЕЛІ */
+        #details-panel img {
+            max-width: 100%; 
+            height: auto; 
+            margin-bottom: 20px; 
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+    </style>
+</head>
+<body>
+    
+    <div id="sidebar">
+        <div class="header-title">HERITAGE UA</div>
+    </div>
+
+    <div id="map"></div>
+
+    <div id="details-panel">
+        </div>
+
+    <script src="{% static 'map_app/leaflet/leaflet.js' %}"></script>
+    
+    <script src="{% static 'map_app/markercluster/leaflet.markercluster.js' %}"></script>
+
+    <script src="{% static 'map_app/js/main.js' %}"></script>
+
+</body>
+</html>
