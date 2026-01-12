@@ -10,10 +10,13 @@ SECRET_KEY = 'django-insecure-4p98g9npppesnr+=ke$9b*2cbc*l!0e4nblyfnu-$rkv@kf02a
 DEBUG = True  
 
 ALLOWED_HOSTS = [
-    '127.0.0.1',
-    'localhost',
-    'heritage-map.onrender.com',
+    "heritage__map.onrender.com",
+    ".onrender.com",
+    "127.0.0.1",
+    "localhost",
 ]
+
+
 
 
 INSTALLED_APPS = [
@@ -139,3 +142,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://heritage__map.onrender.com",
+    "https://*.onrender.com",
+]
