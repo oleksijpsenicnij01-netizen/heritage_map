@@ -14,7 +14,7 @@ window.shuffle = function(array) {
 
 
 
-const startQuizBtn = document.querySelector('.sidebar-btn');
+
 const quizScreen = document.getElementById('quiz-screen');
 const regionSelectionView = document.getElementById('region-selection-view');
 const typeSelectionView = document.getElementById('type-selection-view');
@@ -142,6 +142,7 @@ let selectedRegion = null;
 function handleRegionClick(region) {
     if (region.isAvailable) {
         selectedRegion = region;
+window.selectedRegion = region;
         if(regionSelectionView && typeSelectionView) {
             regionSelectionView.style.display = 'none';
            
@@ -515,7 +516,19 @@ function checkAnswers() {
         matchesInfo.style.color = '#4CAF50';
     }
    
-   
+   const regionKey = selectedRegion && selectedRegion.internalName ? selectedRegion.internalName : "zhytomyr";
+const gameKey = currentGameTypeKey || "match_photo";
+
+if (window.submitGameResult) {
+  window.submitGameResult({
+    region: regionKey,
+    game_key: gameKey,
+    score: correctCount
+  }).then((r) => {
+    if (!r.ok) console.log("submit failed", r.status, r.data);
+  });
+}
+
     const gameArea = document.getElementById('game-container');
     if (gameArea) {
         gameArea.removeEventListener('drop', handleGlobalDrop);
@@ -526,12 +539,6 @@ function checkAnswers() {
 
 
 
-if (startQuizBtn) {
-    startQuizBtn.addEventListener('click', () => {
-        startQuizBtn.blur();
-        window.openRegionSelectionView();
-    });
-}
 
 document.addEventListener('DOMContentLoaded', function() {
     const quizScreen = document.getElementById('quiz-screen');

@@ -1,0 +1,123 @@
+
+#results-screen{
+  position: fixed;
+  top: 0;
+  left: 260px;
+  width: calc(100% - 260px);
+  height: 100vh;
+  background: #1a1a1a;
+  z-index: 10001;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+#results-screen.active{ display: flex; }
+
+
+#results-title{
+  margin: 10px 0 18px 0;
+  font-size: 32px;
+  font-weight: 700;
+  text-align: center;
+}
+
+
+#results-body{
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 10px;
+  box-sizing: border-box;
+}
+
+
+.results-table-wrap{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+
+table.results-table{
+  width: min(900px, 95%);
+  border-collapse: collapse;
+  background: #2b2b2b;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+table.results-table th,
+table.results-table td{
+  border: 1px solid rgba(255,255,255,0.18);
+  padding: 14px 16px;
+  text-align: left;
+}
+
+table.results-table thead th{
+  background: rgba(255,255,255,0.06);
+  font-weight: 700;
+}
+
+.results-bottom {
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+  width: 100%;
+}
+
+.results-bottom-actions {
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.results-table-wrap{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  margin-top:35px;
+}
+
+
+.results-table{
+  width:min(1100px, 98%);
+  border-collapse:collapse;
+  background:#2b2b2b;
+  border:2px solid rgba(255,255,255,0.25);
+  border-radius:10px;
+  overflow:hidden;
+}
+
+
+.results-table th,
+.results-table td {
+  border: 1px solid rgba(255,255,255,0.18);
+  padding: 18px 18px;
+  text-align: left;
+}
+
+.results-table th {
+  font-weight: bold;
+}
+
+#results-region-list{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  width:100%;
+  padding-top:15px;
+  padding-bottom:20px;
+  max-height:calc(100vh - 200px);
+  overflow-y:auto;
+  align-content:flex-start;
+}

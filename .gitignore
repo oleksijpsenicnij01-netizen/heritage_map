@@ -19,3 +19,11 @@ staticfiles/
 # OS files
 *.log
 .DS_Store
+
+# Media files (ignore all)
+media/*
+
+# Allow demo suggestion photo
+!media/monuments/
+!media/monuments/suggestions/
+!media/monuments/suggestions/Zrujnovanij-palats-rodini-Tereshhenkiv-s.-Denishi-7.jpg

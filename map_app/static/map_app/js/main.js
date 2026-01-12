@@ -5,6 +5,60 @@ let selectedLayer = null;
 let mapStateBeforeMarkerZoom = null; 
 const detailsPanel = document.getElementById('details-panel');
 
+let galleryState = {
+  regionKey: null,
+  monumentId: null,
+  images: [],  
+  index: 0
+};
+
+function escapeHtml(str) {
+  return String(str)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+async function fetchApprovedImages(regionKey, monumentId) {
+  const url =
+    `/api/monuments/images/?region=${encodeURIComponent(regionKey)}&monument_id=${encodeURIComponent(monumentId)}`;
+
+  const r = await fetch(url, { credentials: "same-origin" });
+  const data = await r.json();
+
+  if (!data.ok) return [];
+
+  return (data.images || []).map(x => x.url).filter(Boolean);
+}
+
+function renderGalleryImage() {
+  const img = document.getElementById("monument-main-img");
+  if (!img) return;
+
+  const list = galleryState.images || [];
+  if (!list.length) return;
+
+  img.src = list[galleryState.index];
+
+  const counter = document.getElementById("monument-img-counter");
+  if (counter) counter.textContent = `${galleryState.index + 1} / ${list.length}`;
+}
+
+window.galleryPrev = function () {
+  const list = galleryState.images || [];
+  if (!list.length) return;
+  galleryState.index = (galleryState.index - 1 + list.length) % list.length;
+  renderGalleryImage();
+};
+
+window.galleryNext = function () {
+  const list = galleryState.images || [];
+  if (!list.length) return;
+  galleryState.index = (galleryState.index + 1) % list.length;
+  renderGalleryImage();
+};
 
 const CustomIcon = L.Icon.extend({
     options: {
@@ -247,19 +301,79 @@ function addMarkers(monumentsArray) {
 }
 
 
-function displayDetails(monument) {
-    if (detailsPanel) {
-        
+async function displayDetails(monument) {
+  if (!detailsPanel) return;
 
-        let imageHtml = monument.imagePath ? `<img src="${monument.imagePath}" alt="${monument.imageAlt}">` : '';
-        detailsPanel.innerHTML = `
-            <h2>${monument.name}</h2>
-            ${imageHtml} 
-            ${monument.details}
-            <button onclick="window.zoomBackToRegion()">Назад на область</button>         `;
-        detailsPanel.style.display = 'flex'; 
-    }
+  const regionKey = "zhytomyr";
+
+
+  const baseUrl = monument.imagePath ? String(monument.imagePath) : "";
+  const baseAlt = monument.imageAlt ? String(monument.imageAlt) : monument.name;
+
+
+  let approved = [];
+  try {
+    approved = await fetchApprovedImages(regionKey, monument.id);
+  } catch (e) {
+    approved = [];
+  }
+
+
+  const urls = [];
+  if (baseUrl) urls.push(baseUrl);
+
+  for (const u of approved) {
+    if (!u) continue;
+    if (!urls.includes(u)) urls.push(u);
+  }
+
+
+  galleryState.regionKey = regionKey;
+  galleryState.monumentId = monument.id;
+  galleryState.images = urls;
+  galleryState.index = 0;
+
+
+  const hasImages = urls.length > 0;
+
+  const imageBlock = hasImages
+    ? `
+      <div class="monument-slider">
+        <button class="monument-slider-btn" type="button" onclick="window.galleryPrev()">‹</button>
+
+        <a id="monument-img-link" href="${escapeHtml(urls[0])}" target="_blank" title="Відкрити фото">
+          <img id="monument-main-img" src="${escapeHtml(urls[0])}" alt="${escapeHtml(baseAlt)}">
+        </a>
+
+        <button class="monument-slider-btn" type="button" onclick="window.galleryNext()">›</button>
+      </div>
+      <div class="monument-slider-meta">
+        <span id="monument-img-counter">${urls.length ? "1 / " + urls.length : ""}</span>
+        ${approved.length ? `<span class="monument-user-photos-note">є фото від користувачів ✅</span>` : ""}
+      </div>
+    `
+    : "";
+
+  detailsPanel.innerHTML = `
+    <h2>${escapeHtml(monument.name)}</h2>
+    ${imageBlock}
+    ${monument.details}
+    <button onclick="window.zoomBackToRegion()">Назад на область</button>
+  `;
+
+  detailsPanel.style.display = "flex";
+
+
+  const link = document.getElementById("monument-img-link");
+  const img = document.getElementById("monument-main-img");
+  if (link && img) {
+    const obs = new MutationObserver(() => {
+      link.href = img.src;
+    });
+    obs.observe(img, { attributes: true, attributeFilter: ["src"] });
+  }
 }
+
 
 
 window.zoomBackToRegion = function() {

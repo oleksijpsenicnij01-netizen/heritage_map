@@ -483,28 +483,27 @@ function checkChronologyAnswers() {
     let correctCount = 0;
 
     listItems.forEach((item, index) => {
-        const itemId = item.dataset.id;
+        const itemId = String(item.dataset.id);
+        const currentData = fullSourceData.find(d => String(d.id) === itemId);
         const correctItem = sortedChronologyData[index];
 
-        if (!correctItem) {
-            item.textContent += ' (Помилка даних)';
+        item.classList.remove('correct', 'incorrect');
+
+        if (!currentData || !correctItem) {
             item.classList.add('incorrect');
             return;
         }
 
-        const correctId = String(correctItem.id);
+        const isCorrect = itemId === String(correctItem.id);
 
-        item.classList.remove('correct', 'incorrect');
-
-        if (itemId === correctId) {
+        if (isCorrect) {
             item.classList.add('correct');
             correctCount++;
         } else {
             item.classList.add('incorrect');
         }
 
-        item.textContent = `${correctItem.name} (${correctItem.year} р.)`;
-
+        item.textContent = `${currentData.name} (${currentData.year} р.)`;
         item.setAttribute('draggable', false);
     });
 
@@ -524,6 +523,14 @@ function checkChronologyAnswers() {
         if (resetBtn) resetBtn.style.display = 'inline-block';
     }
 
+    const regionKey = (window.selectedRegion && window.selectedRegion.internalName) ? window.selectedRegion.internalName : "zhytomyr";
+    if (window.submitGameResult) {
+        window.submitGameResult({
+            region: regionKey,
+            game_key: "chronology",
+            score: correctCount
+        });
+    }
 
     const listContainer = document.getElementById('chronology-list');
     if (listContainer) {
@@ -535,6 +542,7 @@ function checkChronologyAnswers() {
         listContainer.removeEventListener('pointermove', chronologyPointerMove);
     }
 }
+
 
 
 window.initChronologyGame = function(sourceData) {

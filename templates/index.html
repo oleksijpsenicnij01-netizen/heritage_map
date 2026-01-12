@@ -1,70 +1,242 @@
-    {% load static %}
-    <!DOCTYPE html>
-    <html lang="uk">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Heritage UA Map</title>
-        
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-        
-        <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
-        <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
-        <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
-        
-        <link rel="stylesheet" href="{% static 'map_app/css/main_style.css' %}">
-        <link rel="stylesheet" href="{% static 'map_app/css/quiz_style.css' %}">
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heritage UA Map</title>
 
-        <script>
-            const UKRAINE_REGIONS_JSON_URL = "{% static 'map_app/js/ukraine_regions.json' %}";
-        </script>
-    </head>
-    <body>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-        <div id="sidebar">
-            <a href="/" class="site-title-link">
-                <h1 class="sidebar-title">HERITAGE UA</h1>
-            </a>
-            <button class="sidebar-btn" title="Почати вікторину або гру">
-                <span class="emoji">🎮</span> Ігри та Тести
-            </button>
-        </div>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 
-        <div id="map"></div>
+    <link rel="stylesheet" href="{% static 'map_app/css/main_style.css' %}">
+    <link rel="stylesheet" href="{% static 'map_app/css/quiz_style.css' %}">
+    <link rel="stylesheet" href="{% static 'map_app/css/results_style.css' %}">
+    <link rel="stylesheet" href="{% static 'map_app/css/auth_style.css' %}">
+    <link rel="stylesheet" href="{% static 'map_app/css/suggest_photo.css' %}">
 
-        <div id="details-panel" class="details-panel" style="display: none;">
+
+    <script>
+        const UKRAINE_REGIONS_JSON_URL = "{% static 'map_app/js/ukraine_regions.json' %}";
+    </script>
+</head>
+<body>
+
+<div id="sidebar">
+    <a href="/" class="site-title-link">
+        <h1 class="sidebar-title">HERITAGE UA</h1>
+    </a>
+
+    <div class="sidebar-actions">
+        <button
+            id="auth-btn"
+            class="sidebar-btn"
+            type="button"
+            data-auth="{% if request.user.is_authenticated %}1{% else %}0{% endif %}"
+        >
+            👤 {% if request.user.is_authenticated %}Профіль{% else %}Увійти / Реєстрація{% endif %}
+        </button>
+
+        <button id="games-btn" class="sidebar-btn" type="button">
+            🎮 Ігри та Тести
+        </button>
+
+{% if request.user.is_authenticated %}
+<button
+    id="results-btn"
+    class="sidebar-btn"
+    type="button"
+>
+    📊 Мої результати
+</button>
+<button
+    id="suggest-btn"
+    class="sidebar-btn"
+    type="button"
+>
+    ➕ Запропонувати зміни
+</button>
+{% endif %}
+
+    </div>
+</div>
+
+<div id="map"></div>
+
+<div id="details-panel" class="details-panel" style="display:none;"></div>
+
+<div id="quiz-screen" class="quiz-screen" style="display:none;">
+    <div class="quiz-content">
+        <div class="quiz-header"></div>
+
+        <div id="region-selection-view">
+            <h2>Оберіть область для вивчення:</h2>
+            <div id="region-list" class="region-grid"></div>
+            <div style="text-align:center; margin-top:30px;">
+                <button class="quiz-control-btn" onclick="window.closeQuizScreen()">❌ Закрити</button>
             </div>
-
-        <div id="quiz-screen" class="quiz-screen">
-            <div class="quiz-content">
-                <div class="quiz-header">
-                    </div>
-                
-                <div id="region-selection-view">
-                    <h2>Оберіть область для вивчення:</h2>
-                    <div id="region-list" class="region-grid">
-                        </div>
-                    <div style="text-align: center; margin-top: 30px;">
-                        <button class="quiz-control-btn" onclick="window.closeQuizScreen()">❌ Закрити</button>
-                    </div>
-                </div>
-
-                <div id="type-selection-view" style="display: none;">
-                    <h2 id="quiz-type-title">Оберіть гру:</h2>
-                    <div id="game-type-list" class="game-type-grid">
-                        </div>
-                    <div style="text-align: center; margin-top: 30px;">
-                        <button class="quiz-control-btn" onclick="window.openRegionSelectionView()">⬅️ Назад до областей</button>
-                    </div>
-                </div>
-                
-                </div>
         </div>
-        
-        <script src="{% static 'map_app/js/main.js' %}"></script> 
-        <script src="{% static 'map_app/js/chronology_cards_game.js' %}"></script>
-        <script src="{% static 'map_app/js/location_game.js' %}"></script>
-        <script src="{% static 'map_app/js/quiz.js' %}"></script>
-        </body>
-    </html>
+
+        <div id="type-selection-view" style="display:none;">
+            <h2 id="quiz-type-title">Оберіть гру:</h2>
+            <div id="game-type-list" class="game-type-grid"></div>
+            <div style="text-align:center; margin-top:30px;">
+                <button class="quiz-control-btn" onclick="window.openRegionSelectionView()">⬅️ Назад</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="results-screen" class="quiz-screen" style="display:none;">
+    <div class="quiz-content">
+        <div class="quiz-header" style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+            <h2 id="results-title" style="margin:0; color:white;">Виберіть область для перегляду результатів</h2>
+            <button id="close-results-btn" class="quiz-control-btn" type="button">❌ Закрити</button>
+        </div>
+
+        <div id="results-body" class="quiz-body"></div>
+    </div>
+</div>
+
+<div id="auth-screen" class="quiz-screen" style="display:none;">
+  <div class="quiz-content">
+    <div class="quiz-header"></div>
+
+    <div class="auth-wrap">
+      <div id="auth-errors" class="auth-errors" style="display:none;"></div>
+      {% if request.user.is_authenticated %}
+<h2 class="auth-title" style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+  <span>Профіль</span>
+  <button id="profile-edit-btn" type="button" class="auth-icon-btn" title="Редагувати">✏️</button>
+</h2>
+
+<div id="profile-errors" class="auth-errors" style="display:none;"></div>
+
+<form id="profile-form" class="auth-form">
+  {% csrf_token %}
+
+  <input
+    id="profile-username"
+    name="username"
+    type="text"
+    value="{{ request.user.username }}"
+    disabled
+    required
+  >
+
+  <input
+    id="profile-email"
+    name="email"
+    type="email"
+    value="{{ request.user.email|default:'' }}"
+    placeholder="Email (необов'язково)"
+    disabled
+  >
+
+  {% if request.user.has_usable_password %}
+    <input id="profile-password-view" type="text" value="••••••••" disabled>
+  {% else %}
+    <input id="profile-password-view" type="text" value="пароля не існує" disabled>
+  {% endif %}
+</form>
+
+<div
+  id="profile-meta"
+  data-has-pass="{% if request.user.has_usable_password %}1{% else %}0{% endif %}"
+  style="display:none;"
+></div>
+
+<div id="password-section" style="display:none; margin-top:14px;">
+  <div style="color:white; font-weight:bold; text-align:center; margin-bottom:8px;">Зміна пароля</div>
+  <div id="password-errors" class="auth-errors" style="display:none;"></div>
+
+  <form id="password-form" class="auth-form">
+    {% csrf_token %}
+    <input name="old_password" type="password" autocomplete="current-password" placeholder="Старий пароль" required>
+    <input name="new_password1" type="password" autocomplete="new-password" placeholder="Новий пароль" required>
+    <input name="new_password2" type="password" autocomplete="new-password" placeholder="Повторіть новий пароль" required>
+    <button class="auth-main-btn" type="submit">Змінити пароль</button>
+  </form>
+</div>
+
+<div id="password-set-section" style="display:none; margin-top:14px;">
+  <div style="color:white; font-weight:bold; text-align:center; margin-bottom:8px;">Створити пароль</div>
+  <div id="password-set-errors" class="auth-errors" style="display:none;"></div>
+
+  <form id="password-set-form" class="auth-form">
+    {% csrf_token %}
+    <input name="new_password1" type="password" autocomplete="new-password" placeholder="Новий пароль" required>
+    <input name="new_password2" type="password" autocomplete="new-password" placeholder="Повторіть новий пароль" required>
+    <button class="auth-main-btn" type="submit">Зберегти пароль</button>
+  </form>
+</div>
+
+<div id="profile-actions" style="display:none; gap:10px; margin-top:12px;">
+<button id="profile-save-btn" class="auth-main-btn btn-outline-green" type="button">Зберегти</button>
+<button id="profile-cancel-btn" class="auth-main-btn btn-outline-red" type="button">Скасувати</button>
+</div>
+
+<form id="logout-form" method="post" action="{% url 'account_logout' %}" style="margin-top:14px;">
+  {% csrf_token %}
+  <button class="auth-main-btn danger" type="submit" style="width:100%;">Вийти з профілю</button>
+</form>
+
+      {% else %}
+        <h2 class="auth-title">Акаунт</h2>
+
+        <a class="auth-google-btn" href="{% url 'google_login' %}">
+  <span class="auth-google-icon">G</span>
+  Увійти через Google
+</a>
+
+        <div class="auth-tabs">
+          <button class="auth-tab-btn active" type="button" data-tab="login">Вхід</button>
+          <button class="auth-tab-btn" type="button" data-tab="register">Реєстрація</button>
+        </div>
+
+        <div id="auth-tab-login">
+<form id="auth-login-form" method="post" action="{% url 'ajax_login' %}" class="auth-form">
+            {% csrf_token %}
+            <input name="login" type="text" autocomplete="username" placeholder="Логін або Email" required>
+            <input name="password" type="password" autocomplete="current-password" placeholder="Пароль" required>
+            <input type="hidden" name="next" value="/">
+            <button class="auth-main-btn" type="submit">Увійти</button>
+          </form>
+        </div>
+
+        <div id="auth-tab-register" style="display:none;">
+<form id="auth-signup-form" method="post" action="{% url 'ajax_signup' %}" class="auth-form">
+            {% csrf_token %}
+            <input name="username" type="text" autocomplete="username" placeholder="Логін" required>
+            <input name="email" type="email" autocomplete="email" placeholder="Email (необов'язково)">
+            <input name="password1" type="password" autocomplete="new-password" placeholder="Пароль" required>
+            <input name="password2" type="password" autocomplete="new-password" placeholder="Повторіть пароль" required>
+            <input type="hidden" name="next" value="/">
+            <button class="auth-main-btn" type="submit">Зареєструватися</button>
+          </form>
+        </div>
+      {% endif %}
+
+      <div style="text-align:center; margin-top:18px;">
+        <button id="auth-close-btn" class="quiz-control-btn" type="button">❌ Закрити</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="{% static 'map_app/js/main.js' %}"></script>
+<script src="{% static 'map_app/js/results_submit.js' %}"></script>
+<script src="{% static 'map_app/js/chronology_cards_game.js' %}"></script>
+<script src="{% static 'map_app/js/location_game.js' %}"></script>
+<script src="{% static 'map_app/js/quiz.js' %}"></script>
+<script src="{% static 'map_app/js/results.js' %}"></script>
+<script src="{% static 'map_app/js/ui_nav.js' %}"></script>
+<script src="{% static 'map_app/js/suggest_photo.js' %}"></script>
+<script src="{% static 'map_app/js/auth.js' %}"></script>
+
+</body>
+</html>
