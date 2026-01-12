@@ -1,16 +1,17 @@
 import os
 from pathlib import Path
 import dj_database_url
+from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-SECRET_KEY = 'django-insecure-4p98g9npppesnr+=ke$9b*2cbc*l!0e4nblyfnu-$rkv@kf02a'
+SECRET_KEY = config('SECRET_KEY')
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-DEBUG = True  
 
 ALLOWED_HOSTS = [
-    "heritage__map.onrender.com",
+    config('RENDER_EXTERNAL_HOSTNAME', default=''),
     ".onrender.com",
     "127.0.0.1",
     "localhost",
@@ -40,7 +41,7 @@ INSTALLED_APPS = [
     'map_app',
 ]
 
-SITE_ID = 2  
+SITE_ID = 1  
 
 
 AUTHENTICATION_BACKENDS = [
@@ -113,11 +114,11 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-        conn_max_age=600,
-        ssl_require=False
+        default=config('DATABASE_URL'),
+        conn_max_age=600
     )
 }
+
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -144,6 +145,6 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://heritage__map.onrender.com",
+    f"https://{config('RENDER_EXTERNAL_HOSTNAME', default='')}",
     "https://*.onrender.com",
 ]
