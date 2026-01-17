@@ -249,6 +249,8 @@
     if (typeof window.closeQuizScreen === "function") window.closeQuizScreen();
     if (typeof window.closeResultsScreen === "function") window.closeResultsScreen();
     if (typeof window.closeAuthScreen === "function") window.closeAuthScreen();
+    if (typeof window.closeSuggestMonumentScreen === "function") window.closeSuggestMonumentScreen();
+
 
     const el = document.getElementById("suggest-screen");
     if (!el) return;

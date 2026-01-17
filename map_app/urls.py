@@ -17,5 +17,7 @@ urlpatterns = [
 
     path('api/suggestions/submit/', views.api_submit_image_suggestion, name='api_submit_image_suggestion'),
     path("api/monuments/images/", views.api_monument_images, name="api_monument_images"),
+    path("api/monuments/suggest/", views.api_submit_monument_suggestion, name="api_submit_monument_suggestion"),
+    path("api/monuments/user/", views.api_user_monuments, name="api_user_monuments"),
     path("api/monuments/images/<int:pk>/delete/", views.api_delete_monument_image, name="api_delete_monument_image"),
 ]

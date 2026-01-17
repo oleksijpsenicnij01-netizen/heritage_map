@@ -677,24 +677,16 @@
 
 
 #chronology-game-area {
-
     width: 100%;
-
-    max-width: 800px;
-
+    max-width: 1100px;
     flex-grow: 1;
-
     display: flex;
-
     flex-direction: column;
-
     align-items: center;
-
     padding: 0;
-
     box-sizing: border-box;
-
 }
+
 
 
 
@@ -815,22 +807,17 @@
 
 
 #chronology-list-container {
-
     flex-grow: 1;
-
-    max-width: 500px;
-
+    width: 100%;
+    max-width: 720px;
     background-color: #2c2c2c;
-
     border: 1px solid #444;
-
     border-radius: 8px;
-
     padding: 15px;
-
     box-sizing: border-box;
-
+    overflow: hidden;
 }
+
 
 
 
@@ -850,31 +837,23 @@
 
 
 .chronology-item {
-
     width: 100%;
-
     padding: 12px 15px;
-
     background-color: #333;
-
     color: white;
-
     border-radius: 6px;
-
     cursor: grab;
-
     font-weight: normal;
-
     text-align: center;
-
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
-
     transition: background-color 0.2s, box-shadow 0.2s;
-
-
     user-select: none;
-
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    box-sizing: border-box;
 }
+
 
 
 

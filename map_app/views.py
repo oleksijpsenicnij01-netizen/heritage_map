@@ -12,7 +12,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
 
 from django.utils import timezone
-from .models import GameResult, MonumentImageSuggestion
+from .models import GameResult, MonumentImageSuggestion, Monument, MonumentSuggestion
+
+
 
 from django.views.decorators.http import require_GET
 from django.views.decorators.csrf import csrf_protect
@@ -473,3 +475,97 @@ def api_delete_monument_image(request, pk: int):
 
     obj.delete()
     return JsonResponse({"ok": True})
+
+
+
+@login_required
+@require_POST
+def api_submit_monument_suggestion(request):
+    region = (request.POST.get("region") or "").strip()
+    name = (request.POST.get("name") or "").strip()
+    description = (request.POST.get("description") or "").strip()
+    lat_raw = (request.POST.get("lat") or "").strip()
+    lng_raw = (request.POST.get("lng") or "").strip()
+
+    image = request.FILES.get("image") or request.FILES.get("file")
+
+    errors = {}
+
+    if not region:
+        errors["region"] = ["Вкажіть область."]
+    if not name:
+        errors["name"] = ["Вкажіть назву."]
+    if not lat_raw:
+        errors["lat"] = ["Вкажіть широту."]
+    if not lng_raw:
+        errors["lng"] = ["Вкажіть довготу."]
+    if not image:
+        errors["image"] = ["Оберіть файл зображення."]
+
+    lat = None
+    lng = None
+
+    if lat_raw:
+        try:
+            lat = float(lat_raw.replace(",", "."))
+        except Exception:
+            errors["lat"] = ["Широта має бути числом."]
+    if lng_raw:
+        try:
+            lng = float(lng_raw.replace(",", "."))
+        except Exception:
+            errors["lng"] = ["Довгота має бути числом."]
+
+    if image:
+        ct = (getattr(image, "content_type", "") or "").lower()
+        ok_types = {"image/jpeg", "image/png", "image/webp"}
+        if ct not in ok_types:
+            errors["image"] = ["Непідтримуваний формат. Дозволено: JPG, PNG, WEBP."]
+
+        if image.size and image.size > 5 * 1024 * 1024:
+            errors["image"] = ["Файл завеликий. Максимум 5 MB."]
+
+    if errors:
+        return JsonResponse({"ok": False, "errors": errors}, status=400)
+
+    obj = MonumentSuggestion.objects.create(
+        user=request.user,
+        region=region,
+        name=name,
+        description=description,
+        lat=lat,
+        lng=lng,
+        image=image,
+        status="pending",
+        reviewed_by=None,
+        reviewed_at=None,
+        review_note="",
+    )
+
+    return JsonResponse({"ok": True, "id": obj.id, "status": obj.status, "created_at": obj.created_at.isoformat()})
+
+
+@require_GET
+def api_user_monuments(request):
+    region = (request.GET.get("region") or "").strip()
+    if not region:
+        return JsonResponse({"ok": False, "errors": {"region": ["Вкажіть область."]}}, status=400)
+
+    qs = Monument.objects.filter(region=region).order_by("-created_at")
+
+    monuments = []
+    for m in qs:
+        desc = (m.description or "").strip()
+        details = f"<p>{desc}</p>" if desc else ""
+
+        monuments.append({
+            "id": m.monument_id,
+            "name": m.name,
+            "lat": m.lat,
+            "lng": m.lng,
+            "imagePath": (m.main_image.url if m.main_image else ""),
+            "imageAlt": m.name,
+            "details": details,
+        })
+
+    return JsonResponse({"ok": True, "region": region, "monuments": monuments})

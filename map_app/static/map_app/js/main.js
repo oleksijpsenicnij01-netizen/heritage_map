@@ -78,9 +78,11 @@ const initialZoom = 6;
 
 
 window.map = L.map('map', {
-    zoomControl: false, 
-    maxZoom: 18 
-}).setView(initialCenter, initialZoom); 
+  zoomControl: false,
+  maxZoom: 18,
+  minZoom: 5
+}).setView(initialCenter, initialZoom);
+
 
 
 window.map.createPane('tiles-pane').style.zIndex = 200; 
@@ -113,6 +115,25 @@ const monuments = [
     { name: "Костел Різдва Пресвятої Діви Марії", lat: 50.31849528081428, lng: 29.06615262388855, id: "kostel_rudnya", imagePath: "/static/map_app/images/kostel_rudnya.jpg", imageAlt: "Костел Різдва Пресвятої Діви Марії у с. Рудня", details: `<p><strong>Костел Різдва Пресвятої Діви Марії</strong> — католицький храм, пам'ятка архітектури місцевого значення. Він поєднує елементи бароко та класицизму і є важливим елементом поліської архітектурної спадщини. Це діючий храм, який привертає увагу своєю незвичайною архітектурою.</p>` },
 
 ];
+let userMonuments = [];
+
+async function loadUserMonuments() {
+  try {
+    const regionKey = "zhytomyr";
+    const r = await fetch(`/api/monuments/user/?region=${encodeURIComponent(regionKey)}`, { credentials: "same-origin" });
+    const data = await r.json();
+    if (data && data.ok && Array.isArray(data.monuments)) {
+      userMonuments = data.monuments;
+    } else {
+      userMonuments = [];
+    }
+  } catch (e) {
+    userMonuments = [];
+  }
+}
+
+loadUserMonuments();
+
 
 
 
@@ -223,11 +244,13 @@ function zoomToFeature(e) {
 
     const isZhytomyr = regionName && (regionNameLower.includes('житомирська'));
     
-    if (isZhytomyr) {
-        addMarkers(monuments); 
-    } else {
-        currentMarkers.clearLayers(); 
-    } 
+if (isZhytomyr) {
+    loadUserMonuments("zhytomyr").then(() => {
+        addMarkers(monuments.concat(userMonuments));
+    });
+} else {
+    currentMarkers.clearLayers();
+}
 
 
     window.map.flyToBounds(layer.getBounds().pad(0.05), { 
@@ -287,6 +310,10 @@ function addMarkers(monumentsArray) {
                 clickedMarker.isZoomed = false;
             }
         });
+window.closeDetailsPanel = function () {
+  if (detailsPanel) detailsPanel.style.display = "none";
+};
+
 
        
         window.map.on('zoomend', function() { 
@@ -354,12 +381,14 @@ async function displayDetails(monument) {
     `
     : "";
 
-  detailsPanel.innerHTML = `
+detailsPanel.innerHTML = `
+    <button class="details-close" type="button" onclick="window.closeDetailsPanel()">✕</button>
     <h2>${escapeHtml(monument.name)}</h2>
     ${imageBlock}
     ${monument.details}
     <button onclick="window.zoomBackToRegion()">Назад на область</button>
   `;
+
 
   detailsPanel.style.display = "flex";
 
@@ -539,7 +568,8 @@ window.toggleMapMode = function(mode) {
         
         if (selectedLayer && mapStateBeforeMarkerZoom) {
            
-             addMarkers(monuments); 
+addMarkers(monuments.concat(userMonuments));
+
              
              if (!resetControlInstance) {
                  resetControlInstance = new ResetControl({ position: 'topleft' }); 

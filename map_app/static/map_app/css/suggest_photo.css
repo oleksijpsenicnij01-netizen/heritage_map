@@ -25,6 +25,11 @@
   max-width: 1200px;
 }
 
+#suggest-monument-screen .quiz-content {
+  width: 95%;
+  max-width: 1200px;
+}
+
 
 .suggest-modal {
   width: 100%;

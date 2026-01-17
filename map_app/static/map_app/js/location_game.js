@@ -149,7 +149,7 @@ function addLocationMarkers(monumentsArray) {
   monumentsArray.forEach((monument) => {
     const marker = L.marker([monument.lat, monument.lng], {
       icon: CssDotIcon,
-      title: monument.name,
+title: "",
       monumentId: String(monument.id),
       opacity: 1.0,
       draggable: false,

@@ -1,4 +1,5 @@
 window.openAuthScreen = function () {
+  closeOverlays();
   if (typeof window.closeQuizScreen === "function") window.closeQuizScreen();
   if (typeof window.closeResultsScreen === "function") window.closeResultsScreen();
 
@@ -16,6 +17,11 @@ window.closeAuthScreen = function () {
   auth.classList.remove("active");
   auth.style.display = "none";
 };
+function closeOverlays() {
+  if (typeof window.closeSuggestScreen === "function") window.closeSuggestScreen();
+  if (typeof window.closeSuggestMonumentScreen === "function") window.closeSuggestMonumentScreen();
+}
+
 
 document.addEventListener("DOMContentLoaded", () => {
   const gamesBtn = document.getElementById("games-btn");
@@ -23,9 +29,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const sidebarResultsBtn = document.getElementById("results-btn");
 
   if (gamesBtn) {
-    gamesBtn.addEventListener("click", () => {
-      window.closeAuthScreen();
-      if (typeof window.closeResultsScreen === "function") window.closeResultsScreen();
+gamesBtn.addEventListener("click", () => {
+  closeOverlays();
+  window.closeAuthScreen();
+  if (typeof window.closeResultsScreen === "function") window.closeResultsScreen();
 
       if (typeof window.openRegionSelectionView === "function") {
         window.openRegionSelectionView();
@@ -43,9 +50,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (sidebarResultsBtn) {
-    sidebarResultsBtn.addEventListener("click", () => {
-      window.closeAuthScreen();
-      if (typeof window.closeQuizScreen === "function") window.closeQuizScreen();
+sidebarResultsBtn.addEventListener("click", () => {
+  closeOverlays();
+  window.closeAuthScreen();
+  if (typeof window.closeQuizScreen === "function") window.closeQuizScreen();
 
       if (typeof window.openResultsScreen === "function") {
         window.openResultsScreen();
