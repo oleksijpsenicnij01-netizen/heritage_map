@@ -3,6 +3,8 @@ let currentMarkers = L.markerClusterGroup();
 let resetControlInstance = null;
 let selectedLayer = null; 
 let mapStateBeforeMarkerZoom = null; 
+let activeDetailsMarker = null;
+
 const detailsPanel = document.getElementById('details-panel');
 
 let galleryState = {
@@ -304,15 +306,22 @@ function addMarkers(monumentsArray) {
                 });
                 clickedMarker.isZoomed = true;
                 
-            } else {
-              
-                displayDetails(monument); 
-                clickedMarker.isZoomed = false;
-            }
+} else {
+    activeDetailsMarker = clickedMarker;
+    displayDetails(monument); 
+    clickedMarker.isZoomed = false;
+}
+
         });
 window.closeDetailsPanel = function () {
   if (detailsPanel) detailsPanel.style.display = "none";
+
+  if (activeDetailsMarker) {
+    activeDetailsMarker.isZoomed = true;
+    activeDetailsMarker = null;
+  }
 };
+
 
 
        
