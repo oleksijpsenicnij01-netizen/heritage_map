@@ -222,3 +222,59 @@
 .suggest-body {
   padding: 0 !important;
 }
+
+.suggest-text {
+  width: 100%;
+  border: 1px solid rgba(255,255,255,0.28);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: rgba(0,0,0,0.15);
+  color: #fff;
+}
+#contact-screen .quiz-content {
+  width: 95%;
+  max-width: 1100px;
+}
+
+#contact-screen .suggest-modal {
+  padding: 28px;
+  border-radius: 14px;
+}
+
+#contact-screen .suggest-title {
+  font-size: 22px;
+}
+
+#contact-screen .suggest-label {
+  font-size: 16px;
+}
+
+#contact-screen .suggest-text,
+#contact-screen .suggest-textarea {
+  font-size: 16px;
+  padding: 12px 14px;
+}
+
+#contact-screen .suggest-text {
+  height: 44px;
+}
+
+#contact-screen .suggest-textarea {
+  min-height: 160px;
+}
+
+#contact-screen .suggest-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+#contact-screen .suggest-btn {
+  font-size: 16px;
+  padding: 10px 18px;
+}
+
+#contact-screen .suggest-btn-secondary {
+  background: #3a3a3a;
+  border: 1px solid #555;
+}

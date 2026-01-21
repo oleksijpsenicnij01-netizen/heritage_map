@@ -12,7 +12,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
 
 from django.utils import timezone
-from .models import GameResult, MonumentImageSuggestion, Monument, MonumentSuggestion
+from .models import GameResult, MonumentImageSuggestion, Monument, MonumentSuggestion, ContactMessage
+
 
 
 
@@ -569,3 +570,39 @@ def api_user_monuments(request):
         })
 
     return JsonResponse({"ok": True, "region": region, "monuments": monuments})
+
+@require_POST
+@csrf_protect
+def api_submit_contact_message(request):
+    name = (request.POST.get("name") or "").strip()
+    contact = (request.POST.get("contact") or "").strip()
+    message = (request.POST.get("message") or "").strip()
+
+    errors = {}
+
+    if not message:
+        errors["message"] = ["Напишіть повідомлення."]
+    elif len(message) < 5:
+        errors["message"] = ["Повідомлення занадто коротке."]
+    elif len(message) > 2000:
+        errors["message"] = ["Повідомлення занадто довге (макс. 2000 символів)."]
+
+    if len(name) > 120:
+        errors["name"] = ["Занадто довге імʼя."]
+    if len(contact) > 200:
+        errors["contact"] = ["Занадто довгий контакт."]
+
+    if errors:
+        return JsonResponse({"ok": False, "errors": errors}, status=400)
+
+    user = request.user if request.user.is_authenticated else None
+
+    obj = ContactMessage.objects.create(
+        user=user,
+        name=name,
+        contact=contact,
+        message=message,
+        status="new",
+    )
+
+    return JsonResponse({"ok": True, "id": obj.id, "created_at": obj.created_at.isoformat()})

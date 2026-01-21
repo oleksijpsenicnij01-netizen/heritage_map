@@ -8,6 +8,7 @@ from .models import (
     MonumentSuggestion,
     MonumentImageSuggestion,
     MonumentPhoto,
+    ContactMessage
 )
 
 
@@ -135,3 +136,19 @@ class MonumentImageSuggestionAdmin(admin.ModelAdmin):
                 obj.reviewed_by = request.user
                 obj.reviewed_at = timezone.now()
         super().save_model(request, obj, form, change)
+
+@admin.register(ContactMessage)
+class ContactMessageAdmin(admin.ModelAdmin):
+    list_display = ("id", "status", "name", "contact", "user", "created_at")
+    list_filter = ("status", "created_at")
+    search_fields = ("name", "contact", "message", "user__username", "user__email")
+    ordering = ("-created_at",)
+    readonly_fields = ("created_at",)
+
+    actions = ("mark_as_read", "mark_as_new")
+
+    def mark_as_read(self, request, queryset):
+        queryset.update(status="read")
+
+    def mark_as_new(self, request, queryset):
+        queryset.update(status="new")

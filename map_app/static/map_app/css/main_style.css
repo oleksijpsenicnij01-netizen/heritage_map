@@ -327,3 +327,30 @@ body {
   font-size: 18px;
   line-height: 26px;
 }
+
+.sidebar-bottom {
+    margin-top: auto;
+    width: 100%;
+    display: flex;
+}
+
+.sidebar-bottom .sidebar-btn {
+    width: 100%;
+}
+
+#sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.sidebar-actions {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.sidebar-bottom {
+  margin-top: auto;
+  width: 100%;
+}

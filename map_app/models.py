@@ -142,3 +142,31 @@ class MonumentImageSuggestion(models.Model):
             models.Index(fields=["status", "created_at"]),
             models.Index(fields=["region", "monument_id"]),
         ]
+
+class ContactMessage(models.Model):
+    STATUS_CHOICES = [
+        ("new", "Нове"),
+        ("read", "Прочитано"),
+    ]
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="contact_messages",
+    )
+
+    name = models.CharField(max_length=120, blank=True, default="")
+    contact = models.CharField(max_length=200, blank=True, default="")
+    message = models.TextField()
+
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="new")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+        indexes = [
+            models.Index(fields=["status", "created_at"]),
+            models.Index(fields=["created_at"]),
+        ]
