@@ -192,6 +192,7 @@
     if (typeof window.closeResultsScreen === "function") window.closeResultsScreen();
     if (typeof window.closeAuthScreen === "function") window.closeAuthScreen();
     if (typeof window.closeSuggestScreen === "function") window.closeSuggestScreen();
+    if (typeof window.closeContactScreen === "function") window.closeContactScreen();
 
     const el = document.getElementById("suggest-monument-screen");
     if (!el) return;

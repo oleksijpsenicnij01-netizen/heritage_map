@@ -20,6 +20,7 @@ window.closeAuthScreen = function () {
 function closeOverlays() {
   if (typeof window.closeSuggestScreen === "function") window.closeSuggestScreen();
   if (typeof window.closeSuggestMonumentScreen === "function") window.closeSuggestMonumentScreen();
+  if (typeof window.closeContactScreen === "function") window.closeContactScreen();
 }
 
 

@@ -62,6 +62,7 @@
 
             <div class="suggest-field">
               <div class="suggest-label">Імʼя (необовʼязково)</div>
+            <input id="contact-name" class="suggest-text" type="text" maxlength="200" placeholder="" />
             </div>
 
             <div class="suggest-field">
@@ -160,11 +161,18 @@ if (close2Btn) close2Btn.addEventListener("click", window.closeContactScreen);
     window.closeContactScreen();
   }
 
-  window.openContactScreen = function () {
-    ensureContactScreen();
-    const screen = document.getElementById("contact-screen");
-    if (screen) screen.style.display = "flex";
-  };
+window.openContactScreen = function () {
+  if (typeof window.closeSuggestScreen === "function") window.closeSuggestScreen();
+  if (typeof window.closeSuggestMonumentScreen === "function") window.closeSuggestMonumentScreen();
+  if (typeof window.closeQuizScreen === "function") window.closeQuizScreen();
+  if (typeof window.closeResultsScreen === "function") window.closeResultsScreen();
+  if (typeof window.closeAuthScreen === "function") window.closeAuthScreen();
+
+  ensureContactScreen();
+  const screen = document.getElementById("contact-screen");
+  if (screen) screen.style.display = "flex";
+};
+
 
   window.closeContactScreen = function () {
     const screen = document.getElementById("contact-screen");
