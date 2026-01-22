@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
 
+    "cloudinary",
+    "cloudinary_storage",
 
     'map_app',
 ]
@@ -141,10 +143,18 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
+
 
 CSRF_TRUSTED_ORIGINS = [
     f"https://{config('RENDER_EXTERNAL_HOSTNAME', default='')}",
     "https://*.onrender.com",
 ]
+
+import os
+
+CLOUDINARY_URL = os.environ.get("CLOUDINARY_URL", "")
+
+
+
+
+
