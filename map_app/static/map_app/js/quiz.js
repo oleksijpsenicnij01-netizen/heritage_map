@@ -126,16 +126,21 @@ window.openRegionSelectionView = function() {
     }
 }
 
-window.closeQuizScreen = function() {
-    if(quizScreen) {
-        quizScreen.style.display = 'none';
-       
-        const existingGameContainer = document.getElementById('game-container');
-        if (existingGameContainer) {
-            existingGameContainer.remove();
-        }
-    }
-}
+window.closeQuizScreen = () => {
+  document.getElementById("quiz-screen").style.display = "none";
+
+
+  if (typeof window.destroyLocationGame === "function") {
+    window.destroyLocationGame();
+  } else {
+
+    const mapView = document.getElementById("map-view");
+    if (mapView) mapView.remove();
+    const gameContainer = document.getElementById("game-container");
+    if (gameContainer) gameContainer.remove();
+  }
+};
+
 
 let selectedRegion = null;
 

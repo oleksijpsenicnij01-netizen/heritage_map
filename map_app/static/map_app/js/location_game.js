@@ -1,4 +1,25 @@
 let locationGameMap = null;
+
+window.destroyLocationGame = function () {
+  try {
+
+    if (locationGameMap) {
+      locationGameMap.off();
+      locationGameMap.remove();  
+      locationGameMap = null;
+    }
+
+
+    const mapView = document.getElementById("map-view");
+    if (mapView) mapView.remove();
+
+    const gameContainer = document.getElementById("game-container");
+    if (gameContainer) gameContainer.remove();
+  } catch (e) {
+    console.warn("destroyLocationGame error:", e);
+  }
+};
+
 let zhytomyrBorderLayer = null;
 
 let locationMarkersLayer = L.markerClusterGroup({
@@ -105,6 +126,13 @@ function initializeLocationGameMap() {
     return;
   }
 
+
+if (locationGameMap) {
+  locationGameMap.off();
+  locationGameMap.remove();
+  locationGameMap = null;
+}
+
   const mapElementId = "map-view";
   const mapElement = document.getElementById(mapElementId);
 
@@ -112,6 +140,8 @@ function initializeLocationGameMap() {
     console.error("Помилка: Не знайдено DOM елемент #map-view.");
     return;
   }
+
+
 
   locationGameMap = window.L.map(mapElementId, {
     center: centerCoords,
