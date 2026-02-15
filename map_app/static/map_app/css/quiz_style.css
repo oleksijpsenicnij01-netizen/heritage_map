@@ -226,22 +226,21 @@
 
 
 .matching-list-container {
-    height: auto; 
-    max-height: 70vh; 
-    overflow-y: auto; 
-    
     background-color: #2b2b2b;
     border: 1px solid #444;
     border-radius: 8px;
     padding: 10px;
     box-sizing: border-box;
+
     display: flex;
     flex-direction: column;
-    align-items: center;
 
-    flex: 1;
-    min-width: 520px;
+    height: auto;
+    max-height: 70vh;
+    overflow-y: auto;
 }
+
+
 
 
 
@@ -277,30 +276,33 @@
 
 
 .target-list-container {
-    flex: 2;
-    min-width: 600px;
-    max-width: none;
+    min-width: 0;
+
     height: auto;
     max-height: 70vh;
     overflow-y: auto;
+
     background-color: transparent;
     border: none;
     padding: 0;
 }
 
 
+
 #target-grid-items {
     width: 100%;
-    padding: 5px;
+    min-width: 0;        
+    
+    padding: 10px;
+    box-sizing: border-box;
+
     display: grid;
     grid-template-columns: 1fr;
     gap: 15px;
-    justify-content: center;
-    
-    height: auto; 
-    min-height: 100%;
-    min-width: 100%; 
+
+    height: auto;
 }
+
 
 .droppable-target {
     background-color: #242424;
@@ -316,7 +318,8 @@
 
 
 .target-content {
-    position: absolute;
+    position: relative;
+
     top: 0;
     left: 0;
     width: 100%;
@@ -392,7 +395,6 @@
 
 .description-list-container {
     flex: 1;
-    flex-grow: 1; 
     min-width: 0; 
     height: auto; 
     max-height: 70vh; 
@@ -429,18 +431,17 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    
+
     padding: 15px;
     position: relative;
-    padding-bottom: 60px; 
-    
-    height: auto; 
-    min-height: 120px;
-    width: 100%; 
-    max-width: 750px; 
-    flex-shrink: 0;
-    flex-grow: 0;
+    padding-bottom: 60px;
+
+    width: 100%;
+    max-width: none;
+
+    flex: 1 1 auto;
 }
+
 
 .droppable-description .target-content {
     flex-grow: 1;
@@ -1360,9 +1361,42 @@
 
 
 
-.matching-list-container img {
-    width: 100% !important;
-    height: 260px !important;
-    object-fit: cover !important;
-    display: block;
+
+
+.description-game .droppable-description {
+    min-height: 160px;
+    width: 100%;
 }
+
+
+#matching-game-area:not(.description-game) .droppable-target {
+    height: 260px;
+}
+
+
+
+
+.description-game .droppable-description {
+    min-height: 160px;
+    width: 100%;
+}
+
+
+
+#matching-game-area {
+    display: flex;
+    align-items: stretch;
+}
+
+
+#matching-game-area > .matching-list-container:first-child {
+    flex: 0 0 420px;
+    max-width: 420px;
+}
+
+#matching-game-area > .matching-list-container:last-child {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+
