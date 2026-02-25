@@ -11,8 +11,9 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 
 ALLOWED_HOSTS = [
-    config('RENDER_EXTERNAL_HOSTNAME', default=''),
-    ".onrender.com",
+    "heritage-ua.site",
+    "www.heritage-ua.site",
+    ".railway.app",
     "127.0.0.1",
     "localhost",
 ]
