@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'map_app',
 ]
 
-SITE_ID = 2
+SITE_ID = 3
 
 
 AUTHENTICATION_BACKENDS = [
