@@ -147,8 +147,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 CSRF_TRUSTED_ORIGINS = [
-    f"https://{config('RENDER_EXTERNAL_HOSTNAME', default='')}",
-    "https://*.onrender.com",
+    "https://heritage-ua.site",
+    "https://www.heritage-ua.site",
+    "https://*.railway.app",
 ]
 
 import os
