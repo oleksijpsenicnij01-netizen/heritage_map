@@ -95,3 +95,11 @@
   }
 
 }
+@media (max-width: 768px) {
+
+  #suggest-screen {
+    left: 0 !important;
+    width: 100vw !important;
+  }
+
+}
