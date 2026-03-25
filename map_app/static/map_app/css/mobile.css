@@ -103,3 +103,14 @@
   }
 
 }
+
+
+@media (max-width: 768px) {
+
+  #results-screen {
+    left: 0 !important;
+    width: 100vw !important;
+    padding: 15px;
+  }
+
+}
