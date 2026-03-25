@@ -6,3 +6,11 @@ if (mobileBtn) {
     sidebar.classList.toggle('active');
   });
 }
+
+const sidebarButtons = document.querySelectorAll('#sidebar button');
+
+sidebarButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    sidebar.classList.remove('active');
+  });
+});
