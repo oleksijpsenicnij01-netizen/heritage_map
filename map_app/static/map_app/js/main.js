@@ -75,8 +75,10 @@ const CustomIcon = L.Icon.extend({
 });
 const defaultMarkerIcon = new CustomIcon(); 
 
-const initialCenter = [48.3794, 31.1656]; 
-const initialZoom = 6; 
+const initialCenter = [48.3794, 31.1656];
+
+const isMobile = window.innerWidth <= 768;
+const initialZoom = isMobile ? 5 : 6;
 
 
 window.map = L.map('map', {
