@@ -446,11 +446,19 @@ def api_monument_images(request):
 
     images = []
     for obj in qs:
-        images.append({
-            "id": obj.id,
-            "url": obj.image.url,
-            "created_at": obj.created_at.isoformat(),
-        })
+      try:
+        url = obj.image.url if obj.image else ""
+      except Exception:
+        continue
+
+      if not url:
+        continue
+
+    images.append({
+        "id": obj.id,
+        "url": url,
+        "created_at": obj.created_at.isoformat(),
+    })
 
     return JsonResponse({
         "ok": True,
