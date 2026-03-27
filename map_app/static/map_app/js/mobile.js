@@ -26,6 +26,6 @@ const btn = document.getElementById('mobile-menu-btn');
 
 if (btn) {
   btn.onclick = function () {
-    this.style.background = 'red';
+    this.classList.toggle('test-click');
   };
 }
