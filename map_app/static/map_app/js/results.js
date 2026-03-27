@@ -71,15 +71,13 @@
     return { ok: true, data };
   }
 
-function show() {
-  if (!resultsScreen) return;
-
-  const sidebar = document.getElementById("sidebar");
-  if (sidebar) sidebar.classList.remove("active");
-
-  resultsScreen.style.display = "flex";
-  resultsScreen.classList.add("active");
-}
+  function show() {
+    if (!resultsScreen) return;
+    if (closeTopBtn) closeTopBtn.style.display = "none";
+    resultsScreen.style.display = "flex";
+    resultsScreen.classList.add("active");
+    renderRegions();
+  }
 
   function close() {
     if (!resultsScreen) return;
@@ -113,15 +111,17 @@ function show() {
       })
       .join("");
 
-resultsBody.innerHTML = `
-  <div class="results-region-wrap">
-    <div class="loading">${msg}</div>
+    resultsBody.innerHTML = `
+      <div class="results-region-wrap">
+<div id="results-region-list">
+  ${regionBlocks}
+</div>
 
-    <div class="results-bottom">
-      <button id="results-close-bottom" class="quiz-control-btn" type="button">❌ Закрити</button>
-    </div>
-  </div>
-`;
+        <div class="results-bottom">
+          <button id="results-close-bottom" class="quiz-control-btn" type="button">❌ Закрити</button>
+        </div>
+      </div>
+    `;
 
 const regionList = resultsBody.querySelector("#results-region-list");
 if (regionList) {
@@ -155,10 +155,7 @@ if (regionList) {
 
 resultsBody.innerHTML = `
   <div class="results-region-wrap">
-    <div id="results-region-list">
-      ${regionBlocks}
-    </div>
-
+    <div class="loading">${msg}</div>
     <div class="results-bottom">
       <button id="results-close-bottom" class="quiz-control-btn" type="button">❌ Закрити</button>
     </div>
