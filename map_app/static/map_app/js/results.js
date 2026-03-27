@@ -71,13 +71,15 @@
     return { ok: true, data };
   }
 
-  function show() {
-    if (!resultsScreen) return;
-    if (closeTopBtn) closeTopBtn.style.display = "none";
-    resultsScreen.style.display = "flex";
-    resultsScreen.classList.add("active");
-    renderRegions();
-  }
+function show() {
+  if (!resultsScreen) return;
+
+  const sidebar = document.getElementById("sidebar");
+  if (sidebar) sidebar.classList.remove("active");
+
+  resultsScreen.style.display = "flex";
+  resultsScreen.classList.add("active");
+}
 
   function close() {
     if (!resultsScreen) return;
