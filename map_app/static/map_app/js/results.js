@@ -155,10 +155,7 @@ if (regionList) {
 
 resultsBody.innerHTML = `
   <div class="results-region-wrap">
-    <div id="results-region-list">
-      ${regionBlocks}
-    </div>
-
+    <div class="loading">${msg}</div>
     <div class="results-bottom">
       <button id="results-close-bottom" class="quiz-control-btn" type="button">❌ Закрити</button>
     </div>

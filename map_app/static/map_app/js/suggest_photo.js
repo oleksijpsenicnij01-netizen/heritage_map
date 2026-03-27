@@ -245,20 +245,21 @@
     btn.style.cursor = enabled ? "" : "not-allowed";
   }
 
-  window.openSuggestScreen = function () {
-    if (typeof window.closeQuizScreen === "function") window.closeQuizScreen();
-    if (typeof window.closeResultsScreen === "function") window.closeResultsScreen();
-    if (typeof window.closeAuthScreen === "function") window.closeAuthScreen();
-    if (typeof window.closeSuggestMonumentScreen === "function") window.closeSuggestMonumentScreen();
-    if (typeof window.closeContactScreen === "function") window.closeContactScreen();
+window.openSuggestScreen = function () {
+  if (typeof window.closeQuizScreen === "function") window.closeQuizScreen();
+  if (typeof window.closeResultsScreen === "function") window.closeResultsScreen();
+  if (typeof window.closeAuthScreen === "function") window.closeAuthScreen();
+  if (typeof window.closeSuggestMonumentScreen === "function") window.closeSuggestMonumentScreen();
+  if (typeof window.closeContactScreen === "function") window.closeContactScreen();
 
+  ensureSuggestScreen();
 
-    const el = document.getElementById("suggest-screen");
-    if (!el) return;
+  const el = document.getElementById("suggest-screen");
+  if (!el) return;
 
-    el.style.display = "flex";
-    el.classList.add("active");
-  };
+  el.style.display = "flex";
+  el.classList.add("active");
+};
 
   window.closeSuggestScreen = function () {
     const el = document.getElementById("suggest-screen");
