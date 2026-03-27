@@ -113,17 +113,15 @@ function show() {
       })
       .join("");
 
-    resultsBody.innerHTML = `
-      <div class="results-region-wrap">
-<div id="results-region-list">
-  ${regionBlocks}
-</div>
+resultsBody.innerHTML = `
+  <div class="results-region-wrap">
+    <div class="loading">${msg}</div>
 
-        <div class="results-bottom">
-          <button id="results-close-bottom" class="quiz-control-btn" type="button">❌ Закрити</button>
-        </div>
-      </div>
-    `;
+    <div class="results-bottom">
+      <button id="results-close-bottom" class="quiz-control-btn" type="button">❌ Закрити</button>
+    </div>
+  </div>
+`;
 
 const regionList = resultsBody.querySelector("#results-region-list");
 if (regionList) {

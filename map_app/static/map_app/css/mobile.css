@@ -126,13 +126,6 @@
 }
 
 
-.quiz-screen {
-  pointer-events: none;
-}
-
-.quiz-screen.active {
-  pointer-events: auto;
-}
 
 
 
@@ -146,12 +139,3 @@
 
 }
 
-#results-screen,
-#suggest-screen {
-  pointer-events: none;
-}
-
-#results-screen.active,
-#suggest-screen.active {
-  pointer-events: auto;
-}
