@@ -1,17 +1,18 @@
 const mobileBtn = document.getElementById('mobile-menu-btn');
 const sidebar = document.getElementById('sidebar');
 
-if (mobileBtn) {
-document.addEventListener('click', (e) => {
-  const btn = e.target.closest('#mobile-menu-btn');
-  if (!btn) return;
-
-  const sidebar = document.getElementById('sidebar');
-  if (!sidebar) return;
-
-  sidebar.classList.toggle('active');
-});
+if (mobileBtn && sidebar) {
+  mobileBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    sidebar.classList.toggle('active');
+  });
 }
+
+document.addEventListener('click', (e) => {
+  if (e.target.closest('#sidebar button')) {
+    sidebar.classList.remove('active');
+  }
+});
 
 const sidebarButtons = document.querySelectorAll('#sidebar button');
 
