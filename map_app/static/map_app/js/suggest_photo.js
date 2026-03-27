@@ -515,7 +515,7 @@ if (submitBtn) {
       if (!inSuggest) return;
       const inSelect = t.closest(".suggest-select");
       const inDropdown = t.closest(".suggest-dropdown");
-      if (!inSelect && !inDropdown) closeAllDropdowns();
+      if (!inSelect && !inDropdown && !t.closest('#mobile-menu-btn')) closeAllDropdowns();
     });
   });
 })();

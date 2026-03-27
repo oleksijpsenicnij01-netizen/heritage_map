@@ -21,3 +21,10 @@ sidebarButtons.forEach(btn => {
     sidebar.classList.remove('active');
   });
 });
+
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('#mobile-menu-btn');
+  if (btn) {
+    btn.style.background = 'red';
+  }
+});
