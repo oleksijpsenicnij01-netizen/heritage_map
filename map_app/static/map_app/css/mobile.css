@@ -133,3 +133,15 @@
 .quiz-screen.active {
   pointer-events: auto;
 }
+
+
+
+@media (max-width: 768px) {
+
+  #results-screen,
+  #suggest-screen {
+    left: 0 !important;
+    width: 100vw !important;
+  }
+
+}
