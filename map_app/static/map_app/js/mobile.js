@@ -2,10 +2,12 @@ const mobileBtn = document.getElementById('mobile-menu-btn');
 const sidebar = document.getElementById('sidebar');
 
 if (mobileBtn && sidebar) {
-  mobileBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    sidebar.classList.toggle('active');
-  });
+mobileBtn.addEventListener('click', (e) => {
+  e.stopImmediatePropagation();
+  e.preventDefault();
+
+  sidebar.classList.toggle('active');
+});
 }
 
 document.addEventListener('click', (e) => {
