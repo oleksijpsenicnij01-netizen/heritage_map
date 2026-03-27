@@ -510,14 +510,19 @@ if (submitBtn) {
 }
 
 
-    document.addEventListener("click", (e) => {
-      const t = e.target;
-      if (!t) return;
-      const inSuggest = t.closest("#suggest-screen");
-      if (!inSuggest) return;
-      const inSelect = t.closest(".suggest-select");
-      const inDropdown = t.closest(".suggest-dropdown");
-      if (!inSelect && !inDropdown && !t.closest('#mobile-menu-btn')) closeAllDropdowns();
-    });
+document.addEventListener("click", (e) => {
+  const t = e.target;
+  if (!t) return;
+
+  if (t.closest('#mobile-menu-btn')) return;
+
+  const inSuggest = t.closest("#suggest-screen");
+  if (!inSuggest) return;
+
+  const inSelect = t.closest(".suggest-select");
+  const inDropdown = t.closest(".suggest-dropdown");
+
+  if (!inSelect && !inDropdown) closeAllDropdowns();
+});
   });
 })();
