@@ -119,6 +119,7 @@
      
       if(quizScreen && regionSelectionView) {
           quizScreen.style.display = 'flex';
+          quizScreen.classList.add('active');
           regionSelectionView.style.display = 'flex';
           typeSelectionView.style.display = 'none';
          
@@ -171,6 +172,7 @@
           typeSelectionView.style.display = 'block';
           if (quizScreen) {
                quizScreen.style.display = 'flex';
+               quizScreen.classList.add('active');
           }
       }
   }
@@ -198,6 +200,7 @@
      
       if (quizScreen) {
            quizScreen.style.display = 'flex';
+           quizScreen.classList.add('active');
       }
 
       switch (game.key) {
@@ -230,6 +233,7 @@
           case 'location':
               if (quizScreen) {
                   quizScreen.style.display = 'flex';
+                  quizScreen.classList.add('active');
               }
              
               if (window.initLocationGame) {

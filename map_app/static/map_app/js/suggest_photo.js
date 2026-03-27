@@ -257,6 +257,7 @@
     if (!el) return;
 
     el.style.display = "flex";
+    el.classList.add("active");
   };
 
   window.closeSuggestScreen = function () {
@@ -265,6 +266,7 @@
 
     closeAllDropdowns();
     setError("");
+    el.classList.remove("active");
     el.style.display = "none";
   };
 

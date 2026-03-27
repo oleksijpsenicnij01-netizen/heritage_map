@@ -170,13 +170,19 @@ window.openContactScreen = function () {
 
   ensureContactScreen();
   const screen = document.getElementById("contact-screen");
-  if (screen) screen.style.display = "flex";
+  if (screen){
+    screen.style.display = "flex";
+    screen.classList.add("active");
+  }
 };
 
 
   window.closeContactScreen = function () {
     const screen = document.getElementById("contact-screen");
-    if (screen) screen.style.display = "none";
+    if (screen){
+      screen.classList.remove("active");
+      screen.style.display = "none";
+    }
     setError("");
   };
 

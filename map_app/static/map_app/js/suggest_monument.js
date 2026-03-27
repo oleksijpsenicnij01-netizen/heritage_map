@@ -199,6 +199,7 @@
 
     setError("");
     el.style.display = "flex";
+    el.classList.add("active");
   };
 
   window.closeSuggestMonumentScreen = function () {
@@ -207,6 +208,7 @@
 
     closeAllDropdowns();
     setError("");
+    el.classList.add("active");
     el.style.display = "none";
   };
 

@@ -124,3 +124,12 @@
   pointer-events: auto;
 }
 }
+
+
+.quiz-screen {
+  pointer-events: none;
+}
+
+.quiz-screen.active {
+  pointer-events: auto;
+}
