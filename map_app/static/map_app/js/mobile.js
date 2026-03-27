@@ -3,7 +3,6 @@ const sidebar = document.getElementById('sidebar');
 
 if (mobileBtn) {
   mobileBtn.addEventListener('click', () => {
-    e.stopPropagation();
     sidebar.classList.toggle('active');
   });
 }
