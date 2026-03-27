@@ -115,11 +115,7 @@
 
 
 
-  .quiz-screen,
-#results-screen,
-#suggest-screen {
-  pointer-events: none;
-}
+
 
 .quiz-content,
 .results-region-wrap,
