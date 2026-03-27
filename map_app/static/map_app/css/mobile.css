@@ -117,10 +117,10 @@
 
 
 
-.quiz-content,
-.results-region-wrap,
-.results-table-wrap,
-.suggest-modal {
+.quiz-screen.active .quiz-content,
+.quiz-screen.active .results-region-wrap,
+.quiz-screen.active .results-table-wrap,
+.quiz-screen.active .suggest-modal {
   pointer-events: auto;
 }
 }
@@ -144,4 +144,14 @@
     width: 100vw !important;
   }
 
+}
+
+#results-screen,
+#suggest-screen {
+  pointer-events: none;
+}
+
+#results-screen.active,
+#suggest-screen.active {
+  pointer-events: auto;
 }
