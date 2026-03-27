@@ -139,3 +139,32 @@
 
 }
 
+#details-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  z-index: 1000002;
+
+  overflow-y: auto;
+}
+
+.quiz-content {
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+.auth-wrap,
+.suggest-modal {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.auth-form input,
+.suggest-text,
+.suggest-textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
