@@ -24,10 +24,3 @@ sidebarButtons.forEach(btn => {
   });
 });
 
-const btn = document.getElementById('mobile-menu-btn');
-
-if (btn) {
-  btn.onclick = function () {
-    this.classList.toggle('test-click');
-  };
-}
