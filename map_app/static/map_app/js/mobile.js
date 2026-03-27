@@ -22,9 +22,10 @@ sidebarButtons.forEach(btn => {
   });
 });
 
-document.addEventListener('click', (e) => {
-  const btn = e.target.closest('#mobile-menu-btn');
-  if (btn) {
-    btn.style.background = 'red';
-  }
-});
+const btn = document.getElementById('mobile-menu-btn');
+
+if (btn) {
+  btn.onclick = function () {
+    this.style.background = 'red';
+  };
+}
