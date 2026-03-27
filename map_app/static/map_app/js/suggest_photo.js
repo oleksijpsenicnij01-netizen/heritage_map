@@ -252,8 +252,10 @@ window.openSuggestScreen = function () {
   if (typeof window.closeSuggestMonumentScreen === "function") window.closeSuggestMonumentScreen();
   if (typeof window.closeContactScreen === "function") window.closeContactScreen();
 
-  const sidebar = document.getElementById("sidebar");
-  if (sidebar) sidebar.classList.remove("active");
+const sidebar = document.getElementById("sidebar");
+if (sidebar && sidebar.classList.contains("active")) {
+  sidebar.classList.remove("active");
+}
 
   ensureSuggestScreen();
 
