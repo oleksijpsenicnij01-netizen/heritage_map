@@ -113,4 +113,18 @@
     padding: 15px;
   }
 
+
+
+  .quiz-screen,
+#results-screen,
+#suggest-screen {
+  pointer-events: none;
+}
+
+.quiz-content,
+.results-region-wrap,
+.results-table-wrap,
+.suggest-modal {
+  pointer-events: auto;
+}
 }
