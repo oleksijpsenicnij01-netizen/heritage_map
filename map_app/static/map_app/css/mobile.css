@@ -138,7 +138,8 @@
   }
 
 }
-
+ 
+@media (max-width: 768px) {
 #details-panel {
   top: 0;
   left: 0;
@@ -150,21 +151,5 @@
 
   border-radius: 0;
 }
-
-.quiz-content {
-  padding: 15px;
-  box-sizing: border-box;
 }
 
-.auth-wrap,
-.suggest-modal {
-  width: 100% !important;
-  max-width: 100% !important;
-}
-
-.auth-form input,
-.suggest-text,
-.suggest-textarea {
-  width: 100%;
-  box-sizing: border-box;
-}
