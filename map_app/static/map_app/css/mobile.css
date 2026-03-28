@@ -264,3 +264,24 @@
 
 }
 
+@media (max-width: 768px) {
+
+  .results-modal-overlay {
+    left: 0;
+    width: 100%;
+  }
+
+}
+
+@media (max-width: 768px) {
+
+  #game-container.location-game-container {
+    width: 38vw;
+    padding: 10px;
+  }
+
+  #map-view.location-map-view {
+    left: 38vw;
+  }
+
+}
