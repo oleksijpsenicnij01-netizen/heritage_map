@@ -198,3 +198,23 @@
   }
 
 }
+
+
+@media (max-width: 768px) {
+
+  #contact-screen .suggest-modal {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding: 15px;
+  }
+
+  #contact-screen .quiz-content {
+    width: 100% !important;
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+
+}
