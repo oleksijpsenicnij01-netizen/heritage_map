@@ -269,15 +269,22 @@
   .location-game-container {
     display: flex;
     flex-direction: row;
+    height: calc(100vh - 80px);
+  }
+
+  #game-container {
+    width: 45%;
+    max-width: 45%;
+    padding: 10px;
+    box-sizing: border-box;
   }
 
   .location-name-box {
-    width: 40%;
-    max-width: 40%;
+    width: 100%;
   }
 
   #map-view {
-    width: 60%;
+    width: 55%;
   }
 
 }

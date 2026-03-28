@@ -462,51 +462,37 @@ function addZhytomyrBorder() {
 
 if ('ontouchstart' in window) {
 
-  let activeItem = null;
+  let selectedItem = null;
 
-  document.addEventListener('touchstart', (e) => {
+  const nameList = document.getElementById('location-name-list');
+
+  nameList.addEventListener('click', (e) => {
     const item = e.target.closest('.name-item');
     if (!item) return;
 
-    activeItem = item;
-    item.classList.add('dragging');
-  });
-
-  document.addEventListener('touchmove', (e) => {
-    if (!activeItem) return;
-
-    const touch = e.touches[0];
-    const el = document.elementFromPoint(touch.clientX, touch.clientY);
-
-    const marker = el?.closest('.location-dot-icon');
-
-    document.querySelectorAll('.location-dot-icon')
-      .forEach(m => m.classList.remove('marker-drag-over'));
-
-    if (marker) {
-      marker.classList.add('marker-drag-over');
-    }
-  });
-
-  document.addEventListener('touchend', (e) => {
-    if (!activeItem) return;
-
-    const touch = e.changedTouches[0];
-    const el = document.elementFromPoint(touch.clientX, touch.clientY);
-
-    const marker = el?.closest('.location-dot-icon');
-
-    if (marker) {
-      const monumentId = activeItem.dataset.id;
-      const targetMarker = monumentMarkers.find(m => m._icon === marker);
-
-      if (targetMarker) {
-        handleMarkerSnap(monumentId, targetMarker.options.monumentId, targetMarker);
-      }
+    if (selectedItem) {
+      selectedItem.style.outline = 'none';
     }
 
-    activeItem.classList.remove('dragging');
-    activeItem = null;
+    selectedItem = item;
+    item.style.outline = '2px solid orange';
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!selectedItem) return;
+
+    const markerEl = e.target.closest('.location-dot-icon');
+    if (!markerEl) return;
+
+    const marker = monumentMarkers.find(m => m._icon === markerEl);
+    if (!marker) return;
+
+    const monumentId = selectedItem.dataset.id;
+
+    handleMarkerSnap(monumentId, marker.options.monumentId, marker);
+
+    selectedItem.style.outline = 'none';
+    selectedItem = null;
   });
 
 }
