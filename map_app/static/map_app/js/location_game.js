@@ -76,6 +76,7 @@ function generateGameUI(monuments) {
   }
 
   gameContainer.innerHTML = `
+  
         <h2 id="location-game-title" class="game-title">Де знаходиться пам'ятка?</h2>
 
         <div class="location-name-box">
@@ -110,7 +111,27 @@ function generateGameUI(monuments) {
             <div id="results-modal-content" class="results-modal-content"></div>
         </div>
     `;
+if ('ontouchstart' in window) {
 
+  window._selectedLocationItem = null;
+
+  const nameList = document.getElementById('location-name-list');
+
+  if (nameList) {
+    nameList.addEventListener('click', (e) => {
+      const item = e.target.closest('.name-item');
+      if (!item) return;
+
+      if (window._selectedLocationItem) {
+        window._selectedLocationItem.style.outline = 'none';
+      }
+
+      window._selectedLocationItem = item;
+      item.style.outline = '2px solid orange';
+    });
+  }
+
+}
   initializeLocationGameMap();
 }
 
@@ -214,7 +235,34 @@ title: "",
 
     monumentMarkers.push(marker);
     locationMarkersLayer.addLayer(marker);
+
   });
+
+      if ('ontouchstart' in window) {
+
+  monumentMarkers.forEach(marker => {
+    
+    marker.off('click');
+
+    marker.on('click', () => {
+
+      if (!window._selectedLocationItem) return;
+
+      const monumentId = window._selectedLocationItem.dataset.id;
+
+      handleMarkerSnap(
+        monumentId,
+        marker.options.monumentId,
+        marker
+      );
+
+      window._selectedLocationItem.style.outline = 'none';
+      window._selectedLocationItem = null;
+
+    });
+  });
+
+}
 }
 
 function handleMarkerSnap(monumentId, targetMarkerId, targetMarker) {
@@ -460,39 +508,3 @@ function addZhytomyrBorder() {
     });
 }
 
-if ('ontouchstart' in window) {
-
-  let selectedItem = null;
-
-  const nameList = document.getElementById('location-name-list');
-
-  nameList.addEventListener('click', (e) => {
-    const item = e.target.closest('.name-item');
-    if (!item) return;
-
-    if (selectedItem) {
-      selectedItem.style.outline = 'none';
-    }
-
-    selectedItem = item;
-    item.style.outline = '2px solid orange';
-  });
-
-  document.addEventListener('click', (e) => {
-    if (!selectedItem) return;
-
-    const markerEl = e.target.closest('.location-dot-icon');
-    if (!markerEl) return;
-
-    const marker = monumentMarkers.find(m => m._icon === markerEl);
-    if (!marker) return;
-
-    const monumentId = selectedItem.dataset.id;
-
-    handleMarkerSnap(monumentId, marker.options.monumentId, marker);
-
-    selectedItem.style.outline = 'none';
-    selectedItem = null;
-  });
-
-}

@@ -266,10 +266,10 @@
 
 @media (max-width: 768px) {
 
-  .location-game-container {
+  #quiz-screen {
     display: flex;
     flex-direction: row;
-    height: calc(100vh - 80px);
+    overflow: hidden;
   }
 
   #game-container {
@@ -279,12 +279,9 @@
     box-sizing: border-box;
   }
 
-  .location-name-box {
-    width: 100%;
-  }
-
   #map-view {
     width: 55%;
+    height: 100vh;
   }
 
 }
