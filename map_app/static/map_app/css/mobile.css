@@ -140,15 +140,15 @@
 }
 
 #details-panel {
-  position: fixed;
   top: 0;
   left: 0;
+  transform: none;
+
   width: 100vw;
   height: 100vh;
+  max-height: 100vh;
 
-  z-index: 1000002;
-
-  overflow-y: auto;
+  border-radius: 0;
 }
 
 .quiz-content {
