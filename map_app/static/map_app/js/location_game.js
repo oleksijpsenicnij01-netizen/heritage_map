@@ -459,3 +459,54 @@ function addZhytomyrBorder() {
       console.error("Помилка при завантаженні або обробці GeoJSON:", error);
     });
 }
+
+if ('ontouchstart' in window) {
+
+  let activeItem = null;
+
+  document.addEventListener('touchstart', (e) => {
+    const item = e.target.closest('.name-item');
+    if (!item) return;
+
+    activeItem = item;
+    item.classList.add('dragging');
+  });
+
+  document.addEventListener('touchmove', (e) => {
+    if (!activeItem) return;
+
+    const touch = e.touches[0];
+    const el = document.elementFromPoint(touch.clientX, touch.clientY);
+
+    const marker = el?.closest('.location-dot-icon');
+
+    document.querySelectorAll('.location-dot-icon')
+      .forEach(m => m.classList.remove('marker-drag-over'));
+
+    if (marker) {
+      marker.classList.add('marker-drag-over');
+    }
+  });
+
+  document.addEventListener('touchend', (e) => {
+    if (!activeItem) return;
+
+    const touch = e.changedTouches[0];
+    const el = document.elementFromPoint(touch.clientX, touch.clientY);
+
+    const marker = el?.closest('.location-dot-icon');
+
+    if (marker) {
+      const monumentId = activeItem.dataset.id;
+      const targetMarker = monumentMarkers.find(m => m._icon === marker);
+
+      if (targetMarker) {
+        handleMarkerSnap(monumentId, targetMarker.options.monumentId, targetMarker);
+      }
+    }
+
+    activeItem.classList.remove('dragging');
+    activeItem = null;
+  });
+
+}

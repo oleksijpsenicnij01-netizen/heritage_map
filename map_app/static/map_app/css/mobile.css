@@ -263,3 +263,21 @@
   }
 
 }
+
+@media (max-width: 768px) {
+
+  .location-game-container {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .location-name-box {
+    width: 40%;
+    max-width: 40%;
+  }
+
+  #map-view {
+    width: 60%;
+  }
+
+}
