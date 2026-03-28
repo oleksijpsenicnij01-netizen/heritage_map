@@ -177,6 +177,11 @@
     max-width: 100% !important;
   }
 
+  .auth-google-btn {
+  width: 100%;
+  box-sizing: border-box;
+}
+
   .auth-tab-btn {
     flex: 1;
     min-width: 0;
