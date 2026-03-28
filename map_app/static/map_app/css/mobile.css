@@ -264,25 +264,3 @@
 
 }
 
-@media (max-width: 768px) {
-
-  #quiz-screen {
-    display: flex;
-    flex-direction: row;
-    overflow-x: auto;
-    overflow-y: hidden;
-  }
-
-  #game-container {
-    min-width: 45%;
-    max-width: 45%;
-    padding: 10px;
-    box-sizing: border-box;
-  }
-
-  #map-view {
-    min-width: 55%;
-    height: 100vh;
-  }
-
-}
