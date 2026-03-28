@@ -225,22 +225,24 @@
   #matching-game-area {
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    gap: 15px;
+
+    overflow-x: auto;
+    padding-bottom: 10px;
   }
 
   #matching-game-area > .matching-list-container:first-child {
-    flex: 1 1 45%;
-    max-width: 45%;
-    min-width: 0;
+    flex: 0 0 280px;
+    max-width: 280px;
   }
 
   #matching-game-area > .matching-list-container:last-child {
-    flex: 1 1 55%;
-    min-width: 0;
+    flex: 0 0 320px;
+    max-width: 320px;
   }
 
   .matching-list-container {
-    max-height: 60vh;
+    max-height: 65vh;
   }
 
 }
