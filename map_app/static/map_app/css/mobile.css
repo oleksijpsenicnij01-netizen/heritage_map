@@ -246,3 +246,20 @@
   }
 
 }
+
+@media (max-width: 768px) {
+
+  .chronology-item {
+    touch-action: none;
+  }
+
+}
+
+@media (max-width: 768px) {
+
+  .chronology-item {
+    padding: 14px;
+    font-size: 16px;
+  }
+
+}
