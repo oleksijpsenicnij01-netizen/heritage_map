@@ -269,18 +269,19 @@
   #quiz-screen {
     display: flex;
     flex-direction: row;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
   }
 
   #game-container {
-    width: 45%;
+    min-width: 45%;
     max-width: 45%;
     padding: 10px;
     box-sizing: border-box;
   }
 
   #map-view {
-    width: 55%;
+    min-width: 55%;
     height: 100vh;
   }
 
