@@ -313,8 +313,43 @@
       matchingArea.classList.add('description-game');
   }
      
-      renderMatchingItems(gameKey);
-      setupEventListeners();
+renderMatchingItems(gameKey);
+setupEventListeners();
+
+if ('ontouchstart' in window) {
+
+  let selectedItem = null;
+  const gameArea = document.getElementById('game-container');
+
+  gameArea.addEventListener('click', (e) => {
+    const item = e.target.closest('.draggable-item');
+    const target = e.target.closest('.droppable-target');
+
+    if (item) {
+      if (selectedItem) {
+        selectedItem.style.outline = 'none';
+      }
+
+      selectedItem = item;
+      item.style.outline = '2px solid orange';
+      return;
+    }
+
+    if (target && selectedItem) {
+      const content = target.querySelector('.target-content');
+
+      const existing = target.querySelector('.draggable-item');
+      if (existing) {
+        document.getElementById('name-list-items').appendChild(existing);
+      }
+
+      content.appendChild(selectedItem);
+      selectedItem.style.outline = 'none';
+      selectedItem = null;
+    }
+  });
+
+}
      
 
       document.getElementById('check-answers-btn').addEventListener('click', checkAnswers);
@@ -413,6 +448,7 @@
       gameArea.addEventListener('dragleave', handleGlobalDragLeave);
       gameArea.addEventListener('drop', handleGlobalDrop);
   }
+
 
   function handleDragStart(e) {
       const target = e.target.closest('.draggable-item');

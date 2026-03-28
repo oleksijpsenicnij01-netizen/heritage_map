@@ -218,3 +218,29 @@
   }
 
 }
+
+
+@media (max-width: 768px) {
+
+  #matching-game-area {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  #matching-game-area > .matching-list-container:first-child {
+    flex: 1 1 45%;
+    max-width: 45%;
+    min-width: 0;
+  }
+
+  #matching-game-area > .matching-list-container:last-child {
+    flex: 1 1 55%;
+    min-width: 0;
+  }
+
+  .matching-list-container {
+    max-height: 60vh;
+  }
+
+}
