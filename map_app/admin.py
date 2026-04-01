@@ -21,11 +21,39 @@ class GameResultAdmin(admin.ModelAdmin):
 
 @admin.register(Monument)
 class MonumentAdmin(admin.ModelAdmin):
-    list_display = ("id", "region", "monument_id", "name", "created_by", "created_at")
-    list_filter = ("region",)
-    search_fields = ("region", "monument_id", "name", "created_by__username", "created_by__email")
+    list_display = (
+        "id",
+        "name",
+        "region",
+        "is_visible",
+        "is_game_enabled",
+        "year",
+        "created_at"
+    )
+
+    list_filter = ("region", "is_visible", "is_game_enabled")
+
+    search_fields = ("name", "region")
+
     ordering = ("-created_at",)
+
     readonly_fields = ("created_at",)
+
+    fields = (
+        "region",
+        "monument_id",
+        "name",
+        "description",
+        "lat",
+        "lng",
+        "main_image",
+        "is_visible",
+        "is_game_enabled",
+        "year",
+        "hint",
+        "created_by",
+        "created_at",
+    )
 
 
 @admin.register(MonumentPhoto)
@@ -72,7 +100,9 @@ class MonumentSuggestionAdmin(admin.ModelAdmin):
                 lng=s.lng,
                 main_image=s.image,
                 created_by=s.user,
-            )
+                is_visible=False,
+                is_game_enabled=False,
+                )
 
             MonumentPhoto.objects.create(region=monument.region, monument_id=monument.monument_id, image=s.image)
 

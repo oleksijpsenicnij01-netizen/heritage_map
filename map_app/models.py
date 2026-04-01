@@ -43,6 +43,11 @@ class Monument(models.Model):
         related_name="created_monuments",
     )
     created_at = models.DateTimeField(auto_now_add=True)
+    is_visible = models.BooleanField(default=False)
+    is_game_enabled = models.BooleanField(default=False)
+
+    year = models.IntegerField(null=True, blank=True)
+    hint = models.TextField(blank=True, default="")
 
     class Meta:
         ordering = ["-created_at"]
