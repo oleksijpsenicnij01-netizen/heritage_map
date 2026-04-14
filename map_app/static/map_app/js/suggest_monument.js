@@ -26,33 +26,33 @@
       .replaceAll("'", "&#039;");
   }
 
-  const REGIONS = [
-    { name: "Автономна Республіка Крим", isAvailable: false, internalName: "crimea" },
-    { name: "Вінницька область", isAvailable: false, internalName: "vinnytsia" },
-    { name: "Волинська область", isAvailable: false, internalName: "volyn" },
-    { name: "Дніпропетровська область", isAvailable: false, internalName: "dnipro" },
-    { name: "Донецька область", isAvailable: false, internalName: "donetsk" },
-    { name: "Житомирська область", isAvailable: true, internalName: "zhytomyr" },
-    { name: "Закарпатська область", isAvailable: false, internalName: "zakarpattia" },
-    { name: "Запорізька область", isAvailable: false, internalName: "zaporizhzhia" },
-    { name: "Івано-Франківська область", isAvailable: false, internalName: "ivano-frankivsk" },
-    { name: "Київська область", isAvailable: false, internalName: "kyiv" },
-    { name: "Кіровоградська область", isAvailable: false, internalName: "kyrovohrad" },
-    { name: "Луганська область", isAvailable: false, internalName: "luhansk" },
-    { name: "Львівська область", isAvailable: false, internalName: "lviv" },
-    { name: "Миколаївська область", isAvailable: false, internalName: "mykolaiv" },
-    { name: "Одеська область", isAvailable: false, internalName: "odesa" },
-    { name: "Полтавська область", isAvailable: false, internalName: "poltava" },
-    { name: "Рівненська область", isAvailable: false, internalName: "rivne" },
-    { name: "Сумська область", isAvailable: false, internalName: "sumy" },
-    { name: "Тернопільська область", isAvailable: false, internalName: "ternopil" },
-    { name: "Харківська область", isAvailable: false, internalName: "kharkiv" },
-    { name: "Херсонська область", isAvailable: false, internalName: "kherson" },
-    { name: "Хмельницька область", isAvailable: false, internalName: "khmelnytskyi" },
-    { name: "Черкаська область", isAvailable: false, internalName: "cherkasy" },
-    { name: "Чернівецька область", isAvailable: false, internalName: "chernivtsi" },
-    { name: "Чернігівська область", isAvailable: false, internalName: "chernihiv" }
-  ];
+const REGIONS = [
+  { name: "Автономна Республіка Крим", internalName: "crimea" },
+  { name: "Вінницька область", internalName: "vinnytsia" },
+  { name: "Волинська область", internalName: "volyn" },
+  { name: "Дніпропетровська область", internalName: "dnipro" },
+  { name: "Донецька область", internalName: "donetsk" },
+  { name: "Житомирська область", internalName: "zhytomyr" },
+  { name: "Закарпатська область", internalName: "zakarpattia" },
+  { name: "Запорізька область", internalName: "zaporizhzhia" },
+  { name: "Івано-Франківська область", internalName: "ivano-frankivsk" },
+  { name: "Київська область", internalName: "kyiv" },
+  { name: "Кіровоградська область", internalName: "kyrovohrad" },
+  { name: "Луганська область", internalName: "luhansk" },
+  { name: "Львівська область", internalName: "lviv" },
+  { name: "Миколаївська область", internalName: "mykolaiv" },
+  { name: "Одеська область", internalName: "odesa" },
+  { name: "Полтавська область", internalName: "poltava" },
+  { name: "Рівненська область", internalName: "rivne" },
+  { name: "Сумська область", internalName: "sumy" },
+  { name: "Тернопільська область", internalName: "ternopil" },
+  { name: "Харківська область", internalName: "kharkiv" },
+  { name: "Херсонська область", internalName: "kherson" },
+  { name: "Хмельницька область", internalName: "khmelnytskyi" },
+  { name: "Черкаська область", internalName: "cherkasy" },
+  { name: "Чернівецька область", internalName: "chernivtsi" },
+  { name: "Чернігівська область", internalName: "chernihiv" }
+];
 
   let selectedRegion = null;
   let isSubmitting = false;
@@ -105,7 +105,7 @@
       if (!key) return;
 
       const region = REGIONS.find((x) => x.internalName === key);
-      if (!region || !region.isAvailable) return;
+      if (!region) return;
 
       selectedRegion = region;
 
@@ -144,7 +144,7 @@
 
             <div class="suggest-field">
               <div class="suggest-label">Назва</div>
-              <input id="suggest-monument-name" class="suggest-file" type="text" placeholder="Напр.: Скелі Дениші" />
+              <input id="suggest-monument-name" class="suggest-file" type="text" placeholder="Введіть назву пам’ятки" />
             </div>
 
             <div class="suggest-field">
@@ -154,12 +154,12 @@
 
             <div class="suggest-field">
               <div class="suggest-label">Координати (широта)</div>
-              <input id="suggest-monument-lat" class="suggest-file" type="text" placeholder="50.2..." />
+              <input id="suggest-monument-lat" class="suggest-file" type="text" placeholder="Введіть широту (напр. 50.2)" />
             </div>
 
             <div class="suggest-field">
               <div class="suggest-label">Координати (довгота)</div>
-              <input id="suggest-monument-lng" class="suggest-file" type="text" placeholder="28.6..." />
+              <input id="suggest-monument-lng" class="suggest-file" type="text" placeholder="Введіть довготу (напр. 28.6)" />
             </div>
 
             <div class="suggest-field">
