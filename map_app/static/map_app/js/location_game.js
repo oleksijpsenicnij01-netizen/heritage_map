@@ -20,7 +20,7 @@ window.destroyLocationGame = function () {
   }
 };
 
-let zhytomyrBorderLayer = null;
+let regionBorderLayer = null;
 
 let locationMarkersLayer = L.markerClusterGroup({
   spiderfyOnMaxZoom: false,
@@ -146,9 +146,14 @@ function initializeLocationGameMap() {
   if (locationGameMap) {
     locationGameMap.invalidateSize();
     locationGameMap.setView(centerCoords, initialZoom);
-   // addZhytomyrBorder();
+      const regionKey = window.selectedRegion?.internalName || "zhytomyr";
+  loadRegionBorder(regionKey);
     addLocationMarkers(allRegionMonuments);
-    if (locationMarkersLayer.getLayers().length > 0) {
+const layers = locationMarkersLayer.getLayers();
+
+if (layers.length === 1) {
+  locationGameMap.setView(layers[0].getLatLng(), 10); // нормальний зум
+} else if (layers.length > 1) {
   locationGameMap.fitBounds(locationMarkersLayer.getBounds());
 }
     return;
@@ -180,6 +185,9 @@ if (locationGameMap) {
     zoomControl: false
   });
 
+  const regionKey = window.selectedRegion?.internalName || "zhytomyr";
+loadRegionBorder(regionKey);
+
   window.L.tileLayer("https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}", {
     maxZoom: 20,
     subdomains: ["mt0", "mt1", "mt2", "mt3"]
@@ -188,9 +196,13 @@ if (locationGameMap) {
   locationGameMap.addLayer(locationMarkersLayer);
   locationGameMap.addLayer(userMarkersLayer);
 
-  //addZhytomyrBorder();
+
   addLocationMarkers(allRegionMonuments);
-  if (locationMarkersLayer.getLayers().length > 0) {
+const layers = locationMarkersLayer.getLayers();
+
+if (layers.length === 1) {
+  locationGameMap.setView(layers[0].getLatLng(), 10); // нормальний зум
+} else if (layers.length > 1) {
   locationGameMap.fitBounds(locationMarkersLayer.getBounds());
 }
 }
@@ -479,44 +491,7 @@ window.finishLocationGame = function (goToSelection = false) {
   else window.initLocationGame();
 };
 
-function addZhytomyrBorder() {
-  if (!locationGameMap) return;
 
-  if (zhytomyrBorderLayer) {
-    locationGameMap.removeLayer(zhytomyrBorderLayer);
-  }
-
-  const geoJsonPath = "/static/map_app/js/ukraine_regions.json/UA_18_Zhytomyrska.geojson";
-
-  fetch(geoJsonPath)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(
-          `Не вдалося завантажити GeoJSON (${response.status}): Перевірте шлях: ${geoJsonPath}`
-        );
-      }
-      return response.json();
-    })
-    .then((data) => {
-      const borderStyle = {
-        color: "#FFFFFF",
-        weight: 4,
-        opacity: 1,
-        fillOpacity: 0.0
-      };
-
-      zhytomyrBorderLayer = L.geoJSON(data, {
-        style: borderStyle
-      }).addTo(locationGameMap);
-
-      if (zhytomyrBorderLayer) {
-        locationGameMap.fitBounds(zhytomyrBorderLayer.getBounds());
-      }
-    })
-    .catch((error) => {
-      console.error("Помилка при завантаженні або обробці GeoJSON:", error);
-    });
-}
 
 async function loadLocationGameData(regionKey) {
   try {
@@ -533,5 +508,40 @@ async function loadLocationGameData(regionKey) {
     }
   } catch (e) {
     console.error("Помилка завантаження location гри", e);
+  }
+}
+
+async function loadRegionBorder(regionKey) {
+  try {
+    const res = await fetch('/static/map_app/js/ukraine_regions.json');
+    const data = await res.json();
+
+    const regionNamesMap = {
+      zhytomyr: "Житомирська область",
+      kyiv: "Київська область"
+    };
+
+    const region = data.features.find(
+      f => f.properties.name === regionNamesMap[regionKey]
+    );
+
+    if (!region) return;
+
+    if (regionBorderLayer) {
+      locationGameMap.removeLayer(regionBorderLayer);
+    }
+
+    regionBorderLayer = L.geoJSON(region, {
+      style: {
+        color: '#ffffff',
+        weight: 3,
+        fillOpacity: 0
+      }
+    }).addTo(locationGameMap);
+
+    locationGameMap.fitBounds(regionBorderLayer.getBounds());
+
+  } catch (e) {
+    console.error('GeoJSON error:', e);
   }
 }
