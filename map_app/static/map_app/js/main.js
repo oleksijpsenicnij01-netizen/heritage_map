@@ -124,7 +124,7 @@ let userMonuments = [];
 async function loadUserMonuments() {
   try {
     const regionKey = "zhytomyr";
-    const r = await fetch(`/api/monuments/user/?region=${encodeURIComponent(regionKey)}`, { credentials: "same-origin" });
+    const r = await fetch(`/api/monuments/?region=${encodeURIComponent(regionKey)}`, { credentials: "same-origin" });
     const data = await r.json();
     if (data && data.ok && Array.isArray(data.monuments)) {
       userMonuments = data.monuments;
@@ -250,7 +250,7 @@ function zoomToFeature(e) {
     
 if (isZhytomyr) {
     loadUserMonuments("zhytomyr").then(() => {
-        addMarkers(monuments.concat(userMonuments));
+        addMarkers(userMonuments);
     });
 } else {
     currentMarkers.clearLayers();
@@ -513,7 +513,7 @@ const ResetControl = L.Control.extend({
 
 
 window.getZhytomyrData = function() {
-    return monuments;
+    return userMonuments;
 };
 
 /**
@@ -579,7 +579,7 @@ window.toggleMapMode = function(mode) {
         
         if (selectedLayer && mapStateBeforeMarkerZoom) {
            
-addMarkers(monuments.concat(userMonuments));
+addMarkers(userMonuments);
 
              
              if (!resetControlInstance) {
