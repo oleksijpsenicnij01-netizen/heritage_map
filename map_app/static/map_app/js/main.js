@@ -319,6 +319,8 @@ function addMarkers(monumentsArray) {
     currentMarkers.clearLayers(); 
     const markers = []; 
     monumentsArray.forEach(monument => {
+  console.log("MONUMENT:", monument);
+  if (typeof monument.id !== "number") return;
        const lat = parseFloat(monument.lat);
 const lng = parseFloat(monument.lng);
 
@@ -390,13 +392,15 @@ async function displayDetails(monument) {
   const baseAlt = monument.imageAlt ? String(monument.imageAlt) : monument.name;
 
 
-  let approved = [];
+let approved = [];
+
+if (monument.id) {
   try {
     approved = await fetchApprovedImages(regionKey, monument.id);
   } catch (e) {
     approved = [];
   }
-
+}
 
   const urls = [];
   if (baseUrl) urls.push(baseUrl);
