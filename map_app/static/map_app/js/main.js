@@ -324,13 +324,16 @@ const lng = parseFloat(monument.lng);
 
 if (isNaN(lat) || isNaN(lng)) return;
 
-const marker = L.marker([lat, lng], { icon: defaultMarkerIcon })
-            .bindTooltip(monument.name, {
-                permanent: false, 
-                direction: 'top',
-                offset: [0, -40], 
-                className: 'marker-tooltip'
-            }); 
+const marker = L.marker([lat, lng], { icon: defaultMarkerIcon });
+
+currentMarkers.addLayer(marker);
+
+marker.bindTooltip(monument.name, {
+    permanent: false,
+    direction: 'top',
+    offset: [0, -40],
+    className: 'marker-tooltip'
+});
         
         marker.isZoomed = false; 
 
