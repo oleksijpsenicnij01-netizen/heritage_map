@@ -484,7 +484,7 @@ window.finishLocationGame = function (goToSelection = false) {
   locationMarkersLayer.clearLayers();
   userMarkersLayer.clearLayers();
   monumentMarkers = [];
-  zhytomyrBorderLayer = null;
+  regionBorderLayer = null;
   userSnaps = {};
 
   if (goToSelection) window.goToTypeSelection();
