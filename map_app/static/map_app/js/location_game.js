@@ -492,7 +492,6 @@ window.finishLocationGame = function (goToSelection = false) {
 };
 
 
-
 async function loadLocationGameData(regionKey) {
   try {
     const r = await fetch(`/api/monuments/?region=${regionKey}`);
@@ -513,25 +512,23 @@ async function loadLocationGameData(regionKey) {
 
 async function loadRegionBorder(regionKey) {
   try {
-    const res = await fetch('/static/map_app/js/ukraine_regions.json');
-    const data = await res.json();
 
-    const regionNamesMap = {
-      zhytomyr: "Житомирська область",
-      kyiv: "Київська область"
+    const regionFileMap = {
+      zhytomyr: "UA_18_Zhytomyrska.geojson",
+      kyiv: "UA_32_Kyivska.geojson"
     };
 
-    const region = data.features.find(
-      f => f.properties.name === regionNamesMap[regionKey]
-    );
+    const fileName = regionFileMap[regionKey];
+    if (!fileName) return;
 
-    if (!region) return;
+    const res = await fetch(`/static/map_app/js/ukraine_regions/${fileName}`);
+    const data = await res.json();
 
     if (regionBorderLayer) {
       locationGameMap.removeLayer(regionBorderLayer);
     }
 
-    regionBorderLayer = L.geoJSON(region, {
+    regionBorderLayer = L.geoJSON(data, {
       style: {
         color: '#ffffff',
         weight: 3,
