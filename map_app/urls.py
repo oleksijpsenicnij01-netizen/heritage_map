@@ -21,5 +21,5 @@ urlpatterns = [
     path("api/monuments/user/", views.api_user_monuments, name="api_user_monuments"),
     path("api/monuments/images/<int:pk>/delete/", views.api_delete_monument_image, name="api_delete_monument_image"),
     path("api/contact/submit/", views.api_submit_contact_message, name="api_submit_contact_message"),
-
+    path("api/monuments/", views.monuments_api, name="api_monuments"),
 ]

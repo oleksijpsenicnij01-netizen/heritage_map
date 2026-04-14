@@ -614,3 +614,33 @@ def api_submit_contact_message(request):
     )
 
     return JsonResponse({"ok": True, "id": obj.id, "created_at": obj.created_at.isoformat()})
+
+
+from django.views.decorators.http import require_GET
+
+@require_GET
+def monuments_api(request):
+    region = (request.GET.get("region") or "").strip()
+
+    qs = Monument.objects.filter(is_visible=True)
+
+    if region:
+        qs = qs.filter(region=region)
+
+    monuments = []
+
+    for m in qs:
+        monuments.append({
+            "id": m.monument_id,
+            "name": m.name,
+            "lat": m.lat,
+            "lng": m.lng,
+            "imagePath": (m.main_image.url if m.main_image else ""),
+            "imageAlt": m.name,
+            "details": f"<p>{(m.description or '').strip()}</p>",
+        })
+
+    return JsonResponse({
+        "ok": True,
+        "monuments": monuments
+    })
