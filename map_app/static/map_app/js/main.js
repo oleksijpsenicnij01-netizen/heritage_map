@@ -121,9 +121,8 @@ const monuments = [
 ];
 let userMonuments = [];
 
-async function loadUserMonuments() {
+async function loadUserMonuments(regionKey) {
   try {
-    const regionKey = "zhytomyr";
     const r = await fetch(`/api/monuments/?region=${encodeURIComponent(regionKey)}`, { credentials: "same-origin" });
     const data = await r.json();
     if (data && data.ok && Array.isArray(data.monuments)) {
@@ -136,7 +135,7 @@ async function loadUserMonuments() {
   }
 }
 
-loadUserMonuments();
+
 
 
 
@@ -248,12 +247,46 @@ function zoomToFeature(e) {
 
     const isZhytomyr = regionName && (regionNameLower.includes('житомирська'));
     
-if (isZhytomyr) {
-    loadUserMonuments("zhytomyr").then(() => {
-        addMarkers(userMonuments);
-    });
+const regionMap = {
+  "житомирська": "zhytomyr",
+  "львівська": "lviv",
+  "київська": "kyiv",
+  "одеська": "odesa",
+  "харківська": "kharkiv",
+  "дніпропетровська": "dnipro",
+  "закарпатська": "zakarpattia",
+  "івано-франківська": "ivano-frankivsk",
+  "черкаська": "cherkasy",
+  "чернігівська": "chernihiv",
+  "чернівецька": "chernivtsi",
+  "хмельницька": "khmelnytskyi",
+  "тернопільська": "ternopil",
+  "рівненська": "rivne",
+  "волинська": "volyn",
+  "сумська": "sumy",
+  "полтавська": "poltava",
+  "миколаївська": "mykolaiv",
+  "кіровоградська": "kyrovohrad",
+  "луганська": "luhansk",
+  "донецька": "donetsk",
+  "херсонська": "kherson",
+  "запорізька": "zaporizhzhia",
+  "вінницька": "vinnytsia",
+  "крим": "crimea"
+};
+
+const matchedRegion = Object.keys(regionMap).find(key => regionNameLower.includes(key));
+
+if (matchedRegion) {
+  const regionKey = regionMap[matchedRegion];
+
+  galleryState.regionKey = regionKey; 
+
+  loadUserMonuments(regionKey).then(() => {
+    addMarkers(userMonuments);
+  });
 } else {
-    currentMarkers.clearLayers();
+  currentMarkers.clearLayers();
 }
 
 
@@ -342,7 +375,7 @@ window.closeDetailsPanel = function () {
 async function displayDetails(monument) {
   if (!detailsPanel) return;
 
-  const regionKey = "zhytomyr";
+  const regionKey = galleryState.regionKey || "zhytomyr";
 
 
   const baseUrl = monument.imagePath ? String(monument.imagePath) : "";
