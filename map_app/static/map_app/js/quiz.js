@@ -144,11 +144,13 @@
 
 
   let selectedRegion = null;
+  window.quizData = [];
 
   function handleRegionClick(region) {
       if (region.isAvailable) {
           selectedRegion = region;
   window.selectedRegion = region;
+  loadQuizData(region.internalName);
           if(regionSelectionView && typeSelectionView) {
               regionSelectionView.style.display = 'none';
              
@@ -207,7 +209,7 @@
           case 'cards':
 
               if (window.initChronologyCardsGame) { 
-                  window.initChronologyCardsGame(window.zhytomyrQuizSourceData); 
+                  window.initChronologyCardsGame(window.quizData);
               } else {
                   console.error("Помилка: Не знайдено initChronologyCardsGame. Перевірте підключення chronology_cards_game.js");
                   goToTypeSelection();
@@ -223,7 +225,7 @@
              
           case 'chronology':
               if (window.initChronologyGame) {
-                  window.initChronologyGame(window.zhytomyrQuizSourceData);
+                  window.initChronologyGame(window.quizData);
               } else {
                   console.error("Помилка: Не знайдено initChronologyGame. Перевірте підключення chronology_cards_game.js");
                   goToTypeSelection();
@@ -248,7 +250,7 @@
 
   function resetGame() {
 
-      currentGameData = window.shuffle([...window.zhytomyrQuizSourceData]);
+      currentGameData = window.shuffle([...window.quizData]);
       totalItems = currentGameData.length;
       matchesCount = 0;
   }
@@ -604,3 +606,21 @@ if ('ontouchstart' in window) {
           regionView.style.display = 'none';
       }
   });
+
+  async function loadQuizData(regionKey) {
+  try {
+    const r = await fetch(`/api/monuments/?region=${regionKey}`);
+    const data = await r.json();
+
+    if (data.ok) {
+      window.quizData = data.monuments.map(m => ({
+        id: m.id,
+        name: m.name,
+        imagePath: m.imagePath,
+        description: m.details || ""
+      }));
+    }
+  } catch (e) {
+    console.error("Помилка завантаження гри", e);
+  }
+}
