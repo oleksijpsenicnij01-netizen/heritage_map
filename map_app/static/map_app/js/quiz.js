@@ -613,12 +613,14 @@ if ('ontouchstart' in window) {
     const data = await r.json();
 
     if (data.ok) {
-      window.quizData = data.monuments.map(m => ({
-        id: m.id,
-        name: m.name,
-        imagePath: m.imagePath,
-        description: m.details || ""
-      }));
+window.quizData = data.monuments.map(m => ({
+  id: m.id,
+  name: m.name,
+  imagePath: m.imagePath,
+  description: m.details || "",
+  year: m.year,
+  hint: m.hint
+}));
     }
   } catch (e) {
     console.error("Помилка завантаження гри", e);
