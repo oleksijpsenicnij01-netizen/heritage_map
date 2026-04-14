@@ -36,7 +36,7 @@
     { name: "Закарпатська область", isAvailable: false, internalName: "zakarpattia" },
     { name: "Запорізька область", isAvailable: false, internalName: "zaporizhzhia" },
     { name: "Івано-Франківська область", isAvailable: false, internalName: "ivano-frankivsk" },
-    { name: "Київська область", isAvailable: false, internalName: "kyiv" },
+    { name: "Київська область", isAvailable: true, internalName: "kyiv" },
     { name: "Кіровоградська область", isAvailable: false, internalName: "kyrovohrad" },
     { name: "Луганська область", isAvailable: false, internalName: "luhansk" },
     { name: "Львівська область", isAvailable: false, internalName: "lviv" },
@@ -77,14 +77,16 @@
     if (m) m.style.display = "none";
   }
 
-  function getMonumentsForRegion(regionKey) {
-    if (regionKey === "zhytomyr") {
-      if (window.getZhytomyrData) return window.getZhytomyrData();
-      if (window.zhytomyrQuizSourceData) return window.zhytomyrQuizSourceData;
-      return [];
-    }
-    return [];
+async function getMonumentsForRegion(regionKey) {
+  try {
+    const r = await fetch(`/api/monuments/?region=${regionKey}`);
+    const data = await r.json();
+    if (data.ok) return data.monuments;
+  } catch (e) {
+    console.error(e);
   }
+  return [];
+}
 
   function renderRegionDropdown() {
     const dd = document.getElementById("suggest-region-dropdown");
@@ -136,7 +138,7 @@
     };
   }
 
-  function renderMonumentDropdown() {
+  async function renderMonumentDropdown() {
     const dd = document.getElementById("suggest-monument-dropdown");
     if (!dd) return;
 
@@ -145,7 +147,7 @@
       return;
     }
 
-    const monuments = getMonumentsForRegion(selectedRegion.internalName);
+    const monuments = await getMonumentsForRegion(selectedRegion.internalName);
     const sorted = [...monuments].sort((a, b) => String(a.name).localeCompare(String(b.name)));
 
     dd.innerHTML = sorted

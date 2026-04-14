@@ -36,7 +36,7 @@
       { name: "Закарпатська область", isAvailable: false },
       { name: "Запорізька область", isAvailable: false },
       { name: "Івано-Франківська область", isAvailable: false },
-      { name: "Київська область", isAvailable: false },
+      { name: "Київська область", isAvailable: true, internalName: 'kyiv' },
       { name: "Кіровоградська область", isAvailable: false },
       { name: "Луганська область", isAvailable: false },
       { name: "Львівська область", isAvailable: false },

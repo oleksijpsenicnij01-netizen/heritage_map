@@ -32,14 +32,14 @@ let monumentMarkers = [];
 let userMarkersLayer = L.layerGroup();
 let userSnaps = {};
 
-let allZhytomyrMonuments = [];
+let allRegionMonuments = [];
 
 window.initLocationGame = async function () {
   const regionKey = window.selectedRegion?.internalName || "zhytomyr";
 
   await loadLocationGameData(regionKey);
 
-  if (!allZhytomyrMonuments.length || !window.L) {
+  if (!allRegionMonuments.length || !window.L) {
     console.error("Критична помилка: Немає даних або Leaflet.");
     window.goToTypeSelection();
     return;
@@ -56,7 +56,7 @@ window.initLocationGame = async function () {
 
   userSnaps = {};
 
-  generateGameUI(allZhytomyrMonuments);
+  generateGameUI(allRegionMonuments);
 };
 
 function generateGameUI(monuments) {
@@ -146,8 +146,11 @@ function initializeLocationGameMap() {
   if (locationGameMap) {
     locationGameMap.invalidateSize();
     locationGameMap.setView(centerCoords, initialZoom);
-    addZhytomyrBorder();
-    addLocationMarkers(allZhytomyrMonuments);
+   // addZhytomyrBorder();
+    addLocationMarkers(allRegionMonuments);
+    if (locationMarkersLayer.getLayers().length > 0) {
+  locationGameMap.fitBounds(locationMarkersLayer.getBounds());
+}
     return;
   }
 
@@ -185,8 +188,11 @@ if (locationGameMap) {
   locationGameMap.addLayer(locationMarkersLayer);
   locationGameMap.addLayer(userMarkersLayer);
 
-  addZhytomyrBorder();
-  addLocationMarkers(allZhytomyrMonuments);
+  //addZhytomyrBorder();
+  addLocationMarkers(allRegionMonuments);
+  if (locationMarkersLayer.getLayers().length > 0) {
+  locationGameMap.fitBounds(locationMarkersLayer.getBounds());
+}
 }
 
 function addLocationMarkers(monumentsArray) {
@@ -273,7 +279,7 @@ function handleMarkerSnap(monumentId, targetMarkerId, targetMarker) {
   const mId = String(monumentId);
   const tId = String(targetMarkerId);
 
-  const monumentData = allZhytomyrMonuments.find((m) => String(m.id) === mId);
+  const monumentData = allRegionMonuments.find((m) => String(m.id) === mId);
   if (!monumentData) return;
 
   const existingSnappedMonumentId = Object.keys(userSnaps).find(
@@ -333,7 +339,7 @@ window.dragEnd = function (ev) {
 
 window.checkGameResults = function () {
   const snappedCount = Object.keys(userSnaps).length;
-  const totalCount = allZhytomyrMonuments.length;
+  const totalCount = allRegionMonuments.length;
 
   if (snappedCount !== totalCount) return;
 
@@ -344,10 +350,10 @@ window.checkGameResults = function () {
     const targetMarkerId = String(userSnaps[monumentId]);
     const isCorrect = String(monumentId) === String(targetMarkerId);
 
-    const monumentData = allZhytomyrMonuments.find(
+    const monumentData = allRegionMonuments.find(
       (m) => String(m.id) === String(monumentId)
     );
-    const targetMonumentData = allZhytomyrMonuments.find(
+    const targetMonumentData = allRegionMonuments.find(
       (m) => String(m.id) === String(targetMarkerId)
     );
 
@@ -518,7 +524,7 @@ async function loadLocationGameData(regionKey) {
     const data = await r.json();
 
     if (data.ok) {
-      allZhytomyrMonuments = data.monuments.map(m => ({
+      allRegionMonuments = data.monuments.map(m => ({
         id: m.id,
         name: m.name,
         lat: m.lat,

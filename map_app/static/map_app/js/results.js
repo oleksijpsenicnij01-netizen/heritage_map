@@ -14,7 +14,7 @@
     { name: "Закарпатська область", isAvailable: false, internalName: "zakarpattia" },
     { name: "Запорізька область", isAvailable: false, internalName: "zaporizhzhia" },
     { name: "Івано-Франківська область", isAvailable: false, internalName: "ivano-frankivsk" },
-    { name: "Київська область", isAvailable: false, internalName: "kyiv" },
+    { name: "Київська область", isAvailable: true, internalName: "kyiv" },
     { name: "Кіровоградська область", isAvailable: false, internalName: "kirovohrad" },
     { name: "Луганська область", isAvailable: false, internalName: "luhansk" },
     { name: "Львівська область", isAvailable: false, internalName: "lviv" },
