@@ -319,7 +319,12 @@ function addMarkers(monumentsArray) {
     currentMarkers.clearLayers(); 
     const markers = []; 
     monumentsArray.forEach(monument => {
-        const marker = L.marker([monument.lat, monument.lng], {icon: defaultMarkerIcon})
+       const lat = parseFloat(monument.lat);
+const lng = parseFloat(monument.lng);
+
+if (isNaN(lat) || isNaN(lng)) return;
+
+const marker = L.marker([lat, lng], { icon: defaultMarkerIcon })
             .bindTooltip(monument.name, {
                 permanent: false, 
                 direction: 'top',
