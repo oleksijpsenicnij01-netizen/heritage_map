@@ -631,13 +631,15 @@ def monuments_api(request):
 
     for m in qs:
         monuments.append({
-            "id": m.monument_id,
+            "id": m.id,
             "name": m.name,
             "lat": m.lat,
             "lng": m.lng,
             "imagePath": (m.main_image.url if m.main_image else ""),
             "imageAlt": m.name,
             "details": f"<p>{(m.description or '').strip()}</p>",
+            "year": m.year,
+            "hint": m.hint,
         })
 
     return JsonResponse({

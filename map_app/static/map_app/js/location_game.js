@@ -32,11 +32,15 @@ let monumentMarkers = [];
 let userMarkersLayer = L.layerGroup();
 let userSnaps = {};
 
-const allZhytomyrMonuments = window.getZhytomyrData ? window.getZhytomyrData() : null;
+let allZhytomyrMonuments = [];
 
-window.initLocationGame = function () {
-  if (!allZhytomyrMonuments || !window.L) {
-    console.error("Критична помилка: Не знайдено даних або бібліотеки Leaflet.");
+window.initLocationGame = async function () {
+  const regionKey = window.selectedRegion?.internalName || "zhytomyr";
+
+  await loadLocationGameData(regionKey);
+
+  if (!allZhytomyrMonuments.length || !window.L) {
+    console.error("Критична помилка: Немає даних або Leaflet.");
     window.goToTypeSelection();
     return;
   }
@@ -508,3 +512,20 @@ function addZhytomyrBorder() {
     });
 }
 
+async function loadLocationGameData(regionKey) {
+  try {
+    const r = await fetch(`/api/monuments/?region=${regionKey}`);
+    const data = await r.json();
+
+    if (data.ok) {
+      allZhytomyrMonuments = data.monuments.map(m => ({
+        id: m.id,
+        name: m.name,
+        lat: m.lat,
+        lng: m.lng
+      }));
+    }
+  } catch (e) {
+    console.error("Помилка завантаження location гри", e);
+  }
+}
