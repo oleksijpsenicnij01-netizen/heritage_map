@@ -378,7 +378,7 @@ window.closeDetailsPanel = function () {
         
         markers.push(marker);
     });
-    currentMarkers.addLayers(markers);
+
 }
 
 
