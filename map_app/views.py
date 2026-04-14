@@ -621,8 +621,12 @@ from django.views.decorators.http import require_GET
 @require_GET
 def monuments_api(request):
     region = (request.GET.get("region") or "").strip()
+    for_game = request.GET.get("for_game") == "true"
 
     qs = Monument.objects.filter(is_visible=True)
+
+    if for_game:
+        qs = qs.filter(is_game_enabled=True)
 
     if region:
         qs = qs.filter(region=region)
