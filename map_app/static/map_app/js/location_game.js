@@ -521,7 +521,7 @@ async function loadRegionBorder(regionKey) {
     const fileName = regionFileMap[regionKey];
     if (!fileName) return;
 
-    const res = await fetch(`/static/map_app/js/ukraine_regions/${fileName}`);
+    const res = await fetch(`/static/map_app/js/ukraine_regions.json/${fileName}`);
     const data = await res.json();
 
     if (regionBorderLayer) {
