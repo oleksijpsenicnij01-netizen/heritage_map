@@ -105,20 +105,14 @@ currentMarkers = L.markerClusterGroup({
 });
 currentMarkers.addTo(window.map);
 
+window.map.on('zoomend', function() {
+    currentMarkers.eachLayer(function(marker) {
+        if (window.map.getZoom() < 14) {
+            marker.isZoomed = false;
+        }
+    });
+});
 
-const monuments = [
-    { name: "Пам'ятний знак на честь заснування Житомира", lat: 50.25343756567173, lng: 28.654433190482916, id: "zamkova_gora", imagePath: "/static/map_app/images/zamkova.jpg", imageAlt: "Замкова Гора, Житомир", details: `<p><strong>Замкова Гора</strong> — це історичне серце Житомира, місце, де, за легендами, у IX столітті засновник міста Житомир збудував перше укріплення. З пагорба відкривається чудовий вид на річки Тетерів та Кам'янка. Сьогодні тут розташований пам'ятний знак і це є популярне місце для відпочинку та огляду панорами міста.</p>` },
-    { name: "Тригірський монастир", lat: 50.19851548576178, lng: 28.372788481551822, id: "tryhirsky_monastyr", imagePath: "/static/map_app/images/tryhirsky_monastyr.jpg", imageAlt: "Свято-Преображенський Тригірський чоловічий монастир", details: `<p><strong>Свято-Преображенський Тригірський чоловічий монастир</strong> є однією з найстаріших та наймальовничіших святинь Житомирщини, заснованою орієнтовно в XVI столітті. Розташований на високій кручі над річкою Тетерів, він вражає своєю величчю та розташуванням. Архітектура поєднує елементи бароко та класицизму.</p>` },
-    { name: "Свято-Василівський Собор", lat: 51.32173265861692, lng: 28.797728260293624, id: "sv_vasylivskyi_ovruch", imagePath: "/static/map_app/images/ghg.jpg", imageAlt: "Свято-Василівський Собор в Овручі", details: `<p><strong>Свято-Василівський Собор в Овручі</strong> — унікальна пам'ятка давньоруської архітектури кінця XII століття, зведена за часів князя Рюрика Ростиславича. Собор є одним із небагатьох храмів того періоду, що збереглися до наших днів. Він був відновлений відомим архітектором Олексієм Щусєвим і є справжньою окрасою Овруча.</p>` },
-    { name: "Бердичівський Кармелітський монастир", lat: 49.89782631539752, lng: 28.574566488926934, id: "berdychiv_monastyr", imagePath: "/static/map_app/images/berdychiv_monastyr.jpg", imageAlt: "Бердичівський Кармелітський монастир-фортеця", details: `<p><strong>Бердичівський Кармелітський монастир-фортеця</strong> — це потужний оборонний і духовний комплекс XVII-XVIII століть. Він є одним із найкраще збережених зразків барокової фортифікаційної архітектури в Україні та є важливим центром паломництва завдяки чудотворній іконі Матері Божої Бердичівської.</p>` },
-    { name: "Руїни палацу Терещенків", lat: 50.205551741762655, lng: 28.412307537375778, id: "tereshchenko_denyshi", imagePath: "/static/map_app/images/tereshchenko_denyshi.jpg", imageAlt: "Руїни палацу Терещенків", details: `<p><strong>Палац Терещенків</strong> у селі Дениші — це величні руїни колишнього розкішного маєтку відомої династії меценатів Терещенків. Побудований у стилі модерн, палац розташований на високому березі річки Тетерів, його оточує мальовничий парк та скелі. Руїни створюють атмосферу таємничості та приваблюють туристів.</p>` },
-    { name: "Поліський природний заповідник", lat: 51.54568598175297, lng: 28.100461600750393, id: "polissia_zapovidnyk", imagePath: "/static/map_app/images/polissia_zapovidnyk.jpg", imageAlt: "Поліський природний заповідник", details: `<p><strong>Поліський природний заповідник</strong> — одна з найбільших природоохоронних зон на території України, створена для збереження унікальних лісових, болотних та озерних екосистем українського Полісся. Тут мешкають рідкісні види тварин і рослин, а також розташовані історичні пам'ятки.</p>` },
-    
-    { name: "Палац Бержинських-Терещенків", lat: 50.01647450985383, lng: 29.023309381540617, id: "berzhynski_palace", imagePath: "/static/map_app/images/palace_berzhynski.jpg", imageAlt: "Палац Бержинських-Терещенків у с. Червоне", details: `<p><strong>Палац Бержинських-Терещенків</strong> — видатний зразок неоготичної архітектури у селі Червоне. Він належав спочатку родинам Бержинських, а потім Терещенкам. Палац відомий своєю архітектурою з баштами та мальовничим парком. На жаль, зараз він знаходиться у стані руїни, але зберігає свою велич.</p>` },
-    { name: "Курган-могила учасників Коліївщини 1768 р.", lat: 50.08349247490191, lng: 28.725181795038896, id: "koliivshchyna_kurhan", imagePath: "/static/map_app/images/koliivshchyna_kurhan.jpg", imageAlt: "Курган-могила учасників Коліївщини", details: `<p><strong>Курган-могила</strong> — це пам'ятка на честь героїв селянсько-козацького повстання Коліївщини 1768 року. Вона є важливим символом боротьби українського народу за свою незалежність у XVIII столітті. Курган розташований на мальовничій височині та є місцем пам'яті.</p>` },
-    { name: "Костел Різдва Пресвятої Діви Марії", lat: 50.31849528081428, lng: 29.06615262388855, id: "kostel_rudnya", imagePath: "/static/map_app/images/kostel_rudnya.jpg", imageAlt: "Костел Різдва Пресвятої Діви Марії у с. Рудня", details: `<p><strong>Костел Різдва Пресвятої Діви Марії</strong> — католицький храм, пам'ятка архітектури місцевого значення. Він поєднує елементи бароко та класицизму і є важливим елементом поліської архітектурної спадщини. Це діючий храм, який привертає увагу своєю незвичайною архітектурою.</p>` },
-
-];
 let userMonuments = [];
 
 async function loadUserMonuments(regionKey) {
@@ -317,9 +311,7 @@ function onEachFeature(feature, layer) {
 
 function addMarkers(monumentsArray) {
     currentMarkers.clearLayers(); 
-    const markers = []; 
     monumentsArray.forEach(monument => {
-  console.log("MONUMENT:", monument);
   if (typeof monument.id !== "number") return;
        const lat = parseFloat(monument.lat);
 const lng = parseFloat(monument.lng);
@@ -330,12 +322,14 @@ const marker = L.marker([lat, lng], { icon: defaultMarkerIcon });
 
 currentMarkers.addLayer(marker);
 
-marker.bindTooltip(monument.name, {
-    permanent: false,
-    direction: 'top',
-    offset: [0, -40],
-    className: 'marker-tooltip'
-});
+if (monument.name) {
+    marker.bindTooltip(monument.name, {
+        permanent: false,
+        direction: 'top',
+        offset: [0, -40],
+        className: 'marker-tooltip'
+    });
+}
         
         marker.isZoomed = false; 
 
@@ -370,13 +364,7 @@ window.closeDetailsPanel = function () {
 
 
        
-        window.map.on('zoomend', function() { 
-            if (window.map.getZoom() < 14) { 
-                marker.isZoomed = false;
-            }
-        });
-        
-        markers.push(marker);
+
     });
 
 }
@@ -557,9 +545,7 @@ const ResetControl = L.Control.extend({
 });
 
 
-window.getZhytomyrData = function() {
-    return userMonuments;
-};
+
 
 /**
  * 
