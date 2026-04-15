@@ -63,7 +63,10 @@ window.onGameContainerRemoved = function() {
 
 
 window.initChronologyCardsGame = function(sourceData) {
-    if (!sourceData || !Array.isArray(sourceData) || sourceData.length === 0) {
+
+    const filteredData = (sourceData || []).filter(m => m.isGameEnabled);
+
+    if (!filteredData || !Array.isArray(filteredData) || filteredData.length === 0) {
         console.error("Помилка: Немає коректних даних для гри Картки.");
         window.goToTypeSelection();
         return;
@@ -99,7 +102,7 @@ window.initChronologyCardsGame = function(sourceData) {
         else quizScreen.appendChild(gameContainer);
     }
 
-    initializeStudyMode(sourceData);
+    initializeStudyMode(filteredData);
 };
 
 function initializeStudyMode(data) {
@@ -547,13 +550,16 @@ function checkChronologyAnswers() {
 
 
 window.initChronologyGame = function(sourceData) {
-    if (!sourceData || !Array.isArray(sourceData) || sourceData.length === 0) {
+
+    const filteredData = sourceData.filter(m => m.isGameEnabled);
+
+    if (!filteredData || !Array.isArray(filteredData) || filteredData.length === 0) {
         console.error("Помилка: Немає коректних даних для гри Хронологія.");
         window.goToTypeSelection();
         return;
     }
 
-    fullSourceData = sourceData.map(item => {
+    fullSourceData = filteredData.map(item => {
         const calculatedHint = findHintForName(item.name);
         return {
             ...item,

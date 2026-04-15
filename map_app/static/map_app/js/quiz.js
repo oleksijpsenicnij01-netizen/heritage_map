@@ -609,7 +609,7 @@ if ('ontouchstart' in window) {
 
   async function loadQuizData(regionKey) {
   try {
-    const r = await fetch(`/api/monuments/?region=${regionKey}`);
+    const r = await fetch(`/api/monuments/?region=${regionKey}&for_game=true`)
     const data = await r.json();
 
     if (data.ok) {
