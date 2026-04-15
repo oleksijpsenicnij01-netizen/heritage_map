@@ -616,10 +616,11 @@ if ('ontouchstart' in window) {
 window.quizData = data.monuments.map(m => ({
   id: m.id,
   name: m.name,
-  imagePath: m.imagePath,
+  imagePath: m.imagePath || m.image,
   description: m.details || "",
   year: m.year,
-  hint: m.hint
+  hint: m.hint,
+  isGameEnabled: m.isGameEnabled  
 }));
     }
   } catch (e) {
