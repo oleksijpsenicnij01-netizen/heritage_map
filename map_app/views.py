@@ -644,6 +644,7 @@ def monuments_api(request):
             "details": f"<p>{(m.description or '').strip()}</p>",
             "year": m.year,
             "hint": m.hint,
+            "isGameEnabled": m.is_game_enabled,
         })
 
     return JsonResponse({

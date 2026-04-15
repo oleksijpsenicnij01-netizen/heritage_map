@@ -64,7 +64,7 @@ window.onGameContainerRemoved = function() {
 
 window.initChronologyCardsGame = function(sourceData) {
 
-    const filteredData = (sourceData || []).filter(m => m.isGameEnabled);
+    const filteredData = (sourceData || []).filter(m => m.year);
 
     if (!filteredData || !Array.isArray(filteredData) || filteredData.length === 0) {
         console.error("Помилка: Немає коректних даних для гри Картки.");
@@ -488,7 +488,7 @@ function checkChronologyAnswers() {
 
     listItems.forEach((item, index) => {
         const itemId = String(item.dataset.id);
-        const currentData = fullSourceData.find(d => String(d.id) === itemId);
+        const currentData = fullSourceData.find(d => Number(d.id) === Number(itemId));
         const correctItem = sortedChronologyData[index];
 
         item.classList.remove('correct', 'incorrect');
@@ -551,7 +551,7 @@ function checkChronologyAnswers() {
 
 window.initChronologyGame = function(sourceData) {
 
-    const filteredData = (sourceData || []).filter(m => m.isGameEnabled);
+    const filteredData = (sourceData || []).filter(m => m.year);
 
     if (!filteredData || !Array.isArray(filteredData) || filteredData.length === 0) {
         console.error("Помилка: Немає коректних даних для гри Хронологія.");
