@@ -551,7 +551,7 @@ function checkChronologyAnswers() {
 
 window.initChronologyGame = function(sourceData) {
 
-    const filteredData = sourceData.filter(m => m.isGameEnabled);
+    const filteredData = (sourceData || []).filter(m => m.isGameEnabled);
 
     if (!filteredData || !Array.isArray(filteredData) || filteredData.length === 0) {
         console.error("Помилка: Немає коректних даних для гри Хронологія.");
