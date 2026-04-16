@@ -28,7 +28,7 @@
 
   const regions = [
       { name: "Автономна Республіка Крим", isAvailable: false },
-      { name: "Вінницька область", isAvailable: false },
+      { name: "Вінницька область", isAvailable: true, internalName: 'vinnytsia' },
       { name: "Волинська область", isAvailable: false },
       { name: "Дніпропетровська область", isAvailable: false },
       { name: "Донецька область", isAvailable: false },

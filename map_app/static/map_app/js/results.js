@@ -6,7 +6,7 @@
 
   const REGIONS = [
     { name: "Автономна Республіка Крим", isAvailable: false, internalName: "crimea" },
-    { name: "Вінницька область", isAvailable: false, internalName: "vinnytsia" },
+    { name: "Вінницька область", isAvailable: true, internalName: 'vinnytsia' },
     { name: "Волинська область", isAvailable: false, internalName: "volyn" },
     { name: "Дніпропетровська область", isAvailable: false, internalName: "dnipro" },
     { name: "Донецька область", isAvailable: false, internalName: "donetsk" },

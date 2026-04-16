@@ -515,7 +515,8 @@ async function loadRegionBorder(regionKey) {
 
     const regionFileMap = {
       zhytomyr: "UA_18_Zhytomyrska.geojson",
-      kyiv: "UA_32_Kyivska.geojson"
+      kyiv: "UA_32_Kyivska.geojson",
+      vinnytsia: "UA_05_Vinnytska.geojson"
     };
 
     const fileName = regionFileMap[regionKey];
