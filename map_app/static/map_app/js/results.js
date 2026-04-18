@@ -140,6 +140,7 @@ if (regionList) {
   }
 
   async function renderTable(regionKey) {
+    const TOTAL = await getTotalMonuments(regionKey);
     if (!resultsTitle || !resultsBody) return;
 
     resultsTitle.textContent = "Мої результати";
@@ -175,7 +176,7 @@ resultsBody.innerHTML = `
 
     const rows = GAME_CATALOG.map((g) => {
       const it = byKey[g.key];
-const TOTAL = 9;
+
 
 const raw = it && it.best_score !== undefined && it.best_score !== null ? Number(it.best_score) : null;
 const score = Number.isFinite(raw) ? `${raw}/${TOTAL}` : "—";
@@ -222,3 +223,19 @@ const score = Number.isFinite(raw) ? `${raw}/${TOTAL}` : "—";
 
   if (closeTopBtn) closeTopBtn.addEventListener("click", close);
 })();
+
+
+async function getTotalMonuments(regionKey) {
+  try {
+    const r = await fetch(`/api/monuments/?region=${regionKey}&for_game=true`);
+    const data = await r.json();
+
+    if (data.ok && Array.isArray(data.monuments)) {
+      return data.monuments.length;
+    }
+  } catch (e) {
+    console.error("Помилка отримання кількості пам'яток", e);
+  }
+
+  return 0;
+}
