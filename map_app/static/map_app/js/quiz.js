@@ -619,6 +619,7 @@ window.quizData = data.monuments.map(m => ({
   imagePath: m.imagePath || m.image,
   description: m.details || "",
   year: m.year,
+  year_display: m.year_display,
   hint: m.hint,
   isGameEnabled: m.isGameEnabled  
 }));

@@ -468,10 +468,14 @@ function showChronologyHint() {
 
     currentChronologyHintIndex = (currentChronologyHintIndex + 1);
 
-    const displayYear = hintItem.year_display || hintItem.year || "невідомо";
 
-    const defaultHint = `Пам'ятка "${hintItem.name}" відноситься приблизно до ${displayYear}.`;
-    const hintText = hintItem.hint || findHintForName(hintItem.name) || defaultHint;
+const displayYear = hintItem.year_display || hintItem.year || "невідомо";
+
+const defaultHint = `Пам'ятка "${hintItem.name}" відноситься приблизно до ${displayYear}.`;
+
+let hintText = hintItem.hint || findHintForName(hintItem.name) || "";
+
+hintText = `${hintText} (${displayYear})`;
 
     if (document.getElementById('hint-title')) document.getElementById('hint-title').innerHTML = `Підказка до "${hintItem.name}"`;
     if (document.getElementById('hint-text')) document.getElementById('hint-text').innerHTML = hintText;
