@@ -643,6 +643,7 @@ def monuments_api(request):
             "imageAlt": m.name,
             "details": f"<p>{(m.description or '').strip()}</p>",
             "year": m.year,
+            "year_display": m.year_display,
             "hint": m.hint,
             "isGameEnabled": m.is_game_enabled,
         })

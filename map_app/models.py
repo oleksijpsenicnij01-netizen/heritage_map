@@ -47,6 +47,7 @@ class Monument(models.Model):
     is_game_enabled = models.BooleanField(default=False)
 
     year = models.IntegerField(null=True, blank=True)
+    year_display = models.CharField(max_length=50, blank=True)
     hint = models.TextField(blank=True, default="")
 
     class Meta:

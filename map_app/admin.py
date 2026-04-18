@@ -50,6 +50,7 @@ class MonumentAdmin(admin.ModelAdmin):
         "is_visible",
         "is_game_enabled",
         "year",
+        "year_display",
         "hint",
         "created_by",
         "created_at",

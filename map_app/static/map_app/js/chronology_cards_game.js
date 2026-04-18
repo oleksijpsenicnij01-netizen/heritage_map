@@ -468,7 +468,9 @@ function showChronologyHint() {
 
     currentChronologyHintIndex = (currentChronologyHintIndex + 1);
 
-    const defaultHint = `Пам'ятка **${hintItem.name}** була заснована приблизно в **${Math.floor(Math.abs(hintItem.year) / 100) * 100}** столітті. (Підказка за замовчуванням)`;
+    const displayYear = hintItem.year_display || hintItem.year || "невідомо";
+
+    const defaultHint = `Пам'ятка "${hintItem.name}" відноситься приблизно до ${displayYear}.`;
     const hintText = hintItem.hint || findHintForName(hintItem.name) || defaultHint;
 
     if (document.getElementById('hint-title')) document.getElementById('hint-title').innerHTML = `Підказка до "${hintItem.name}"`;
@@ -507,7 +509,8 @@ function checkChronologyAnswers() {
             item.classList.add('incorrect');
         }
 
-        item.textContent = `${currentData.name} (${currentData.year} р.)`;
+        const displayYear = currentData.year_display || currentData.year;
+        item.textContent = `${currentData.name} (${displayYear})`;
         item.setAttribute('draggable', false);
     });
 
@@ -563,7 +566,7 @@ window.initChronologyGame = function(sourceData) {
         const calculatedHint = findHintForName(item.name);
         return {
             ...item,
-            hint: item.hint || calculatedHint
+            hint: item.hint && item.hint.trim() !== "" ? item.hint : calculatedHint
         };
     });
 
