@@ -26,33 +26,33 @@
       .replaceAll("'", "&#039;");
   }
 
-  const REGIONS = [
-    { name: "Автономна Республіка Крим", isAvailable: false, internalName: "crimea" },
-    { name: "Вінницька область", isAvailable: true, internalName: 'vinnytsia' },
-    { name: "Волинська область", isAvailable: false, internalName: "volyn" },
-    { name: "Дніпропетровська область", isAvailable: false, internalName: "dnipro" },
-    { name: "Донецька область", isAvailable: false, internalName: "donetsk" },
-    { name: "Житомирська область", isAvailable: true, internalName: "zhytomyr" },
-    { name: "Закарпатська область", isAvailable: false, internalName: "zakarpattia" },
-    { name: "Запорізька область", isAvailable: false, internalName: "zaporizhzhia" },
-    { name: "Івано-Франківська область", isAvailable: false, internalName: "ivano-frankivsk" },
-    { name: "Київська область", isAvailable: true, internalName: "kyiv" },
-    { name: "Кіровоградська область", isAvailable: false, internalName: "kyrovohrad" },
-    { name: "Луганська область", isAvailable: false, internalName: "luhansk" },
-    { name: "Львівська область", isAvailable: false, internalName: "lviv" },
-    { name: "Миколаївська область", isAvailable: false, internalName: "mykolaiv" },
-    { name: "Одеська область", isAvailable: false, internalName: "odesa" },
-    { name: "Полтавська область", isAvailable: false, internalName: "poltava" },
-    { name: "Рівненська область", isAvailable: false, internalName: "rivne" },
-    { name: "Сумська область", isAvailable: false, internalName: "sumy" },
-    { name: "Тернопільська область", isAvailable: false, internalName: "ternopil" },
-    { name: "Харківська область", isAvailable: false, internalName: "kharkiv" },
-    { name: "Херсонська область", isAvailable: false, internalName: "kherson" },
-    { name: "Хмельницька область", isAvailable: false, internalName: "khmelnytskyi" },
-    { name: "Черкаська область", isAvailable: false, internalName: "cherkasy" },
-    { name: "Чернівецька область", isAvailable: false, internalName: "chernivtsi" },
-    { name: "Чернігівська область", isAvailable: false, internalName: "chernihiv" }
-  ];
+const regions = [
+  { name: "Автономна Республіка Крим", isAvailable: true, internalName: "crimea" },
+  { name: "Вінницька область", isAvailable: true, internalName: "vinnytsia" },
+  { name: "Волинська область", isAvailable: true, internalName: "volyn" },
+  { name: "Дніпропетровська область", isAvailable: true, internalName: "dnipro" },
+  { name: "Донецька область", isAvailable: true, internalName: "donetsk" },
+  { name: "Житомирська область", isAvailable: true, internalName: "zhytomyr" },
+  { name: "Закарпатська область", isAvailable: true, internalName: "zakarpattia" },
+  { name: "Запорізька область", isAvailable: true, internalName: "zaporizhzhia" },
+  { name: "Івано-Франківська область", isAvailable: true, internalName: "ivano-frankivsk" },
+  { name: "Київська область", isAvailable: true, internalName: "kyiv" },
+  { name: "Кіровоградська область", isAvailable: true, internalName: "kirovohrad" },
+  { name: "Луганська область", isAvailable: true, internalName: "luhansk" },
+  { name: "Львівська область", isAvailable: true, internalName: "lviv" },
+  { name: "Миколаївська область", isAvailable: true, internalName: "mykolaiv" },
+  { name: "Одеська область", isAvailable: true, internalName: "odesa" },
+  { name: "Полтавська область", isAvailable: true, internalName: "poltava" },
+  { name: "Рівненська область", isAvailable: true, internalName: "rivne" },
+  { name: "Сумська область", isAvailable: true, internalName: "sumy" },
+  { name: "Тернопільська область", isAvailable: true, internalName: "ternopil" },
+  { name: "Харківська область", isAvailable: true, internalName: "kharkiv" },
+  { name: "Херсонська область", isAvailable: true, internalName: "kherson" },
+  { name: "Хмельницька область", isAvailable: true, internalName: "khmelnytskyi" },
+  { name: "Черкаська область", isAvailable: true, internalName: "cherkasy" },
+  { name: "Чернівецька область", isAvailable: true, internalName: "chernivtsi" },
+  { name: "Чернігівська область", isAvailable: true, internalName: "chernihiv" }
+];
 
   let selectedRegion = null;
   let selectedMonumentId = null;

@@ -513,11 +513,32 @@ async function loadLocationGameData(regionKey) {
 async function loadRegionBorder(regionKey) {
   try {
 
-    const regionFileMap = {
-      zhytomyr: "UA_18_Zhytomyrska.geojson",
-      kyiv: "UA_32_Kyivska.geojson",
-      vinnytsia: "UA_05_Vinnytska.geojson"
-    };
+const regionFileMap = {
+  crimea: "UA_43_Avtomonna_Respublika_Krym.geojson",
+  vinnytsia: "UA_05_Vinnytska.geojson",
+  volyn: "UA_07_Volynska.geojson",
+  dnipro: "UA_12_Dnipropetrovska.geojson",
+  donetsk: "UA_14_Donetska.geojson",
+  zhytomyr: "UA_18_Zhytomyrska.geojson",
+  zakarpattia: "UA_21_Zakarpatska.geojson",
+  zaporizhzhia: "UA_23_Zaporizka.geojson",
+  "ivano-frankivsk": "UA_26_Ivano_Frankivska.geojson",
+  kyiv: "UA_32_Kyivska.geojson",
+  kirovohrad: "UA_35_Kirovohradska.geojson",
+  lviv: "UA_46_Lvivska.geojson",
+  mykolaiv: "UA_48_Mykolaivska.geojson",
+  odesa: "UA_51_Odeska.geojson",
+  poltava: "UA_53_Poltavska.geojson",
+  rivne: "UA_56_Rivnenska.geojson",
+  sumy: "UA_59_Sumska.geojson",
+  ternopil: "UA_61_Ternopilska.geojson",
+  kharkiv: "UA_63_Kharkivska.geojson",
+  kherson: "UA_65_Khersonska.geojson",
+  khmelnytskyi: "UA_68_Khmelnytska.geojson",
+  cherkasy: "UA_71_Cherkaska.geojson",
+  chernihiv: "UA_74_Chernihivska.geojson",
+  chernivtsi: "UA_77_Chernivetska.geojson"
+};
 
     const fileName = regionFileMap[regionKey];
     if (!fileName) return;
