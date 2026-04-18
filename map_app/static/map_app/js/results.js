@@ -91,7 +91,7 @@ const regions = [
 
     resultsTitle.textContent = "Виберіть область для перегляду результатів";
 
-    const sorted = [...REGIONS].sort((a, b) => a.name.localeCompare(b.name));
+    const sorted = [...regions].sort((a, b) => a.name.localeCompare(b.name));
 
     const regionBlocks = sorted
       .map((r) => {

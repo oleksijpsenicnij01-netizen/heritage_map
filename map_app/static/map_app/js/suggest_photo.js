@@ -92,7 +92,7 @@ async function getMonumentsForRegion(regionKey) {
     const dd = document.getElementById("suggest-region-dropdown");
     if (!dd) return;
 
-    const sorted = [...REGIONS].sort((a, b) => a.name.localeCompare(b.name));
+    const sorted = [...regions].sort((a, b) => a.name.localeCompare(b.name));
 
     dd.innerHTML = sorted
       .map((r) => {
@@ -118,7 +118,7 @@ async function getMonumentsForRegion(regionKey) {
       const key = opt.getAttribute("data-region");
       if (!key) return;
 
-      const region = REGIONS.find((x) => x.internalName === key);
+      const region = regions.find((x) => x.internalName === key);
       if (!region || !region.isAvailable) return;
 
       selectedRegion = region;
