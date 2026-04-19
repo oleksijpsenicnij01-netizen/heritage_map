@@ -275,6 +275,7 @@
   width: 38vw;
   max-width: 320px;
   height: 100vh;       
+  overflow: visible;
 }
 
   #map-view.location-map-view {
