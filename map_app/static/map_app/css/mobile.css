@@ -302,3 +302,18 @@
   overflow-wrap: break-word;
 }
 }
+
+@media (max-width: 768px) {
+
+#location-name-list {
+  min-width: 0;
+}
+
+.name-item {
+  width: 100%;
+  min-width: 0;        
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+}
