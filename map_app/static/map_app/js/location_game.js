@@ -23,7 +23,7 @@ window.destroyLocationGame = function () {
 let regionBorderLayer = null;
 
 let locationMarkersLayer = L.markerClusterGroup({
-  spiderfyOnMaxZoom: false,
+  spiderfyOnMaxZoom: true,
   showCoverageOnHover: false,
   zoomToBoundsOnClick: true
 });
@@ -180,7 +180,7 @@ if (locationGameMap) {
     center: centerCoords,
     zoom: initialZoom,
     minZoom: 7,
-    maxZoom: 18,
+    maxZoom: 20,
     attributionControl: false,
     zoomControl: false
   });
