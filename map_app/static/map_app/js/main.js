@@ -217,7 +217,7 @@ function zoomToFeature(e) {
     
 
     layer.setStyle({ 
-        weight: 6, 
+        weight: 3, 
         color: 'white', 
         dashArray: '', 
         fillOpacity: 0.0
@@ -235,7 +235,7 @@ function zoomToFeature(e) {
     
     layer._path.style.pointerEvents = 'none';
     
-    layer.bringToFront(); 
+    //layer.bringToFront(); 
     selectedLayer = layer; 
     
 
@@ -630,7 +630,7 @@ window.toggleMapMode = function(mode) {
      
         if (selectedLayer) {
             selectedLayer.setStyle({ 
-                weight: 6,      
+                weight: 3,      
                 color: 'white', 
                 fillOpacity: 0.0 
             });
@@ -686,7 +686,7 @@ currentMarkers.eachLayer(function(marker) {
        
         if (selectedLayer) {
              selectedLayer.setStyle({ 
-                 weight: 6, 
+                 weight: 3, 
                  color: 'white', 
                  dashArray: '', 
                  fillOpacity: 0.0
