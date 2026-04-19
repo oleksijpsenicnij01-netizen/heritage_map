@@ -278,12 +278,25 @@
 #game-container.location-game-container {
   width: 38vw;
   max-width: 320px;
-  height: auto;
-  overflow-y: auto;
+  height: 100vh;      
+  overflow: hidden;    
 }
 
   #map-view.location-map-view {
     left: 38vw;
   }
 
+}
+
+.quiz-screen.location-game-active {
+  overflow: hidden;
+}
+
+#game-container.location-game-container .matching-list-container {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.matching-list-container div {
+  word-break: break-word;
 }
