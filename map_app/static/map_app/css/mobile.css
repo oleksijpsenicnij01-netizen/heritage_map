@@ -64,6 +64,7 @@
   }
 
   .quiz-content {
+  overflow-y: auto;
   min-height: 100%;
   height: auto;
     border-radius: 0;
@@ -277,11 +278,12 @@
 
 @media (max-width: 768px) {
 
-  #game-container.location-game-container {
-  width: 100%;
-  height: auto; 
-  padding: 10px;
-  }
+#game-container.location-game-container {
+  width: 38vw;
+  max-width: 320px;
+  height: auto;
+  overflow-y: auto;
+}
 
   #map-view.location-map-view {
     left: 38vw;
