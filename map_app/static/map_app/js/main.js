@@ -166,7 +166,8 @@ function highlightFeature(e) {
             dashArray: '', 
             fillOpacity: layer.options.fillOpacity 
         });
-        if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) { layer.bringToFront(); }
+        if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) { //layer.bringToFront(); 
+  }
     }
     
 
@@ -297,6 +298,8 @@ currentMarkers.eachLayer(function(marker) {
   } else {
     marker.setZIndexOffset(0);
   }
+
+  marker.bringToFront();
 });
 });
 } else {
