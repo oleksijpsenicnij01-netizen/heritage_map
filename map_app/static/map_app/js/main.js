@@ -288,9 +288,17 @@ if (matchedRegion) {
 
   galleryState.regionKey = regionKey; 
 
-  loadUserMonuments(regionKey).then(() => {
-    addMarkers(userMonuments);
-  });
+loadUserMonuments(regionKey).then(() => {
+  addMarkers(userMonuments);
+
+currentMarkers.eachLayer(function(marker) {
+  if (marker.regionKey === regionKey) {
+    marker.setZIndexOffset(1000);
+  } else {
+    marker.setZIndexOffset(0);
+  }
+});
+});
 } else {
   currentMarkers.clearLayers();
 }
@@ -313,14 +321,14 @@ let zoom = window.map.getBoundsZoom(bounds);
 if (window.innerWidth <= 768) {
 
   if (matchedRegion === 'сумська') zoom = 7;
-  if (matchedRegion === 'одеська') zoom = 7;
+  if (matchedRegion === 'одеська') zoom = 6;
   if (matchedRegion === 'кіровоградська') zoom = 7;
 
 } else {
 
   if (matchedRegion === 'сумська') zoom = 8;
-  if (matchedRegion === 'одеська') zoom = 8;
-  if (matchedRegion === 'кіровоградська') zoom = 8;
+  if (matchedRegion === 'одеська') zoom = 7;
+  if (matchedRegion === 'кіровоградська') zoom = 7;
 
 }
 
@@ -359,7 +367,7 @@ const lng = parseFloat(monument.lng);
 if (isNaN(lat) || isNaN(lng)) return;
 
 const marker = L.marker([lat, lng], { icon: defaultMarkerIcon });
-
+marker.regionKey = galleryState.regionKey;
 currentMarkers.addLayer(marker);
 
 if (monument.name) {
@@ -660,6 +668,10 @@ window.toggleMapMode = function(mode) {
         if (selectedLayer && mapStateBeforeMarkerZoom) {
            
 addMarkers(userMonuments);
+
+currentMarkers.eachLayer(function(marker) {
+  marker.setZIndexOffset(0);
+});
 
              
              if (!resetControlInstance) {
