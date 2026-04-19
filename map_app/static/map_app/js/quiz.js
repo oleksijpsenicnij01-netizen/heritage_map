@@ -425,7 +425,7 @@ if ('ontouchstart' in window) {
               contentDiv.className = 'target-content';
              
               const descriptionText = document.createElement('p');
-              descriptionText.textContent = item.description;
+              descriptionText.innerHTML = item.description;
              
               contentDiv.appendChild(descriptionText);
               targetBlock.appendChild(contentDiv);

@@ -434,7 +434,7 @@
 
     padding: 15px;
     position: relative;
-    padding-bottom: 60px;
+    padding-bottom: 80px;
 
     width: 100%;
     max-width: none;
@@ -449,7 +449,7 @@
 }
 
 .droppable-description .draggable-item {
-    position: absolute !important;
+    position: static !important;
     bottom: 10px !important;
     left: 10px !important;
     
