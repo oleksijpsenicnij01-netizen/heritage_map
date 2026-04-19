@@ -310,14 +310,11 @@ const center = bounds.getCenter();
 
 let zoom = window.map.getBoundsZoom(bounds);
 
-if (matchedRegion === 'одеська') zoom += 1;
-if (matchedRegion === 'сумська') zoom -= 1;
-if (matchedRegion === 'дніпропетровська') zoom += 0;
-if (matchedRegion === 'кіровоградська') zoom += 0;
+if (matchedRegion === 'сумська') zoom = 7;
+if (matchedRegion === 'одеська') zoom = 6;
 
 if (window.innerWidth <= 768) {
-  if (matchedRegion === 'сумська') zoom -= 1;
-  if (matchedRegion === 'кіровоградська') zoom += 1;
+  if (matchedRegion === 'кіровоградська') zoom = 6;
 }
 
 window.map.flyTo(center, zoom, {
