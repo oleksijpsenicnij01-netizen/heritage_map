@@ -301,7 +301,7 @@ if (matchedRegion) {
 let padValue = 0.05;
 
 if (matchedRegion === 'київська') padValue = 0.01;
-if (matchedRegion === 'одеська') padValue = -0.1;
+if (matchedRegion === 'одеська') padValue = 0.01;
 if (matchedRegion === 'сумська') padValue = isMobile ? -0.2 : -0.6;
 if (matchedRegion === 'дніпропетровська') padValue = isMobile ? 0.02 : 0.05;
 if (matchedRegion === 'кіровоградська') padValue = isMobile ? 0.02 : 0.05;
