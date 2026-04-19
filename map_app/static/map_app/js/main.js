@@ -300,9 +300,6 @@ if (matchedRegion) {
 
 let padValue = 0.05;
 
-const matchedRegion = Object.keys(regionMap)
-  .find(key => regionNameLower.includes(key));
-
 if (matchedRegion === 'київська') padValue = 0.01;
 if (matchedRegion === 'одеська') padValue = 0.01;
 if (matchedRegion === 'сумська') padValue = -0.2;
