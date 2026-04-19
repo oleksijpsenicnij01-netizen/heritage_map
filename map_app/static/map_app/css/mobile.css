@@ -281,7 +281,7 @@
     left: 38vw;
   }
 
-}
+
 
 .quiz-screen.location-game-active {
   overflow: hidden;
@@ -298,4 +298,5 @@
   box-sizing: border-box;
   word-break: break-word;
   overflow-wrap: break-word;
+}
 }
