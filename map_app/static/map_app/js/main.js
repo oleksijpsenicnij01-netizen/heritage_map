@@ -301,12 +301,14 @@ if (matchedRegion) {
 let padValue = 0.05;
 
 if (matchedRegion === 'київська') padValue = 0.01;
-if (matchedRegion === 'одеська') padValue = 0.01;
-if (matchedRegion === 'сумська') padValue = -0.6;
+if (matchedRegion === 'одеська') padValue = -0.2;
+if (matchedRegion === 'сумська') padValue = isMobile ? -0.2 : -0.6;
+if (matchedRegion === 'дніпропетровська') padValue = isMobile ? 0.02 : 0.05;
+if (matchedRegion === 'кіровоградська') padValue = isMobile ? 0.02 : 0.05;
 
 window.map.flyToBounds(layer.getBounds().pad(padValue), {
   duration: 0.5,
-  padding: L.point(10, 10)
+  padding: isMobile ? L.point(5, 5) : L.point(10, 10)
 });
 
     
