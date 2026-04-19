@@ -64,8 +64,7 @@
 
   .quiz-content {
   overflow-y: auto;
-  min-height: 100%;
-  height: auto;
+  height: 100%;
     border-radius: 0;
   }
 
