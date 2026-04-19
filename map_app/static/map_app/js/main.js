@@ -90,7 +90,7 @@ const defaultMarkerIcon = new CustomIcon();
 
 const initialCenter = [48.3794, 31.1656];
 
-const isMobile = window.innerWidth <= 768;
+if (window.innerWidth <= 768)
 const initialZoom = isMobile ? 5 : 6;
 
 
@@ -306,9 +306,23 @@ if (matchedRegion === 'сумська') padValue = isMobile ? -0.2 : -0.6;
 if (matchedRegion === 'дніпропетровська') padValue = isMobile ? 0.02 : 0.05;
 if (matchedRegion === 'кіровоградська') padValue = isMobile ? 0.02 : 0.05;
 
-window.map.flyToBounds(layer.getBounds().pad(padValue), {
-  duration: 0.5,
-  padding: isMobile ? L.point(5, 5) : L.point(10, 10)
+const bounds = layer.getBounds();
+const center = bounds.getCenter();
+
+let zoom = window.map.getBoundsZoom(bounds);
+
+if (matchedRegion === 'одеська') zoom += 1;
+if (matchedRegion === 'сумська') zoom -= 1;
+if (matchedRegion === 'дніпропетровська') zoom += 0;
+if (matchedRegion === 'кіровоградська') zoom += 0;
+
+if (window.innerWidth <= 768) {
+  if (matchedRegion === 'сумська') zoom -= 1;
+  if (matchedRegion === 'кіровоградська') zoom += 1;
+}
+
+window.map.flyTo(center, zoom, {
+  duration: 0.5
 });
 
     
