@@ -241,10 +241,6 @@
     max-width: 320px;
   }
 
-  .matching-list-container {
-    max-height: 65vh;
-  }
-
 }
 
 @media (max-width: 768px) {
@@ -278,8 +274,7 @@
 #game-container.location-game-container {
   width: 38vw;
   max-width: 320px;
-  height: 100vh;      
-  overflow: hidden;    
+  height: 100vh;       
 }
 
   #map-view.location-map-view {
@@ -297,3 +292,10 @@
   overflow-y: auto;
 }
 
+
+.matching-list-container * {
+  max-width: 100%;
+  box-sizing: border-box;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
