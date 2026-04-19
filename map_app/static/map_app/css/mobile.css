@@ -290,6 +290,7 @@
 
 #game-container.location-game-container .matching-list-container {
   height: 100%;
+  max-height: none;
   overflow-y: auto;
 }
 
