@@ -162,6 +162,7 @@ if (close2Btn) close2Btn.addEventListener("click", window.closeContactScreen);
   }
 
 window.openContactScreen = function () {
+  if (window.clearUIState) window.clearUIState();
   if (typeof window.closeSuggestScreen === "function") window.closeSuggestScreen();
   if (typeof window.closeSuggestMonumentScreen === "function") window.closeSuggestMonumentScreen();
   if (typeof window.closeQuizScreen === "function") window.closeQuizScreen();
@@ -178,6 +179,7 @@ window.openContactScreen = function () {
 
 
   window.closeContactScreen = function () {
+    if (window.clearUIState) window.clearUIState();
     const screen = document.getElementById("contact-screen");
     if (screen){
       screen.classList.remove("active");

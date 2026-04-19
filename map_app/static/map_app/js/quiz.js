@@ -112,6 +112,7 @@ const regions = [
   }
 
   window.openRegionSelectionView = function() {
+     if (window.clearUIState) window.clearUIState();
       const existingGameContainer = document.getElementById('game-container');
       if (existingGameContainer) {
           existingGameContainer.remove();
@@ -128,6 +129,7 @@ const regions = [
   }
 
   window.closeQuizScreen = () => {
+    if (window.clearUIState) window.clearUIState();
     document.getElementById("quiz-screen").style.display = "none";
 
 
@@ -189,6 +191,7 @@ const regions = [
   let currentGameTypeKey = null;
 
   function handleGameClick(game) {
+    if (window.clearUIState) window.clearUIState();
       if (!game.isEnabled) return;
      
       if(typeSelectionView) {

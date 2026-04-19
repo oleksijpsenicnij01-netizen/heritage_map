@@ -12,6 +12,7 @@
   const errorsBox = document.getElementById("auth-errors");
 
   function openAuth() {
+    if (window.clearUIState) window.clearUIState();
     if (!authScreen) return;
     authScreen.style.display = "flex";
   }
@@ -23,6 +24,7 @@
   }
 
   function closeAuth() {
+    if (window.clearUIState) window.clearUIState();
     if (!authScreen) return;
     authScreen.style.display = "none";
     clearErrors();

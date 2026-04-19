@@ -248,6 +248,7 @@ async function getMonumentsForRegion(regionKey) {
   }
 
 window.openSuggestScreen = function () {
+  if (window.clearUIState) window.clearUIState();
   if (typeof window.closeQuizScreen === "function") window.closeQuizScreen();
   if (typeof window.closeResultsScreen === "function") window.closeResultsScreen();
   if (typeof window.closeAuthScreen === "function") window.closeAuthScreen();
@@ -269,6 +270,7 @@ if (sidebar && sidebar.classList.contains("active")) {
 };
 
   window.closeSuggestScreen = function () {
+    if (window.clearUIState) window.clearUIState();
     const el = document.getElementById("suggest-screen");
     if (!el) return;
 

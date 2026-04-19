@@ -188,6 +188,7 @@ const REGIONS = [
   }
 
   window.openSuggestMonumentScreen = function () {
+    if (window.clearUIState) window.clearUIState();
     if (typeof window.closeQuizScreen === "function") window.closeQuizScreen();
     if (typeof window.closeResultsScreen === "function") window.closeResultsScreen();
     if (typeof window.closeAuthScreen === "function") window.closeAuthScreen();
@@ -203,6 +204,7 @@ const REGIONS = [
   };
 
   window.closeSuggestMonumentScreen = function () {
+    if (window.clearUIState) window.clearUIState();
     const el = document.getElementById("suggest-monument-screen");
     if (!el) return;
 

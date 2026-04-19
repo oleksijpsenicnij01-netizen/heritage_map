@@ -72,6 +72,7 @@ const regions = [
   }
 
   function show() {
+    if (window.clearUIState) window.clearUIState();
     if (!resultsScreen) return;
     if (closeTopBtn) closeTopBtn.style.display = "none";
     resultsScreen.style.display = "flex";
@@ -80,6 +81,7 @@ const regions = [
   }
 
   function close() {
+    if (window.clearUIState) window.clearUIState();
     if (!resultsScreen) return;
     resultsScreen.classList.remove("active");
     resultsScreen.style.display = "none";

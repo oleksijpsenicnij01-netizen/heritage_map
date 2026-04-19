@@ -13,6 +13,19 @@ let galleryState = {
   images: [],  
   index: 0
 };
+window.clearUIState = function () {
+  const panel = document.getElementById('details-panel');
+
+  if (panel) {
+    panel.style.display = "none";
+    panel.innerHTML = "";
+  }
+
+  if (activeDetailsMarker) {
+    activeDetailsMarker.isZoomed = false;
+    activeDetailsMarker = null;
+  }
+};
 
 function escapeHtml(str) {
   return String(str)
