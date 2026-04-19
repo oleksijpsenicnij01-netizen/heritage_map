@@ -90,8 +90,7 @@ const defaultMarkerIcon = new CustomIcon();
 
 const initialCenter = [48.3794, 31.1656];
 
-if (window.innerWidth <= 768)
-const initialZoom = isMobile ? 5 : 6;
+const initialZoom = window.innerWidth <= 768 ? 5 : 6;
 
 
 window.map = L.map('map', {
@@ -302,9 +301,9 @@ let padValue = 0.05;
 
 if (matchedRegion === 'київська') padValue = 0.01;
 if (matchedRegion === 'одеська') padValue = -0.04;
-if (matchedRegion === 'сумська') padValue = isMobile ? -0.2 : -0.6;
-if (matchedRegion === 'дніпропетровська') padValue = isMobile ? 0.02 : 0.05;
-if (matchedRegion === 'кіровоградська') padValue = isMobile ? 0.02 : 0.05;
+if (matchedRegion === 'сумська') padValue = window.innerWidth <= 768 ? -0.2 : -0.6;
+if (matchedRegion === 'дніпропетровська') padValue = window.innerWidth <= 768 ? 0.02 : 0.05;
+if (matchedRegion === 'кіровоградська') padValue = window.innerWidth <= 768 ? 0.02 : 0.05;
 
 const bounds = layer.getBounds();
 const center = bounds.getCenter();
