@@ -296,11 +296,6 @@ if (matchedRegion) {
   currentMarkers.clearLayers();
 }
 
-
-    window.map.flyToBounds(layer.getBounds().pad(0.05), { 
-        duration: 0.5, 
-        padding: L.point(10, 10) 
-    }); 
     
 
     if (!resetControlInstance) {
