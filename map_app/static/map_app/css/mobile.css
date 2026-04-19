@@ -297,13 +297,3 @@
   overflow-y: auto;
 }
 
-.matching-list-container {
-  min-width: 0;
-}
-
-.matching-list-container div {
-  overflow-wrap: break-word;
-  word-break: break-word;
-  white-space: normal;
-}
-
