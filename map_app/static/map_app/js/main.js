@@ -339,10 +339,19 @@ if (monument.name) {
             
             if (!clickedMarker.isZoomed) {
            
-                const desiredZoomLevel = 15;
-                window.map.flyTo(clickedMarker.getLatLng(), desiredZoomLevel, { 
-                    duration: 0.5 
-                });
+const desiredZoomLevel = 15;
+const currentZoom = window.map.getZoom();
+
+if (currentZoom < desiredZoomLevel) {
+    window.map.flyTo(clickedMarker.getLatLng(), desiredZoomLevel, { 
+        duration: 0.5 
+    });
+} else {
+
+    activeDetailsMarker = clickedMarker;
+    displayDetails(monument);
+    return;
+}
                 clickedMarker.isZoomed = true;
                 
 } else {
