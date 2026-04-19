@@ -293,13 +293,13 @@ loadUserMonuments(regionKey).then(() => {
   addMarkers(userMonuments);
 
 currentMarkers.eachLayer(function(marker) {
-  if (marker.regionKey === regionKey) {
-    marker.setZIndexOffset(1000);
-  } else {
-    marker.setZIndexOffset(0);
+  if (marker instanceof L.Marker) {
+    if (marker.regionKey === regionKey) {
+      marker.setZIndexOffset(1000);
+    } else {
+      marker.setZIndexOffset(0);
+    }
   }
-
-  marker.bringToFront();
 });
 });
 } else {
