@@ -302,7 +302,7 @@ let padValue = 0.05;
 
 if (matchedRegion === 'київська') padValue = 0.01;
 if (matchedRegion === 'одеська') padValue = 0.01;
-if (matchedRegion === 'сумська') padValue = -0.2;
+if (matchedRegion === 'сумська') padValue = -0.6;
 
 window.map.flyToBounds(layer.getBounds().pad(padValue), {
   duration: 0.5,
