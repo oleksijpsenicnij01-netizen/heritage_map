@@ -6,11 +6,11 @@
 
 const regions = [
   { name: "Автономна Республіка Крим", isAvailable: true, internalName: "crimea" },
-  { name: "Вінницька область", isAvailable: false, internalName: "vinnytsia" },
+  { name: "Вінницька область", isAvailable: true, internalName: "vinnytsia" },
   { name: "Волинська область", isAvailable: true, internalName: "volyn" },
   { name: "Дніпропетровська область", isAvailable: true, internalName: "dnipro" },
   { name: "Донецька область", isAvailable: false, internalName: "donetsk" },
-  { name: "Житомирська область", isAvailable: false, internalName: "zhytomyr" },
+  { name: "Житомирська область", isAvailable: true, internalName: "zhytomyr" },
   { name: "Закарпатська область", isAvailable: true, internalName: "zakarpattia" },
   { name: "Запорізька область", isAvailable: false, internalName: "zaporizhzhia" },
   { name: "Івано-Франківська область", isAvailable: true, internalName: "ivano-frankivsk" },
