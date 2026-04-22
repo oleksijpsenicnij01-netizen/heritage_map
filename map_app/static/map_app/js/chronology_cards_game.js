@@ -492,29 +492,42 @@ function checkChronologyAnswers() {
     const listItems = document.querySelectorAll('#chronology-list .chronology-item');
     let correctCount = 0;
 
-    listItems.forEach((item, index) => {
+    const currentOrder = Array.from(listItems).map(item => {
         const itemId = String(item.dataset.id);
-        const currentData = fullSourceData.find(d => Number(d.id) === Number(itemId));
-        const correctItem = sortedChronologyData[index];
+        return fullSourceData.find(d => Number(d.id) === Number(itemId));
+    });
+
+    let isFullyCorrect = true;
+
+    for (let i = 0; i < currentOrder.length - 1; i++) {
+        if (!currentOrder[i] || !currentOrder[i + 1]) {
+            isFullyCorrect = false;
+            break;
+        }
+
+        if (currentOrder[i].year > currentOrder[i + 1].year) {
+            isFullyCorrect = false;
+            break;
+        }
+    }
+
+    listItems.forEach((item, index) => {
+        const currentData = currentOrder[index];
 
         item.classList.remove('correct', 'incorrect');
 
-        if (!currentData || !correctItem) {
-            item.classList.add('incorrect');
-            return;
-        }
-
-        const isCorrect = itemId === String(correctItem.id);
-
-        if (isCorrect) {
+        if (isFullyCorrect) {
             item.classList.add('correct');
             correctCount++;
         } else {
             item.classList.add('incorrect');
         }
 
-        const displayYear = currentData.year_display || currentData.year;
-        item.textContent = `${currentData.name} (${displayYear})`;
+        if (currentData) {
+            const displayYear = currentData.year_display || currentData.year;
+            item.textContent = `${currentData.name} (${displayYear})`;
+        }
+
         item.setAttribute('draggable', false);
     });
 
@@ -523,12 +536,12 @@ function checkChronologyAnswers() {
     const hintBtn = document.getElementById('hint-btn');
     const instructions = document.getElementById('chronology-instructions');
 
-    if (correctCount === sortedChronologyData.length) {
+    if (isFullyCorrect) {
         if (instructions) instructions.innerHTML = `<h3>🎉 Вітаємо! Ідеальна хронологія!</h3>`;
         if (checkBtn) checkBtn.style.display = 'none';
         if (hintBtn) hintBtn.style.display = 'none';
     } else {
-        if (instructions) instructions.innerHTML = `<h3>❌ Результат: ${correctCount}/${sortedChronologyData.length} правильних</h3>`;
+        if (instructions) instructions.innerHTML = `<h3>❌ Спробуйте ще раз</h3>`;
         if (checkBtn) checkBtn.style.display = 'none';
         if (hintBtn) hintBtn.style.display = 'none';
         if (resetBtn) resetBtn.style.display = 'inline-block';
@@ -539,7 +552,7 @@ function checkChronologyAnswers() {
         window.submitGameResult({
             region: regionKey,
             game_key: "chronology",
-            score: correctCount
+            score: isFullyCorrect ? currentOrder.length : 0
         });
     }
 
