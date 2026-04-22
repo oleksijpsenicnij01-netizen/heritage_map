@@ -497,17 +497,22 @@ function checkChronologyAnswers() {
         return fullSourceData.find(d => Number(d.id) === Number(itemId));
     });
 
+    const sorted = [...currentOrder].sort((a, b) => a.year - b.year);
+
     listItems.forEach((item, index) => {
         const current = currentOrder[index];
-        const prev = currentOrder[index - 1];
-        const next = currentOrder[index + 1];
 
         item.classList.remove('correct', 'incorrect');
 
-        let isCorrect = true;
+        // знайти всі можливі позиції з таким самим роком
+        const possibleIndexes = sorted
+            .map((el, i) => el.year === current.year ? i : -1)
+            .filter(i => i !== -1);
 
-        if (prev && current.year < prev.year) isCorrect = false;
-        if (next && current.year > next.year) isCorrect = false;
+        const minIndex = Math.min(...possibleIndexes);
+        const maxIndex = Math.max(...possibleIndexes);
+
+        const isCorrect = index >= minIndex && index <= maxIndex;
 
         if (isCorrect) {
             item.classList.add('correct');
@@ -545,16 +550,6 @@ function checkChronologyAnswers() {
             game_key: "chronology",
             score: correctCount
         });
-    }
-
-    const listContainer = document.getElementById('chronology-list');
-    if (listContainer) {
-        listContainer.querySelectorAll('.chronology-item').forEach(item => {
-            item.removeEventListener('pointerdown', chronologyPointerDown);
-            item.removeEventListener('pointerup', chronologyPointerUp);
-            item.removeEventListener('pointercancel', chronologyPointerCancel);
-        });
-        listContainer.removeEventListener('pointermove', chronologyPointerMove);
     }
 }
 
