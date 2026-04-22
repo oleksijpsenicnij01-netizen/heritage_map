@@ -497,36 +497,27 @@ function checkChronologyAnswers() {
         return fullSourceData.find(d => Number(d.id) === Number(itemId));
     });
 
-    let isFullyCorrect = true;
-
-    for (let i = 0; i < currentOrder.length - 1; i++) {
-        if (!currentOrder[i] || !currentOrder[i + 1]) {
-            isFullyCorrect = false;
-            break;
-        }
-
-        if (currentOrder[i].year > currentOrder[i + 1].year) {
-            isFullyCorrect = false;
-            break;
-        }
-    }
-
     listItems.forEach((item, index) => {
-        const currentData = currentOrder[index];
+        const current = currentOrder[index];
+        const prev = currentOrder[index - 1];
+        const next = currentOrder[index + 1];
 
         item.classList.remove('correct', 'incorrect');
 
-        if (isFullyCorrect) {
+        let isCorrect = true;
+
+        if (prev && current.year < prev.year) isCorrect = false;
+        if (next && current.year > next.year) isCorrect = false;
+
+        if (isCorrect) {
             item.classList.add('correct');
             correctCount++;
         } else {
             item.classList.add('incorrect');
         }
 
-        if (currentData) {
-            const displayYear = currentData.year_display || currentData.year;
-            item.textContent = `${currentData.name} (${displayYear})`;
-        }
+        const displayYear = current.year_display || current.year;
+        item.textContent = `${current.name} (${displayYear})`;
 
         item.setAttribute('draggable', false);
     });
@@ -536,12 +527,12 @@ function checkChronologyAnswers() {
     const hintBtn = document.getElementById('hint-btn');
     const instructions = document.getElementById('chronology-instructions');
 
-    if (isFullyCorrect) {
+    if (correctCount === currentOrder.length) {
         if (instructions) instructions.innerHTML = `<h3>🎉 Вітаємо! Ідеальна хронологія!</h3>`;
         if (checkBtn) checkBtn.style.display = 'none';
         if (hintBtn) hintBtn.style.display = 'none';
     } else {
-        if (instructions) instructions.innerHTML = `<h3>❌ Спробуйте ще раз</h3>`;
+        if (instructions) instructions.innerHTML = `<h3>❌ Результат: ${correctCount}/${currentOrder.length} правильних</h3>`;
         if (checkBtn) checkBtn.style.display = 'none';
         if (hintBtn) hintBtn.style.display = 'none';
         if (resetBtn) resetBtn.style.display = 'inline-block';
@@ -552,7 +543,7 @@ function checkChronologyAnswers() {
         window.submitGameResult({
             region: regionKey,
             game_key: "chronology",
-            score: isFullyCorrect ? currentOrder.length : 0
+            score: correctCount
         });
     }
 
