@@ -273,7 +273,7 @@ const regionMap = {
   "сумська": "sumy",
   "полтавська": "poltava",
   "миколаївська": "mykolaiv",
-  "кіровоградська": "kyrovohrad",
+  "кіровоградська": "kirovohrad",
   "луганська": "luhansk",
   "донецька": "donetsk",
   "херсонська": "kherson",
