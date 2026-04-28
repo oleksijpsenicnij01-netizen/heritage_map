@@ -18,7 +18,7 @@ const regions = [
   { name: "Кіровоградська область", isAvailable: false, internalName: "kirovohrad" },
   { name: "Луганська область", isAvailable: false, internalName: "luhansk" },
   { name: "Львівська область", isAvailable: true, internalName: "lviv" },
-  { name: "Миколаївська область", isAvailable: false, internalName: "mykolaiv" },
+  { name: "Миколаївська область", isAvailable: true, internalName: "mykolaiv" },
   { name: "Одеська область", isAvailable: true, internalName: "odesa" },
   { name: "Полтавська область", isAvailable: true, internalName: "poltava" },
   { name: "Рівненська область", isAvailable: true, internalName: "rivne" },
