@@ -325,7 +325,7 @@ if (window.innerWidth <= 768) {
 
   if (matchedRegion === 'сумська') zoom = 7;
   if (matchedRegion === 'одеська') zoom = 6;
-  if (matchedRegion === 'кіровоградська') zoom = 7;
+  if (matchedRegion === 'кіровоградська') zoom = 9;
 
 } else {
 
