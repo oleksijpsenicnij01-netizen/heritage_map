@@ -37,7 +37,7 @@ const REGIONS = [
   { name: "Запорізька область", isAvailable: true, internalName: "zaporizhzhia" },
   { name: "Івано-Франківська область", isAvailable: true, internalName: "ivano-frankivsk" },
   { name: "Київська область", isAvailable: true, internalName: "kyiv" },
-  { name: "Кіровоградська область", isAvailable: true, internalName: "kyrovohrad" },
+  { name: "Кіровоградська область", isAvailable: true, internalName: "kirovohrad" },
   { name: "Луганська область", isAvailable: true, internalName: "luhansk" },
   { name: "Львівська область", isAvailable: true, internalName: "lviv" },
   { name: "Миколаївська область", isAvailable: true, internalName: "mykolaiv" },
