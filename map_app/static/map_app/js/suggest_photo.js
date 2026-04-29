@@ -47,7 +47,7 @@ const regions = [
   { name: "Сумська область", isAvailable: true, internalName: "sumy" },
   { name: "Тернопільська область", isAvailable: true, internalName: "ternopil" },
   { name: "Харківська область", isAvailable: true, internalName: "kharkiv" },
-  { name: "Херсонська область", isAvailable: false, internalName: "kherson" },
+  { name: "Херсонська область", isAvailable: true, internalName: "kherson" },
   { name: "Хмельницька область", isAvailable: true, internalName: "khmelnytskyi" },
   { name: "Черкаська область", isAvailable: true, internalName: "cherkasy" },
   { name: "Чернівецька область", isAvailable: true, internalName: "chernivtsi" },
