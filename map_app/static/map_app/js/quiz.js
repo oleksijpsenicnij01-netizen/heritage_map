@@ -34,7 +34,7 @@ const regions = [
   { name: "Донецька область", isAvailable: false, internalName: "donetsk" },
   { name: "Житомирська область", isAvailable: true, internalName: "zhytomyr" },
   { name: "Закарпатська область", isAvailable: true, internalName: "zakarpattia" },
-  { name: "Запорізька область", isAvailable: false, internalName: "zaporizhzhia" },
+  { name: "Запорізька область", isAvailable: true, internalName: "zaporizhzhia" },
   { name: "Івано-Франківська область", isAvailable: true, internalName: "ivano-frankivsk" },
   { name: "Київська область", isAvailable: true, internalName: "kyiv" },
   { name: "Кіровоградська область", isAvailable: true, internalName: "kirovohrad" },
