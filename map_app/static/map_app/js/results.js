@@ -9,7 +9,7 @@ const regions = [
   { name: "Вінницька область", isAvailable: true, internalName: "vinnytsia" },
   { name: "Волинська область", isAvailable: true, internalName: "volyn" },
   { name: "Дніпропетровська область", isAvailable: true, internalName: "dnipro" },
-  { name: "Донецька область", isAvailable: false, internalName: "donetsk" },
+  { name: "Донецька область", isAvailable: true, internalName: "donetsk" },
   { name: "Житомирська область", isAvailable: true, internalName: "zhytomyr" },
   { name: "Закарпатська область", isAvailable: true, internalName: "zakarpattia" },
   { name: "Запорізька область", isAvailable: true, internalName: "zaporizhzhia" },
